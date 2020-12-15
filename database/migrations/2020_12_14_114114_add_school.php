@@ -28,7 +28,7 @@ class AddSchool extends Migration
             $table->string('board_name');
             $table->tinyInteger('status')->default(0)->comment('0-inactive, 1-active');
             $table->rememberToken();
-            $table->timestamp('deleted_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
 
         });

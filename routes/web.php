@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Hash;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,8 +15,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+})->name('/');
+
+Route::get('has',function(){
+	dd(Hash::make('123456789'));
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function(){
+	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/logout','HomeController@logout')->name('logout');
+	Route::get('add_school','SuperAdminController@index')->name('add/school');
+});

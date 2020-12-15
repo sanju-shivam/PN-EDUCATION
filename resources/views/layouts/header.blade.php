@@ -40,7 +40,15 @@
                                             
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#">Account Settings</a></li>
-                                            <li><a href="">Log Out</a></li>
+                                            <li>
+                                                <a href="{{ route('logout') }}"
+                                                        onclick="event.preventDefault();
+                                                        document.getElementById('logout-form').submit();">Log Out</a>
+
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                    @csrf
+                                                </form>
+                                            </li>
                                         </ul>
                                     </li>
                                 </ul>
