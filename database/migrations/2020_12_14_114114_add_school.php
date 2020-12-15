@@ -13,6 +13,7 @@ class AddSchool extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('add_school');
         Schema::create('add_school', function(Blueprint $table){
             $table->bigincrements('id');
             $table->string('name');
@@ -40,6 +41,6 @@ class AddSchool extends Migration
      */
     public function down()
     {
-        schema::dropIfExists('add_school');
+           Schema::dropIfExists('add_school');
     }
 }

@@ -47,9 +47,9 @@
             
             <!-- Page Content -->
             <div class="page-content">
-                @include('layouts.sidebar_and_menus')
+                @include('admin.layouts.sidebar_and_menus')
                 <!-- Page Header -->
-                @include('layouts.header')
+                @include('admin.layouts.header')
                 <!-- /Page Header -->
 
 
