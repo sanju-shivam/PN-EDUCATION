@@ -4,6 +4,7 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\SuperAdmin\Add_School;
 
 class SuperAdminController extends Controller
 {
@@ -14,7 +15,7 @@ class SuperAdminController extends Controller
      */
     public function index()
     {
-        //
+        return view('SuperAdmin.School.Add_School');
     }
 
     /**

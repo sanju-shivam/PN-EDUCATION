@@ -19,17 +19,17 @@
                                     <i class="menu-icon icon-apps"></i><span>Admins</span><i class="accordion-icon fas fa-angle-left"></i>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li><a href="">Add Admin</a></li>
+                                    <li><a href="{">Add Admin</a></li>
                                     <li><a href="">View Admin</a></li>
                                 </ul>
                             </li>
                             <li>
                                 <a href="javascript:void(0)">
-                                    <i class="menu-icon icon-layers"></i><span>Institutes</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    <i class="menu-icon icon-layers"></i><span>School</span><i class="accordion-icon fas fa-angle-left"></i>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li><a href="">Add Institutes</a></li>
-                                    <li><a href="">View Institutes</a></li>
+                                    <li><a href="{{ route('add/school') }}">Add School</a></li>
+                                    <li><a href="">View School</a></li>
                                 </ul>
                             </li>
                             <li>
