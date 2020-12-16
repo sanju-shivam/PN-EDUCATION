@@ -26,12 +26,7 @@ class SuperAdminController extends Controller
      */
     public function create()
     {
-
-        $data = Add_School::all();
-        return view('SuperAdmin/School/Add_School', compact('data'));
-              
-        
-       
+        return view('SuperAdmin/School/Add_School');
     }
 
     /**
@@ -41,11 +36,15 @@ class SuperAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {    $file = $request->file('logo');
-         $filename = 'logo'.time().''.$request->logo->extension();
+    {    
+        $data = Add_School::all();
+
+        // Insert Image
+        $file = $request->file('logo');
+         $filename = 'logo'.time().'.'.$request->logo->extension();
         // dd($file);
         // exit;
-        $storage = storage_path('../uploads/schools/logo');
+        $storage = storage_path('../public/uploads/schools/logo');
         $file->move($storage, $filename);
         $path = "/".$filename;
 
@@ -66,7 +65,7 @@ class SuperAdminController extends Controller
         $data->save();
         // print_r($data);
         // die;
-        return redirect('school_details', compact('data'));
+        return redirect('add_school');
         
         
     }
@@ -80,7 +79,7 @@ class SuperAdminController extends Controller
     public function show($id)
     {
         $data = Add_School::find($id);
-        return view('SuperAdmin/School/Show_School', compact('data'))
+        return view('SuperAdmin/School/Show_School', compact('data'));
     }
 
     /**
@@ -92,7 +91,7 @@ class SuperAdminController extends Controller
     public function edit($id)
     {
         $get = Add_School::find($id);
-        return view('SuperAdmin/School/Edit_School', compact('edit'));
+        return view('SuperAdmin/School/Edit_School', compact('get'));
     }
 
     /**
@@ -102,37 +101,42 @@ class SuperAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        $edit = Add_School::find($request->id);
-         $data->name =$request->name;
-
+    public function update(Request $request)
+    { 
+        $get = Add_School::find($request->id);
+        //  dd($get);
+        // exit;
+        $get->name =$request->name;
+        
          // Image update
          if($request->hasfile('logo')){
         $file = $request->file('logo');
         $filename = 'logo'.time().'.'.$request->logo->extension();
-        $storage = storage_path('../uploads/schools/logo');
+        $storage = storage_path('../public/uploads/schools/logo');
         $file->move($storage, $filename);
         $path = "/".$filename;
-    }else{
-        $path = $data['current_logo'];
-    }
-        $data->logo = $path;
-        $data->address = $request->address;
-        $data->city = $request->city;
-        $data->state = $request->state;
-        $data->pin_code = $request->pin_code;
-        $data->phone_no = $request->phone_no;
-        $data->email = $request->email;
-        $data->affilation_no = $request->affilation_no;
-        $data->board_name = $request->board_name;
-        $data->status = $request->status;
-        $update = $data->update();
-        
-        if($update){
-           return redirect('school_details')->with('message', 'Details sucessfully updated');
-        }    
+        }else{
+            $path = $data['current_logo'];
+        }
 
+        // Update 
+        $get->logo = $path;
+        $get->address = $request->address;
+        $get->city = $request->city;
+        $get->state = $request->state;
+        $get->pin_code = $request->pin_code;
+        $get->phone_no = $request->phone_no;
+        $get->email = $request->email;
+        $get->affilation_no = $request->affilation_no;
+        $get->board_name = $request->board_name;
+        $get->status = $request->status;
+        $updated =$get->update();
+        
+        if($updated){
+           // return redirect('school_details')->with('message', 'Details sucessfully updated');
+        
+        return view('SuperAdmin/School/Edit_School');  
+        }
     }
 
     /**

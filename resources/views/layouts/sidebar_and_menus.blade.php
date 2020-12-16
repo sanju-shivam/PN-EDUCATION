@@ -28,8 +28,8 @@
                                     <i class="menu-icon icon-layers"></i><span>School</span><i class="accordion-icon fas fa-angle-left"></i>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li><a href="{{ route('add/school') }}">Add School</a></li>
-                                    <li><a href="">View School</a></li>
+                                    <li><a href="">Add School</a></li>
+                                    <li><a href="{{ route('view/school') }}">View School</a></li>
                                 </ul>
                             </li>
                             <li>

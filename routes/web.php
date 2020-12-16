@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function(){
 	Route::post('add_school', 'SuperAdmin\SuperAdminController@store');
 	Route::get('school_details/{id}', 'SuperAdmin\SuperAdminController@show');
 	Route::get('edit_school/{id}', 'SuperAdmin\SuperAdminController@edit' );
-	Route::post('edit_school/{id}', 'SuperAdmin\SuperAdminController@update' );
+	Route::post('update_school', 'SuperAdmin\SuperAdminController@update' );
 	Route::get('delete/{id}', 'SuperAdmin\SuperAdminController@delete' );
 
 
