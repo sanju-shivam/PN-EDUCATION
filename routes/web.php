@@ -26,5 +26,12 @@ Auth::routes();
 Route::middleware('auth')->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/logout','HomeController@logout')->name('logout');
-	Route::get('add_school','SuperAdminController@index')->name('add/school');
+
+
+	//  School Routes
+	Route::get('school_details','SuperAdmin\SuperAdminController@index')->name('view/school');
+	Route::get('add_school', 'SuperAdmin\SuperAdminController@create');
+	Route::post('add_school', 'SuperAdmin\SuperAdminController@store');
+	Route::get('school_details/{id}', 'SuperAdmin\SuperAdminController@show');
+	Route::get('edit_school/{id}', 'SuperAdmin\SuperAdminController@edit' );
 });

@@ -14,8 +14,9 @@ class SuperAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('SuperAdmin.School.Add_School');
+    {  
+       $data = Add_School::all();
+       return view('SuperAdmin/School/View_School', compact('data')); 
     }
 
     /**
@@ -25,7 +26,12 @@ class SuperAdminController extends Controller
      */
     public function create()
     {
-        //
+
+        $data = Add_School::all();
+        return view('SuperAdmin/School/Add_School', compact('data'));
+              
+        
+       
     }
 
     /**
@@ -35,8 +41,33 @@ class SuperAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {    $file = $request->file('logo');
+         $filename = 'logo'.time().''.$request->logo->extension();
+        // dd($file);
+        // exit;
+        $storage = storage_path('../uploads/schools/logo');
+        $file->move($destination, $storage);
+        $path = "/".$filename;
+
+        // Store data
+        $data = new Add_School;
+        $data->name =$request->name;
+        $data->logo = $path;
+        $data->address = $request->address;
+        $data->city = $request->city;
+        $data->state = $request->state;
+        $data->pin_code = $request->pin_code;
+        $data->phone_no = $request->phone_no;
+        $data->email = $request->email;
+        $data->affilation_no = $request->affilation_no;
+        $data->board_name = $request->board_name;
+        $data->status = $request->status;
+        $data->save();
+        // print_r($data);
+        // die;
+        return redirect('school_details', compact('data'));
+        
+        
     }
 
     /**
@@ -47,7 +78,8 @@ class SuperAdminController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = Add_School::find($id);
+        return view('SuperAdmin/School/Show_School', compact('data'))
     }
 
     /**
@@ -58,7 +90,8 @@ class SuperAdminController extends Controller
      */
     public function edit($id)
     {
-        //
+        $get = Add_School::find($id);
+        return view('SuperAdmin/School/Edit_School', compact('edit'));
     }
 
     /**
