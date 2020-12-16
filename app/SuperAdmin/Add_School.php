@@ -19,7 +19,5 @@ class Add_School extends Model
     	'email',
     	'affilation_no',
     	'board_name',
-    	'status',
-        'role_id',
     ];
 }

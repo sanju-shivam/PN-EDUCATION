@@ -60,8 +60,9 @@
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb breadcrumb-style-1">
                                     <li class="breadcrumb-item">Home</li>
-                                    <li class="breadcrumb-item " aria-current="page">@yield('title')</li>
+                                    <!-- <li class="breadcrumb-item " aria-current="page"> -->@yield('title')</li>
                                     <li class="breadcrumb-item " aria-current="page">@yield('title2')</li>
+                                    <li class="breadcrumb-item " aria-current="page">@yield('title3')</li>
                                 </ol>
                             </nav>
                         </div>

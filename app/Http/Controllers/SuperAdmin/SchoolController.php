@@ -5,8 +5,9 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
+use DB;
 
-class SuperAdminController extends Controller
+class SchoolController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,8 @@ class SuperAdminController extends Controller
      */
     public function index()
     {  
-       $data = Add_School::all();
-       return view('SuperAdmin/School/View_School', compact('data')); 
+       $schools = Add_School::all();
+       return view('SuperAdmin.School.View_School', compact('schools')); 
     }
 
     /**
@@ -26,7 +27,7 @@ class SuperAdminController extends Controller
      */
     public function create()
     {
-        return view('SuperAdmin/School/Add_School');
+        return view('SuperAdmin.School.Add_School');
     }
 
     /**
@@ -36,38 +37,37 @@ class SuperAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {    
-        $data = Add_School::all();
+    {
+        try{
+            DB::transaction(function() use($request){
+                
+                // Insert Image
+                $file = $request->file('logo');
+                $filename = time().'.'.'logo'.$request->logo->extension();
+                $storage = storage_path('public/uploads/schools/logo');
+                $file->move($storage, $filename);
+                $path = $filename;
 
-        // Insert Image
-        $file = $request->file('logo');
-         $filename = 'logo'.time().'.'.$request->logo->extension();
-        // dd($file);
-        // exit;
-        $storage = storage_path('../public/uploads/schools/logo');
-        $file->move($storage, $filename);
-        $path = "/".$filename;
+                // Store data
+                $school = Add_School::create([
+                    'name'          =>  $request->name,
+                    'logo'          =>  $path,
+                    'address'       =>  $request->address,
+                    'city'          =>  $request->city,
+                    'state'         =>  $request->state,
+                    'pin_code'      =>  $request->pin_code,
+                    'phone_no'      =>  $request->phone_no,
+                    'email'         =>  $request->email,
+                    'affilation_no' =>  $request->affilation_no,
+                    'board_name'    =>  $request->board_name,
+                ]);
+            });
+        }
+        catch(\Exception $e){
+            return $e;
+        }
 
-        // Store data
-        $data = new Add_School;
-        $data->name =$request->name;
-        $data->logo = $path;
-        $data->address = $request->address;
-        $data->city = $request->city;
-        $data->state = $request->state;
-        $data->pin_code = $request->pin_code;
-        $data->phone_no = $request->phone_no;
-        $data->email = $request->email;
-        $data->affilation_no = $request->affilation_no;
-        $data->board_name = $request->board_name;
-        $data->status = $request->status;
-        $data->role_id = 1;
-        $data->save();
-        // print_r($data);
-        // die;
-        return redirect('add_school');
-        
-        
+        return redirect('school/create');
     }
 
     /**
@@ -78,8 +78,8 @@ class SuperAdminController extends Controller
      */
     public function show($id)
     {
-        $data = Add_School::find($id);
-        return view('SuperAdmin/School/Show_School', compact('data'));
+        $school = Add_School::find($id);
+        return view('SuperAdmin.School.Show_School', compact('school'));
     }
 
     /**
@@ -90,8 +90,8 @@ class SuperAdminController extends Controller
      */
     public function edit($id)
     {
-        $get = Add_School::find($id);
-        return view('SuperAdmin/School/Edit_School', compact('get'));
+        $school = Add_School::find($id);
+        return view('SuperAdmin.School.Edit_School', compact('school'));
     }
 
     /**
@@ -111,8 +111,8 @@ class SuperAdminController extends Controller
          // Image update
          if($request->hasfile('logo')){
         $file = $request->file('logo');
-        $filename = 'logo'.time().'.'.$request->logo->extension();
-        $storage = storage_path('../public/uploads/schools/logo');
+        $filename = time().'.'.'logo'.$request->logo->extension();
+        $storage = storage_path('public/uploads/schools/logo');
         $file->move($storage, $filename);
         $path = "/".$filename;
         }else{

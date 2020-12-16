@@ -23,11 +23,10 @@ class AddSchool extends Migration
             $table->string('state');
             $table->integer('pin_code');
             $table->biginteger('phone_no');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('affilation_no');
-            $table->integer('role_id');
             $table->string('board_name');
-            $table->tinyInteger('status')->default(0)->comment('0-inactive, 1-active')->nullable();
+            $table->tinyInteger('status')->default(1)->comment('0-inactive, 1-active')->nullable();
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

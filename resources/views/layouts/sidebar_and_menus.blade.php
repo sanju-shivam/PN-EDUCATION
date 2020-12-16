@@ -19,7 +19,7 @@
                                     <i class="menu-icon icon-apps"></i><span>Admins</span><i class="accordion-icon fas fa-angle-left"></i>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li><a href="{">Add Admin</a></li>
+                                    <li><a href="">Add Admin</a></li>
                                     <li><a href="">View Admin</a></li>
                                 </ul>
                             </li>
@@ -28,8 +28,8 @@
                                     <i class="menu-icon icon-layers"></i><span>School</span><i class="accordion-icon fas fa-angle-left"></i>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li><a href="">Add School</a></li>
-                                    <li><a href="{{ route('view/school') }}">View School</a></li>
+                                    <li><a href="{{ route('school.create') }}">Add School</a></li>
+                                    <li><a href="{{ route('school.index') }}">View School</a></li>
                                 </ul>
                             </li>
                             <li>

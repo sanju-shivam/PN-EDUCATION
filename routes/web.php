@@ -26,16 +26,18 @@ Auth::routes();
 Route::middleware('auth')->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/logout','HomeController@logout')->name('logout');
-
-
-	//  School Routes
-	Route::get('school_details','SuperAdmin\SuperAdminController@index')->name('view/school');
-	Route::get('add_school', 'SuperAdmin\SuperAdminController@create');
-	Route::post('add_school', 'SuperAdmin\SuperAdminController@store');
-	Route::get('school_details/{id}', 'SuperAdmin\SuperAdminController@show');
-	Route::get('edit_school/{id}', 'SuperAdmin\SuperAdminController@edit' );
-	Route::post('update_school', 'SuperAdmin\SuperAdminController@update' );
-	Route::get('delete/{id}', 'SuperAdmin\SuperAdminController@delete' );
-
-
 });
+
+//  School Routes
+	Route::middleware('auth')->resource('school','SuperAdmin\SchoolController');
+
+	// Route::get('schools/details','SuperAdmin\@index')->name('view/school');
+	// Route::get('add_school', '\SuperAdminController@create');
+	// Route::post('add_school', 'SuperAdmin\SuperAdminController@store');
+	// Route::get('school_details/{id}', 'SuperAdmin\SuperAdminController@show');
+	// Route::get('edit_school/{id}', 'SuperAdmin\SuperAdminController@edit' );
+	// Route::post('update_school', 'SuperAdmin\SuperAdminController@update' );
+	// Route::get('delete/{id}', 'SuperAdmin\SuperAdminController@delete' );
+
+
+
