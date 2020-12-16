@@ -25,6 +25,7 @@ class AddSchool extends Migration
             $table->integer('phone_no');
             $table->string('email');
             $table->string('affilation_no');
+            $table->integer('role_id');
             $table->string('board_name');
             $table->tinyInteger('status')->default(0)->comment('0-inactive, 1-active');
             $table->rememberToken();

@@ -46,7 +46,7 @@ class SuperAdminController extends Controller
         // dd($file);
         // exit;
         $storage = storage_path('../uploads/schools/logo');
-        $file->move($destination, $storage);
+        $file->move($storage, $filename);
         $path = "/".$filename;
 
         // Store data
@@ -62,6 +62,7 @@ class SuperAdminController extends Controller
         $data->affilation_no = $request->affilation_no;
         $data->board_name = $request->board_name;
         $data->status = $request->status;
+        $data->role_id = 1;
         $data->save();
         // print_r($data);
         // die;
@@ -103,7 +104,35 @@ class SuperAdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $edit = Add_School::find($request->id);
+         $data->name =$request->name;
+
+         // Image update
+         if($request->hasfile('logo')){
+        $file = $request->file('logo');
+        $filename = 'logo'.time().'.'.$request->logo->extension();
+        $storage = storage_path('../uploads/schools/logo');
+        $file->move($storage, $filename);
+        $path = "/".$filename;
+    }else{
+        $path = $data['current_logo'];
+    }
+        $data->logo = $path;
+        $data->address = $request->address;
+        $data->city = $request->city;
+        $data->state = $request->state;
+        $data->pin_code = $request->pin_code;
+        $data->phone_no = $request->phone_no;
+        $data->email = $request->email;
+        $data->affilation_no = $request->affilation_no;
+        $data->board_name = $request->board_name;
+        $data->status = $request->status;
+        $update = $data->update();
+        
+        if($update){
+           return redirect('school_details')->with('message', 'Details sucessfully updated');
+        }    
+
     }
 
     /**
@@ -112,8 +141,10 @@ class SuperAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id = null)
     {
-        //
+       Add_School::where(['id'=>$id])->delete();
+        return redirect('/school_details')->with('message', 'record deleted sucessfully!');
+
     }
 }
