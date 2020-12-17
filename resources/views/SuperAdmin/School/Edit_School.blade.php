@@ -6,7 +6,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Add School</h5>
                     <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                    <form method="put" action="{{ url('school/'.$school->id) }}" enctype="multipart/form-data">
+                    <form method="put" action="{{ url('school/'.school->id) }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="id" value="{{$school->id}}">
                         <div class="form-group">
