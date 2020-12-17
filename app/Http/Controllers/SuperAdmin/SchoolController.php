@@ -44,7 +44,7 @@ class SchoolController extends Controller
                 // Insert Image
                 $file = $request->file('logo');
                 $filename = time().'.'.'logo'.$request->logo->extension();
-                $storage = storage_path('public/uploads/schools/logo');
+                $storage = storage_path('../public/uploads/schools/logo');
                 $file->move($storage, $filename);
                 $path = $filename;
 
@@ -60,6 +60,7 @@ class SchoolController extends Controller
                     'email'         =>  $request->email,
                     'affilation_no' =>  $request->affilation_no,
                     'board_name'    =>  $request->board_name,
+                    'role_id'       =>  1,
                 ]);
             });
         }
@@ -103,11 +104,6 @@ class SchoolController extends Controller
      */
     public function update(Request $request)
     { 
-        $get = Add_School::find($request->id);
-        //  dd($get);
-        // exit;
-        $get->name =$request->name;
-        
          // Image update
          if($request->hasfile('logo')){
         $file = $request->file('logo');
@@ -116,27 +112,24 @@ class SchoolController extends Controller
         $file->move($storage, $filename);
         $path = "/".$filename;
         }else{
-            $path = $data['current_logo'];
+            $path = $school['current_logo'];
         }
 
-        // Update 
-        $get->logo = $path;
-        $get->address = $request->address;
-        $get->city = $request->city;
-        $get->state = $request->state;
-        $get->pin_code = $request->pin_code;
-        $get->phone_no = $request->phone_no;
-        $get->email = $request->email;
-        $get->affilation_no = $request->affilation_no;
-        $get->board_name = $request->board_name;
-        $get->status = $request->status;
-        $updated =$get->update();
-        
-        if($updated){
-           // return redirect('school_details')->with('message', 'Details sucessfully updated');
-        
-        return view('SuperAdmin/School/Edit_School');  
-        }
+        // Update School
+        Add_School::where(['id' =>$id])->update([
+            'logo' =>$path,
+            'address'=>$school['address'],
+            'city'   =>$school['city'],
+            'state'  =>$school['state'],
+            'pin_code'=>$school['pin_code'],
+            'phone_no'=>$school['phone_no'],
+            'email'   =>$school['email'],
+            'affilation_no'=>$school['affilation_no'],
+            'board_name'   =>$School['board_name'],
+            'status'    =>$school['status'],
+        ]);
+        return redirect()->back()->with('flash_message_success', 'School has been updated');
+        $school = Add_School::where(['id' =>$id])->first();
     }
 
     /**
