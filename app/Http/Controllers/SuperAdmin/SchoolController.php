@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
+use App\user;
 use DB;
 
 class SchoolController extends Controller
@@ -40,6 +41,14 @@ class SchoolController extends Controller
     {
         try{
             DB::transaction(function() use($request){
+
+             // Insert data in user table
+             $school = User::insert([
+               'name'     => $request->name,
+               'email'    => $request->email,
+               'password' => bcrypt($request->password),
+               'role_id'  =>  1,
+             ]);
                 
                 // Insert Image
                 $file = $request->file('logo');
@@ -58,10 +67,12 @@ class SchoolController extends Controller
                     'pin_code'      =>  $request->pin_code,
                     'phone_no'      =>  $request->phone_no,
                     'email'         =>  $request->email,
+                    'password'      =>  bcrypt($request->password),
                     'affilation_no' =>  $request->affilation_no,
                     'board_name'    =>  $request->board_name,
                     'role_id'       =>  1,
                 ]);
+
             });
         }
         catch(\Exception $e){
@@ -102,8 +113,9 @@ class SchoolController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
-    { 
+    public function update(Request $request, $id)
+    {  echo"hh";
+    die;
          // Image update
          if($request->hasfile('logo')){
         $file = $request->file('logo');
@@ -117,16 +129,18 @@ class SchoolController extends Controller
 
         // Update School
         Add_School::where(['id' =>$id])->update([
-            'logo' =>$path,
-            'address'=>$school['address'],
-            'city'   =>$school['city'],
-            'state'  =>$school['state'],
-            'pin_code'=>$school['pin_code'],
-            'phone_no'=>$school['phone_no'],
-            'email'   =>$school['email'],
+            'logo'         =>$path,
+            'address'      =>$school['address'],
+            'city'         =>$school['city'],
+            'state'        =>$school['state'],
+            'pin_code'     =>$school['pin_code'],
+            'phone_no'     =>$school['phone_no'],
+            'email'        =>$school['email'],
+            'password'     =>bcrypt($school['password']),
             'affilation_no'=>$school['affilation_no'],
             'board_name'   =>$School['board_name'],
-            'status'    =>$school['status'],
+            'status'       =>$school['status'],
+            'role_id'      =>  1,
         ]);
         return redirect()->back()->with('flash_message_success', 'School has been updated');
         $school = Add_School::where(['id' =>$id])->first();

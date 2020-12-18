@@ -46,6 +46,10 @@
                             <input type="email" name="email" class="form-control" placeholder="Enter Email">
                         </div>
                         <div class="form-group">
+                            <label >Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Enter Password">
+                        </div>
+                        <div class="form-group">
                             <label >Affilation Number</label>
                             <input type="alpha_num" name="affilation_no" class="form-control" placeholder="Enter Affilation Number">
                         </div>

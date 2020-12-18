@@ -68,7 +68,7 @@
                                         <button type="submit" class="btn btn-primary">Login</button>
                                     </form>
 
-                                    <p class="m-t-sm"><a href="#">Forgot password?</a><br><a href="register.html">Create an account</a></p>
+                                    <p class="m-t-sm"><a href="#">Forgot password?</a><br><a href="{{ route('register') }}">Create an account</a></p>
                                 </div>
                                 <div class="login-footer">
                                     <p>Copyright @PN-INFOSYS</p>
