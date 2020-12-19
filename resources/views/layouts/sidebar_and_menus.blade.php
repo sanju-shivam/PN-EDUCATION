@@ -19,7 +19,7 @@
                                     <i class="menu-icon icon-apps"></i><span>Admins</span><i class="accordion-icon fas fa-angle-left"></i>
                                 </a>
                                 <ul class="sub-menu">
-                                    <li><a href="">Add Admin</a></li>
+                                    <li><a href="{{ route('admin.create') }}">Add Admin</a></li>
                                     <li><a href="">View Admin</a></li>
                                 </ul>
                             </li>

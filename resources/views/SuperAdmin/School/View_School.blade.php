@@ -33,9 +33,20 @@
                                 <td>{{ $school->phone_no }}</td>
                                 <td>{{ $school->status }}</td>
                                 <td>
-                                	<a class="btn btn-info" href="">View</a>
-                                	<a class="btn btn-warning" href="{{ url('school/'.$school->id.'/edit') }}" >Edit</a>
-                                	<a class="btn btn-danger" href="">Edit</a>
+                                	<a class="btn btn-info" href="{{ route('school.show',$school->id) }}">View</a>
+                                    
+                                    <br>
+                                	
+                                    <a class="btn btn-warning" href="{{ url('school/'.$school->id.'/edit') }}" >Edit</a>
+                                    
+                                    <br>
+                                    
+                                    <form method="post" action="{{ route('school.destroy',$school->id) }}">
+                                        {{ method_field('DELETE') }}
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                    
                                 </td>
                             </tr>
                             @endforeach

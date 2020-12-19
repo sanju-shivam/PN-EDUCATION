@@ -6,9 +6,9 @@
                 <div class="card-body">
                     <h5 class="card-title">Add School</h5>
                     <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                    <form method="put" action="{{ url('school/'.$school->id) }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ url('school',$school->id) }}" enctype="multipart/form-data">
+                        {{method_field('PUT')}}
                         @csrf
-                        <input type="hidden" name="id" value="{{$school->id}}">
                         <div class="form-group">
                             <label >Name</label>
                             <input type="text" name="name" value="{{$school->name}}" class="form-control" placeholder="Enter Name">
@@ -18,7 +18,7 @@
                         	<div class="custom-file">
                                 <input type="file" name="logo" class="custom-file-input form-control" id="customFile">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
-                                <img src="{{url('uploads/schools/logo/'.$school->logo)}}" height="100px" width="100px">
+                                <img src="uploads/schools/logo/{{$school->logo}}" height="100px" width="100px">
                             </div>
                         </div>
                         <div class="form-group">

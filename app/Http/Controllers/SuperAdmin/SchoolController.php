@@ -114,8 +114,7 @@ class SchoolController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {  echo"hh";
-    die;
+    {
          // Image update
          if($request->hasfile('logo')){
         $file = $request->file('logo');
@@ -154,6 +153,7 @@ class SchoolController extends Controller
      */
     public function destroy($id = null)
     {
+        dd($id);
        Add_School::where(['id'=>$id])->delete();
         return redirect('/school_details')->with('message', 'record deleted sucessfully!');
 

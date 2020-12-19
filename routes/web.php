@@ -26,10 +26,14 @@ Auth::routes();
 Route::middleware('auth')->group(function(){
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/logout','HomeController@logout')->name('logout');
-});
 
 //  School Routes
-	Route::middleware('auth')->resource('school','SuperAdmin\SchoolController');
+	Route::resource('school','SuperAdmin\SchoolController');
+
+// Admin Routes
+	Route::get('admin/create','SuperAdmin\AdminController@create')->name('admin.create');
+});
+
 
 	
 
