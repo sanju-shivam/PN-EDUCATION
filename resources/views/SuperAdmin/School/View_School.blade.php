@@ -12,7 +12,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">All Schools</h5>
-                    <table class="table table-responsive">
+                    <table class="table table-responsive" id="dataTable">
                         <thead>
                             <tr>
                                 <th scope="col">S.no</th>

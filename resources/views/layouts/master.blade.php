@@ -27,6 +27,9 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.css">
 
+        <!-- Data Tables -->
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+
         <style>
           .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px !important; }
           .toggle.ios .toggle-handle { border-radius: 20px !important; }
@@ -97,5 +100,11 @@
         <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>
         <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="ab05fcab38e66c00fd31bbac-|49" defer=""></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js "></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready( function () {
+            $('#dataTable').DataTable();
+        } );
+        </script>
 </body>
 </html>
