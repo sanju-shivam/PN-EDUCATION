@@ -27,17 +27,17 @@
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.css">
 
-        
+        <style>
+          .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px !important; }
+          .toggle.ios .toggle-handle { border-radius: 20px !important; }
+        </style>
+
         <script src="{{asset('assets/plugins/jquery/jquery-3.1.0.min.js')}}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css">
-
-        <style>
-  .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px !important; }
-  .toggle.ios .toggle-handle { border-radius: 20px !important; }
-</style>
 </head>
 <body>
+
         <!-- Page Container -->
         <div class="page-container">
             <!-- Page Sidebar -->
@@ -71,7 +71,7 @@
                       
                         <div class="row">
                             <div class="col-12">
-                                {{-- @extends('layouts.toast') --}}
+                                @extends('layouts.toast')
                                 @yield('content')
                             </div>
                         </div>
@@ -96,7 +96,6 @@
         <script src="{{asset('assets/js/concept.min.js')}}"></script>
         <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>
         <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="ab05fcab38e66c00fd31bbac-|49" defer=""></script>
-
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js "></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js "></script>
 </body>
 </html>

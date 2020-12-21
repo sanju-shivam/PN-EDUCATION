@@ -2,6 +2,10 @@
 @section('title2','School')
 @section('title3','View School')
 @section('content')
+
+    <div id="message_success" style="display: none;" class="alert alert-success">
+        <p>STATUS UPDATED SUCCESSFULLY</p>
+    </div>
 	
 	<div class="row">
         <div class="col-xl">
@@ -31,7 +35,9 @@
                                 <td>{{ $school->email }}</td>
                                 <td>{{ $school->city }}</td>
                                 <td>{{ $school->phone_no }}</td>
-                                <td>{{ $school->status }}</td>
+                                <td>
+                                     <input type="checkbox" data-style="ios" class="status btn btn-success" rel="{{ $school->id }}"  data-toggle="toggle" name="status" @if($school->status == 1) checked @endif >
+                                </td>
                                 <td>
                                 	<a class="btn btn-info" href="{{ route('school.show',$school->id) }}">View</a>
                                     
@@ -56,5 +62,69 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+
+    //  STYLE OF STATUS BUTTON OF PRODUCT
+    $('.status').bootstrapToggle({
+      on: 'Visible',
+      off: 'off',
+      width : "80px",
+      offstyle : 'danger',
+      onstyle : 'success'
+    });
+
+    // TO UPDATE STATUS OF PRODUCT
+    $(".status").change(function(){
+            var id= $(this).attr('rel');
+            var _token = $('input[name="_token"]').val();
+            if($(this).prop('checked')==true){
+              $.ajax({
+              
+                type: 'post',
+                url:  '/SuperAdmin/UpdateSchoolStatus',
+                data:{status:'1',id:id, _token:_token},
+                success:function(data){
+                    console.log(data);
+                    $("#message_success").show();
+                    setTimeout(function(){
+                        $("#message_success").fadeOut('slow');
+                    },2000);
+                },
+                error:function(){
+                  alert("Error");
+                }
+
+              });
+            }
+            else{
+                $.ajax({
+                    type: 'post',
+                    url:'/SuperAdmin/UpdateSchoolStatus',
+                    data:{status:'0',id:id, _token:_token},
+                    success:function(resp){
+                        console.log(resp);
+                        $("#message_success").show();
+                        setTimeout(function(){
+                            $("#message_success").fadeOut('slow');
+                        },2000);
+                    },
+                    error:function(){
+                        alert("Error");
+                    }
+                });
+            }
+    });
+
+
+  });
+</script>
 
 @endsection

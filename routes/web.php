@@ -24,17 +24,25 @@ Route::get('has',function(){
 Auth::routes();
 
 Route::middleware('auth')->group(function(){
+	//Common Routes To all
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/logout','HomeController@logout')->name('logout');
+});
 
-//  School Routes
-	Route::resource('school','SuperAdmin\SchoolController');
+//ONLY SUPER ADMIN
+Route::middleware('auth')->group(function(){
+	//  School Routes
+		Route::resource('school','SuperAdmin\SchoolController');
+		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 
-// Admin Routes
-	Route::get('admin/create','SuperAdmin\AdminController@create')->name('admin.create');
+	// Admin Routes
+		Route::get('admin/create','SuperAdmin\AdminController@create')->name('admin.create');
+		Route::post('admin/store','SuperAdmin\AdminController@store')->name('admin.store');
 });
 
 
-	
+
+
+
 
 

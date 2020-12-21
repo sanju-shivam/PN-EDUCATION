@@ -16,9 +16,9 @@ class SchoolController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {  
+    {
        $schools = Add_School::all();
-       return view('SuperAdmin.School.View_School', compact('schools')); 
+       return view('SuperAdmin.School.View_School', compact('schools'));
     }
 
     /**
@@ -41,15 +41,6 @@ class SchoolController extends Controller
     {
         try{
             DB::transaction(function() use($request){
-
-             // Insert data in user table
-             $school = User::insert([
-               'name'     => $request->name,
-               'email'    => $request->email,
-               'password' => bcrypt($request->password),
-               'role_id'  =>  1,
-             ]);
-                
                 // Insert Image
                 $file = $request->file('logo');
                 $filename = time().'.'.'logo'.$request->logo->extension();
@@ -70,16 +61,24 @@ class SchoolController extends Controller
                     'password'      =>  bcrypt($request->password),
                     'affilation_no' =>  $request->affilation_no,
                     'board_name'    =>  $request->board_name,
-                    'role_id'       =>  1,
+                ]);
+
+                // Insert data in user table
+                $school = User::insert([
+                    'name'     => $request->name,
+                    'email'    => $request->email,
+                    'password' => bcrypt($request->password),
+                    'role_id'  =>  1,
+                    'user_type_id' =>$school->id,
                 ]);
 
             });
         }
         catch(\Exception $e){
-            return $e;
+            //dd($e->errorInfo); //TO CHECK WHAT ERROR MESSAGE WAS THERE
+            return redirect('school/create')->with('warning','Error Occour');
         }
-
-        return redirect('school/create');
+        return redirect('school/create')->with('success', 'School has been Created');
     }
 
     /**
@@ -115,6 +114,7 @@ class SchoolController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $school = $request->all();
          // Image update
          if($request->hasfile('logo')){
         $file = $request->file('logo');
@@ -122,26 +122,28 @@ class SchoolController extends Controller
         $storage = storage_path('public/uploads/schools/logo');
         $file->move($storage, $filename);
         $path = "/".$filename;
-        }else{
-            $path = $school['current_logo'];
         }
+        // else{
+        //     $path = $school['current_logo'];
+        // }
 
         // Update School
         Add_School::where(['id' =>$id])->update([
-            'logo'         =>$path,
+            // 'logo'         =>$path,
+            'name'         =>$school['name'],
             'address'      =>$school['address'],
             'city'         =>$school['city'],
             'state'        =>$school['state'],
             'pin_code'     =>$school['pin_code'],
             'phone_no'     =>$school['phone_no'],
             'email'        =>$school['email'],
-            'password'     =>bcrypt($school['password']),
+            // 'password'     =>bcrypt($school['password']),
             'affilation_no'=>$school['affilation_no'],
-            'board_name'   =>$School['board_name'],
-            'status'       =>$school['status'],
-            'role_id'      =>  1,
+            'board_name'   =>$school['board_name'],
+            // 'status'       =>$school['status'],
+            // 'role_id'      =>  1,
         ]);
-        return redirect()->back()->with('flash_message_success', 'School has been updated');
+        return redirect('school')->with('success', 'School has been updated');
         $school = Add_School::where(['id' =>$id])->first();
     }
 
@@ -153,9 +155,18 @@ class SchoolController extends Controller
      */
     public function destroy($id = null)
     {
-        dd($id);
-       Add_School::where(['id'=>$id])->delete();
-        return redirect('/school_details')->with('message', 'record deleted sucessfully!');
+        Add_School::find($id)->delete();
+        return back()->with('success', 'School deleted sucessfully!');
+    }
 
+
+    public function SchoolStatus(Request $request)
+    {
+        $id = $request->get('id');
+        $status = $request->get('status');
+        $product = Add_School::find($id)->update([
+            'status' => $status,
+        ]);
+        return true;
     }
 }

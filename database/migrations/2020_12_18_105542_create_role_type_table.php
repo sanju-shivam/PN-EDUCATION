@@ -16,11 +16,7 @@ class CreateRoleTypeTable extends Migration
         Schema::create('role_type', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
             $table->tinyInteger('is_deleted')->nullable();
-            $table->tinyInteger('created_by')->nullable();
-            $table->tinyInteger('updated_by')->nullable();
-            $table->tinyInteger('deleted_by')->nullable();
             $table->tinyInteger('deleted_at')->nullable();
             $table->timestamps();
         });
