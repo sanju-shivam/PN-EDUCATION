@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function(){
 Route::middleware('auth')->group(function(){
 	//  School Routes
 		Route::resource('school','SuperAdmin\SchoolController');
+		Route::get('school/delete/{id}','SuperAdmin\SchoolController@delete');
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 
 	// Admin Routes
