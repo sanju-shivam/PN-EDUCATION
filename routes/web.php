@@ -18,7 +18,7 @@ Route::get('/', function () {
 })->name('/');
 
 Route::get('has',function(){
-	dd(Hash::make('123456789'));
+	dd(Hash::make('12345678'));
 });
 
 Auth::routes();
