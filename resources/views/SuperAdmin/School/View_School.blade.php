@@ -22,7 +22,7 @@
                                 <th scope="col">City</th>
                                 <th scope="col">Phone No</th>
                                 <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" style="text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,7 +31,13 @@
                             <tr>
                                 <th scope="row">{{ $id++ }}</th>
                                 <td>{{ $school->name }}</td>
-                                <td>{{ $school->logo }}</td>
+                                <td>
+                                    @if(!empty($school->logo))
+                                    <img height="100" width="100" src="{{ asset('schools/logo/'.$school->logo) }}">
+                                    @else
+                                    NO IMAGE
+                                    @endif
+                                </td>
                                 <td>{{ $school->email }}</td>
                                 <td>{{ $school->city }}</td>
                                 <td>{{ $school->phone_no }}</td>

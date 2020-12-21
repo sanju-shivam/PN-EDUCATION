@@ -36,8 +36,8 @@ Route::middleware('auth')->group(function(){
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 
 	// Admin Routes
-		Route::get('admin/create','SuperAdmin\AdminController@create')->name('admin.create');
-		Route::post('admin/store','SuperAdmin\AdminController@store')->name('admin.store');
+		// Route::get('admin/create','SuperAdmin\AdminController@create')->name('admin.create');
+		// Route::post('admin/store','SuperAdmin\AdminController@store')->name('admin.store');
 });
 
 

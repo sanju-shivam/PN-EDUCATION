@@ -42,16 +42,16 @@ class SchoolController extends Controller
         try{
             DB::transaction(function() use($request){
                 // Insert Image
-                $file = $request->file('logo');
-                $filename = time().'.'.'logo'.$request->logo->extension();
-                $storage = storage_path('../public/uploads/schools/logo');
-                $file->move($storage, $filename);
-                $path = $filename;
-
+                global $filename;
+                if($request->has('logo')){
+                    $file = $request->file('logo');
+                    $filename= time().'.'.$request->logo->extension().'.'.'logo';
+                    $file->move('schools/logo/',$filename);
+                }
                 // Store data
                 $school = Add_School::create([
                     'name'          =>  $request->name,
-                    'logo'          =>  $path,
+                    'logo'          =>  $filename,
                     'address'       =>  $request->address,
                     'city'          =>  $request->city,
                     'state'         =>  $request->state,
@@ -75,7 +75,7 @@ class SchoolController extends Controller
             });
         }
         catch(\Exception $e){
-            //dd($e->errorInfo); //TO CHECK WHAT ERROR MESSAGE WAS THERE
+            dd($e->errorInfo); //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return redirect('school/create')->with('warning','Error Occour');
         }
         return redirect('school/create')->with('success', 'School has been Created');
