@@ -115,34 +115,44 @@ class SchoolController extends Controller
     public function update(Request $request, $id)
     {
         $school = $request->all();
-         // Image update
-         if($request->hasfile('logo')){
-        $file = $request->file('logo');
-        $filename = time().'.'.'logo'.$request->logo->extension();
-        $storage = storage_path('public/uploads/schools/logo');
-        $file->move($storage, $filename);
-        $path = "/".$filename;
-        }
-        // else{
-        //     $path = $school['current_logo'];
-        // }
+        try{
+         DB::transaction(function(){
+            // Image update
+            global $filename;
+            if($request->has('logo')){
+                $file = $request->file('logo');
+                $filename= time().'.'.$request->logo->extension().'.'.'logo';
+                $file->move('schools/logo/',$filename);
+            }
+            else{
+                $filename = $school['current_logo'];
+            }
 
-        // Update School
-        Add_School::where(['id' =>$id])->update([
-            // 'logo'         =>$path,
-            'name'         =>$school['name'],
-            'address'      =>$school['address'],
-            'city'         =>$school['city'],
-            'state'        =>$school['state'],
-            'pin_code'     =>$school['pin_code'],
-            'phone_no'     =>$school['phone_no'],
-            'email'        =>$school['email'],
-            // 'password'     =>bcrypt($school['password']),
-            'affilation_no'=>$school['affilation_no'],
-            'board_name'   =>$school['board_name'],
-            // 'status'       =>$school['status'],
-            // 'role_id'      =>  1,
-        ]);
+            // Update School
+            Add_School::find($id)->update([
+                'logo'         =>$filename,
+                'name'         =>$school['name'],
+                'address'      =>$school['address'],
+                'city'         =>$school['city'],
+                'state'        =>$school['state'],
+                'pin_code'     =>$school['pin_code'],
+                'phone_no'     =>$school['phone_no'],
+                'password'     =>bcrypt($school['password']),
+                'affilation_no'=>$school['affilation_no'],
+                'board_name'   =>$school['board_name'],
+            ]);
+
+            if($request->has('password')){
+                User::where('user_type_id',$id)->updated([
+                    'password'  =>  $school['password']
+                ]);
+            }
+         });
+        }
+        catch(\Exception $e){
+            return back()->with('warning', 'Error Occour In Update');;
+        }
+        
         return redirect('school')->with('success', 'School has been updated');
         $school = Add_School::where(['id' =>$id])->first();
     }

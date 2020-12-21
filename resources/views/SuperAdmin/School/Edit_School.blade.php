@@ -18,7 +18,12 @@
                         	<div class="custom-file">
                                 <input type="file" name="logo" class="custom-file-input form-control" id="customFile">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
-                                <img src="uploads/schools/logo/{{$school->logo}}" height="100px" width="100px">
+                               @if(!empty($school->logo))
+                                    <img height="100" width="100" src="{{ asset('schools/logo/'.$school->logo) }}">
+                                @else
+                                    NO IMAGE
+                                @endif
+                                <input type="hidden" name="current_logo" value="{{ $school->logo }}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -43,7 +48,7 @@
                         </div>
                         <div class="form-group">
                             <label >Email</label>
-                            <input type="email" name="email" value="{{$school->email}}" class="form-control" placeholder="Enter Email">
+                            <input readonly type="email" name="email" value="{{$school->email}}" class="form-control" placeholder="Enter Email">
                         </div>
                         <div class="form-group">
                             <label >Password</label>
