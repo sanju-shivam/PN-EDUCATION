@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
 use App\user;
 use DB;
-
+use File;
 class SchoolController extends Controller
 {
     /**
@@ -114,47 +114,53 @@ class SchoolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $school = $request->all();
+        //dd($request->logo);
+        // $school = $request->all();
         try{
-         DB::transaction(function(){
+         DB::transaction(function() use($request,$id){
             // Image update
             global $filename;
-            if($request->has('logo')){
+            if($request->hasfile('logo')){
+                //TO DELETE EXISTING IMAGE IN STORAGE 
+                if(File::exists(public_path('schools/logo/'.$request->current_logo))){
+                    File::delete(public_path('schools/logo/'.$request->current_logo));
+                    // Add_School::where('id',$id)->delete();
+                }
+                // CREATING IMAGE FILE
                 $file = $request->file('logo');
                 $filename= time().'.'.$request->logo->extension().'.'.'logo';
                 $file->move('schools/logo/',$filename);
             }
             else{
-                $filename = $school['current_logo'];
+                $filename = $request['current_logo'];
             }
 
             // Update School
             Add_School::find($id)->update([
                 'logo'         =>$filename,
-                'name'         =>$school['name'],
-                'address'      =>$school['address'],
-                'city'         =>$school['city'],
-                'state'        =>$school['state'],
-                'pin_code'     =>$school['pin_code'],
-                'phone_no'     =>$school['phone_no'],
-                'password'     =>bcrypt($school['password']),
-                'affilation_no'=>$school['affilation_no'],
-                'board_name'   =>$school['board_name'],
+                'name'         =>$request['name'],
+                'address'      =>$request['address'],
+                'city'         =>$request['city'],
+                'state'        =>$request['state'],
+                'pin_code'     =>$request['pin_code'],
+                'phone_no'     =>$request['phone_no'],
+                'password'     =>bcrypt($request['password']),
+                'affilation_no'=>$request['affilation_no'],
+                'board_name'   =>$request['board_name'],
             ]);
 
             if($request->has('password')){
-                User::where('user_type_id',$id)->updated([
-                    'password'  =>  $school['password']
+                User::where('user_type_id',$id)->update([
+                    'password'  =>  $request['password']
                 ]);
             }
          });
         }
         catch(\Exception $e){
+            // dd($e);
             return back()->with('warning', 'Error Occour In Update');;
         }
-        
         return redirect('school')->with('success', 'School has been updated');
-        $school = Add_School::where(['id' =>$id])->first();
     }
 
     /**
@@ -163,9 +169,27 @@ class SchoolController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id = null)
+    public function delete($id)
     {
-        Add_School::find($id)->delete();
+        try{
+            DB::transaction(function() use ($id){
+                $image = Add_School::where('id',$id)->first()->logo;
+
+                //dd($image);
+                    //TO DELETE EXISTING IMAGE IN STORAGE 
+                    if(File::exists(public_path('schools/logo/'.$image))){
+                        File::delete(public_path('schools/logo/'.$image));
+                        // Add_School::where('id',$id)->delete();
+                    }
+                User::where('user_type_id',$id)->delete();
+                Add_School::find($id)->delete();
+
+            });
+        }
+        catch(\Exception $e){
+            dd($e);
+        }
+        
         return back()->with('success', 'School deleted sucessfully!');
     }
 

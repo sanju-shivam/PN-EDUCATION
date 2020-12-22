@@ -47,17 +47,18 @@
                                 <td>
                                 	<a class="btn btn-info" href="{{ route('school.show',$school->id) }}">View</a>
                                     
-                                    <br>
+                                    <!-- <br> -->
                                 	
                                     <a class="btn btn-warning" href="{{ url('school/'.$school->id.'/edit') }}" >Edit</a>
                                     
-                                    <br>
-                                    
-                                    <form method="post" action="{{ route('school.destroy',$school->id) }}">
+                                   <!--  <br> -->
+                                        
+                                    <a class="btn btn-danger" href="{{ url('school/delete/'.$school->id) }}">DELETE</a>
+                                    <!-- <form method="post" action="{{ route('school.destroy',$school->id) }}">
                                         {{ method_field('DELETE') }}
                                         @csrf
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
+                                        <button type="submit" >Delete</button>
+                                    </form> -->
                                     
                                 </td>
                             </tr>
