@@ -8,6 +8,7 @@ use App\SuperAdmin\Add_School;
 use App\user;
 use DB;
 use File;
+
 class SchoolController extends Controller
 {
     /**
@@ -75,8 +76,8 @@ class SchoolController extends Controller
             });
         }
         catch(\Exception $e){
-            dd($e->errorInfo); //TO CHECK WHAT ERROR MESSAGE WAS THERE
-            return redirect('school/create')->with('warning','Error Occour');
+            //dd($e->errorInfo[2]); //TO CHECK WHAT ERROR MESSAGE WAS THERE
+            return back()->with('warning',$e->errorInfo[2]);
         }
         return redirect('school/create')->with('success', 'School has been Created');
     }
@@ -158,7 +159,7 @@ class SchoolController extends Controller
         }
         catch(\Exception $e){
             // dd($e);
-            return back()->with('warning', 'Error Occour In Update');;
+            return back()->with('warning', $e->errorInfo[2]);
         }
         return redirect('school')->with('success', 'School has been updated');
     }
@@ -187,7 +188,7 @@ class SchoolController extends Controller
             });
         }
         catch(\Exception $e){
-            dd($e);
+            return back()->with('warning','Error Occour');
         }
         
         return back()->with('success', 'School deleted sucessfully!');
