@@ -15,7 +15,7 @@ use App\SuperAdmin\Add_School;
 */
 
 Route::get('deleted',function(){
-	dd(Add_School::where('id',11)->restore());
+	// dd(Add_School::where('id',11)->restore());
 });
 
 Route::get('/', function () {
