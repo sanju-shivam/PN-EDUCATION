@@ -23,6 +23,7 @@ class CreateAddTeacherTable extends Migration
             $table->integer('pincode');
             $table->integer('institute_id');
             $table->integer('email');
+            $table->string('image');
             $table->integer('id_proof')->nullable();
             $table->string('password');
             $table->boolean('status')->default(0)->comment('0-inactive, 1-active');

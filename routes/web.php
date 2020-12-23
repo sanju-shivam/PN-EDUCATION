@@ -36,9 +36,9 @@ Route::middleware('auth')->group(function(){
 		Route::get('school/delete/{id}','SuperAdmin\SchoolController@delete');
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 
-	// Admin Routes
-		// Route::get('admin/create','SuperAdmin\AdminController@create')->name('admin.create');
-		// Route::post('admin/store','SuperAdmin\AdminController@store')->name('admin.store');
+	// Teacher Routes
+		Route::get('teacher/create','School\TeacherController@create')->name('teacher.create');
+		Route::post('teacher/store','School\TeacherController@store')->name('teacher.store');
 });
 
 
