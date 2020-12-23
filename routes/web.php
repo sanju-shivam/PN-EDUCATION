@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+use App\SuperAdmin\Add_School;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Hash;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('deleted',function(){
+	dd(Add_School::where('id',11)->restore());
+});
 
 Route::get('/', function () {
     return view('welcome');

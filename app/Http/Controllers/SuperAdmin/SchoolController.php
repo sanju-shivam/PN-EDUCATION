@@ -69,7 +69,7 @@ class SchoolController extends Controller
                     'name'     => $request->name,
                     'email'    => $request->email,
                     'password' => bcrypt($request->password),
-                    'role_id'  =>  1,
+                    'role_id'  =>  2,
                     'user_type_id' =>$school->id,
                 ]);
 
@@ -176,15 +176,12 @@ class SchoolController extends Controller
             DB::transaction(function() use ($id){
                 $image = Add_School::where('id',$id)->first()->logo;
 
-                //dd($image);
                     //TO DELETE EXISTING IMAGE IN STORAGE 
                     if(File::exists(public_path('schools/logo/'.$image))){
                         File::delete(public_path('schools/logo/'.$image));
-                        // Add_School::where('id',$id)->delete();
                     }
                 User::where('user_type_id',$id)->delete();
                 Add_School::find($id)->delete();
-
             });
         }
         catch(\Exception $e){

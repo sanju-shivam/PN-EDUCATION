@@ -11,7 +11,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>concept - Responsive Admin Dashboard Template</title>
+        <title>PN-EDUCARE</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
@@ -82,7 +82,7 @@
 
                     
                 <div class="page-footer">
-                    <p>2020 &copy; Shivam Shrivastava</p>
+                    <p>2021 &copy; PN-EDUCARE</p>
                 </div>
                 </div><!-- /Page Inner -->
             </div><!-- /Page Content -->
@@ -100,11 +100,16 @@
         <script src="{{asset('assets/js/pages/dashboard.js')}}"></script>
         <script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7089c43e/cloudflare-static/rocket-loader.min.js" data-cf-settings="ab05fcab38e66c00fd31bbac-|49" defer=""></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js "></script>
-        <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready( function () {
-            $('#dataTable').DataTable();
-        } );
-        </script>
+
+     <!--    <script>
+  function initFreshChat() {
+    window.fcWidget.init({
+      token: "ec48064c-03f8-4eee-9c9e-6515215a15d7",
+      host: "https://wchat.in.freshchat.com"
+    });
+  }
+  function initialize(i,t){var e;i.getElementById(t)?initFreshChat():((e=i.createElement("script")).id=t,e.async=!0,e.src="https://wchat.in.freshchat.com/js/widget.js",e.onload=initFreshChat,i.head.appendChild(e))}function initiateCall(){initialize(document,"freshchat-js-sdk")}window.addEventListener?window.addEventListener("load",initiateCall,!1):window.attachEvent("load",initiateCall,!1);
+</script> -->
+       
 </body>
 </html>

@@ -10,33 +10,68 @@
                     <div class="secondary-sidebar-menu">
                         <ul class="accordion-menu">
                             <li class="active-page">
-                                <a href="">
+                                <a href="{{ url('/home') }}">
                                     <i class="menu-icon icon-home4"></i><span>Dashboard</span>
                                 </a>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <i class="menu-icon icon-apps"></i><span>Admins</span><i class="accordion-icon fas fa-angle-left"></i>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li><a href="">Add Admin</a></li>
-                                    <li><a href="">View Admin</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="javascript:void(0)">
-                                    <i class="menu-icon icon-layers"></i><span>School</span><i class="accordion-icon fas fa-angle-left"></i>
-                                </a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{ route('school.create') }}">Add School</a></li>
-                                    <li><a href="{{ route('school.index') }}">View School</a></li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="">
-                                    <i class="menu-icon icon-code"></i><span>Change Password</span>
-                                </a>
-                            </li>
+                            @if(auth::user()->role_id ==1)
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-apps"></i><span>Admins</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="">Add Admin</a></li>
+                                        <li><a href="">View Admin</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>School</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ route('school.create') }}">Add School</a></li>
+                                        <li><a href="{{ route('school.index') }}">View School</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="menu-icon icon-code"></i><span>Change Password</span>
+                                    </a>
+                                </li>
+                            @elseif(auth::user()->role_id ==2)
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-apps"></i><span>Class</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="">Add Class</a></li>
+                                        <li><a href="">View Class</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Subject</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ route('school.create') }}">Add Subject</a></li>
+                                        <li><a href="{{ route('school.index') }}">View Subject</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Teacher</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ route('school.create') }}">Add Teacher</a></li>
+                                        <li><a href="{{ route('school.index') }}">View Teacher</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="menu-icon icon-code"></i><span>Change Password</span>
+                                    </a>
+                                </li>
+                            @endif
                                     <!-- <li class="menu-divider"></li>--> 
                         </ul>
                     </div>
