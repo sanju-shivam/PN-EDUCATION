@@ -21,7 +21,7 @@ class TeacherController extends Controller
     			global $filename;
     			if($request->has('image')){
     				$file = $request->file('image');
-    				$filename = time().'.'.$request->image->extension().'.'.'image';
+    				$filename = time().'.'.$request->image->extension().'.'.'teacher';
     				$file->move('schools/teachers/',$filename);
     			}
 
@@ -54,6 +54,73 @@ class TeacherController extends Controller
     	catch(\Exception $e){
     		return back()->with('warning', $e->errorInfo[2]);
     	}
-    	return redirect('')->with('success', 'Teacher has been added sucessfully..!!');
+    	return redirect('/')->with('success', 'Teacher has been added sucessfully..!!');
+    }
+
+    public function index(){
+        $teacher = add_teacher::all();
+
+        return view('/', compact('teacher'));
+    }
+
+    public function show($id){
+        $teacher = add_teacher::find($id);
+        return view('/' , compact('teacher'));
+    }
+
+    public function edit($id){
+        $teacher = add_teacher::find($id);
+        return view('/', compact('teacher'));
+    }
+
+    public function update(request $request, $id){
+       try{
+        DB::transaction(function() use($request, $id){
+            global $filename;
+            // Image Update
+            if($request->hasfile('image')){
+                // TO DELETE EXISTING IMAGE IN STORAGE
+                if(File::exists(public_path('schools/teachers/'.$request->current_image))){
+                    File::delete(public_path('schools/teachers/'.$request->current_image));
+                }
+                // CREATING IMAGE FILE
+                $file = $request->file('image');
+                $filename = time().'.'.$request->image->extension().'.'.'teacher';
+                $file->move('schools/teachers/', $filename);
+            }
+            else{
+                $filename = $request['current_image'];
+            }
+
+            // Update School
+            add_teacher::find($id)->update([
+                'image'        =>$filename;
+                'name'         =>$request['name'],
+                'phone_no'     =>$request->phone_no,
+                'address'      =>$request->address,
+                'city'         =>$request->city,
+                'state'        =>$request->state,
+                'pincode'      =>$request->pincode,
+                'institute_id' =>$request->institute_id,
+                'password'     =>bcrypt($request->password)
+            ]);
+
+
+            // Update into user
+            if($request->has('password')){
+                User::where('user_type_id',$id)->update([
+                    'password'  =>  $request['password']
+                ]);
+            }
+        });
+
+       }
+       catch(\Exception $e){
+            // dd($e);
+            return back()->with('warning', $e->errorInfo[2]);
+        }
+        return redirect('/')->with('success', 'Teacher has been updated');
+
     }
 }
+
