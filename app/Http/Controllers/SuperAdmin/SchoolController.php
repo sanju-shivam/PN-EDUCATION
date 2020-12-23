@@ -73,7 +73,6 @@ class SchoolController extends Controller
                     'role_id'  => Role::select('id')->where('name', 'School')->first(),
                     'user_type_id' =>$school->id,
                 ]);
-
             });
         }
         catch(\Exception $e){
