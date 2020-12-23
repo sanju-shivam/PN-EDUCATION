@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRoleTypeTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateRoleTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('role_type', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
-            $table->tinyInteger('is_deleted')->nullable();
-            $table->tinyInteger('deleted_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateRoleTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role_type');
+        Schema::dropIfExists('roles');
     }
 }

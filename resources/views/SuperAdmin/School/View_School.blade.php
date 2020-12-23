@@ -16,7 +16,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">S.no</th>
-                                <th scope="col">Name</th>
+                                <th id="column3_search" scope="col">Name</th>
                                 <th scope="col">Logo</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">City</th>
@@ -133,5 +133,14 @@
 
   });
 </script>
+
+
+
+ <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready( function () {
+                $('#dataTable').DataTable();
+            });
+        </script>
 
 @endsection

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
+use App\CommonModels\Role;
 use App\user;
 use DB;
 use File;
@@ -69,14 +70,15 @@ class SchoolController extends Controller
                     'name'     => $request->name,
                     'email'    => $request->email,
                     'password' => bcrypt($request->password),
-                    'role_id'  =>  1,
+                    'role_id'  => Role::select('id')->where('name', 'School')->first(),
                     'user_type_id' =>$school->id,
                 ]);
 
             });
         }
         catch(\Exception $e){
-            //dd($e->errorInfo[2]); //TO CHECK WHAT ERROR MESSAGE WAS THERE
+            DB::rollback();
+            //dd(($e->errorInfo[2])); //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$e->errorInfo[2]);
         }
         return redirect('school/create')->with('success', 'School has been Created');
@@ -176,15 +178,12 @@ class SchoolController extends Controller
             DB::transaction(function() use ($id){
                 $image = Add_School::where('id',$id)->first()->logo;
 
-                //dd($image);
                     //TO DELETE EXISTING IMAGE IN STORAGE 
                     if(File::exists(public_path('schools/logo/'.$image))){
                         File::delete(public_path('schools/logo/'.$image));
-                        // Add_School::where('id',$id)->delete();
                     }
                 User::where('user_type_id',$id)->delete();
                 Add_School::find($id)->delete();
-
             });
         }
         catch(\Exception $e){
