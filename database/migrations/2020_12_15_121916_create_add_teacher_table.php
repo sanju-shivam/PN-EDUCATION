@@ -23,13 +23,12 @@ class CreateAddTeacherTable extends Migration
             $table->string('state')->nullable();
             $table->integer('pincode')->nullable();
             $table->integer('institute_id');
-            $table->integer('email');
+            $table->string('email')->unique();
             $table->string('image')->nullable();
             $table->integer('id_proof')->nullable();
             $table->string('password');
             $table->boolean('status')->default(0)->comment('0-inactive, 1-active');
             $table->softDeletes();
-            $table->timestamp('updated_by')->nullable();
             $table->timestamps();
         });
     }

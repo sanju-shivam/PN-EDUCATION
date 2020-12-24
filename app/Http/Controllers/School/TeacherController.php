@@ -7,6 +7,8 @@ use Illuminate\Http\request;
 use App\School\Teacher;
 use App\user;
 use DB;
+use App\CommonModels\Role;
+use Auth;
 
 class TeacherController extends Controller
 {
@@ -33,21 +35,20 @@ class TeacherController extends Controller
     	          'city'         =>$request->city,
     	          'state'        =>$request->state,
     	          'pincode'      =>$request->pincode,
-    	          'institute_id' =>$request->institute_id,
+    	          'institute_id' =>auth::user()->id,
     	          'email'        =>$request->email,
     	          'image'        =>$filename,
     	          'id_proof'     =>$request->id_proof,
-    	          'password'     =>bcrypt($request->password)
-    	      ]);
+    	          'password'     =>bcrypt($request->password),
+                ]);
 
     			// Insert data in user table
-    			$teacher = User::insert([
-    				'name'         =>$teacher->name,
-    				'email'        =>$teacher->email,
-    				'password'     =>$teacher->password,
-    			   	'role_id'      =>0,
+    			$user = User::insert([
+    				'name'         =>$request->name,
+    				'email'        =>$request->email,
+    				'password'     =>bcrypt($request->password),
+    			   	'role_id'      =>Role::where('name','Teacher')->first()->id,
     			   	'user_type_id' =>$teacher->id,
-
     			]);
     		});
     	}
@@ -59,7 +60,6 @@ class TeacherController extends Controller
 
     public function index(){
         $teacher = add_teacher::all();
-
         return view('/', compact('teacher'));
     }
 
@@ -101,7 +101,6 @@ class TeacherController extends Controller
                 'city'         =>$request->city,
                 'state'        =>$request->state,
                 'pincode'      =>$request->pincode,
-                'institute_id' =>$request->institute_id,
                 'password'     =>bcrypt($request->password)
             ]);
 

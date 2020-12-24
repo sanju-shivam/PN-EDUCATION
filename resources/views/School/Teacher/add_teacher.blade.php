@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Add Teacher</h5>
                     <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                    <form method="POST" action="{{ url('school') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('teacher.store') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label >Name</label>
@@ -50,12 +50,8 @@
                             <input type="password" name="password" class="form-control" placeholder="Enter Password">
                         </div>
                         <div class="form-group">
-                            <label >Affilation Number</label>
+                            <label >Aadhar Number</label>
                             <input type="alpha_num" name="affilation_no" class="form-control" placeholder="Enter Affilation Number">
-                        </div>
-                        <div class="form-group">
-                            <label >Board</label>
-                            <input type="text" name="board_name" class="form-control" placeholder="Enter Affilation Board">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

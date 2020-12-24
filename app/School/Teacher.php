@@ -3,10 +3,13 @@
 namespace App\School;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Teacher extends Model
 {
-    protected $table = "add_teacher",
+    use SoftDeletes;
+
+    protected $table = "add_teacher";
 
     protected $fillable =[
     	'name',
