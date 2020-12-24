@@ -40,14 +40,16 @@ Route::middleware(['auth','OnlySuperAdmin'])->group(function(){
 		Route::resource('school','SuperAdmin\SchoolController');
 		Route::get('school/delete/{id}','SuperAdmin\SchoolController@delete');
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
-
+});
+//ONLY SUPER ADMIN
+Route::middleware('auth')->group(function(){
 	// Teacher Routes
 		Route::get('teacher/create','School\TeacherController@create')->name('teacher.create');
 		Route::post('teacher/store','School\TeacherController@store')->name('teacher.store');
-		Route::get('teacher/index', 'School\TeacherController@index')->('teacher.index');
-		Route::get('teacher/show/{id}', 'School\TeacherController@show')->('teacher.show');
-		Route::get('teacher/edit/{id}', 'School\TeacherController@edit')->('teacher.edit');
-		Route::post('teacher/update', 'School\TeacherController@update')->('teacher.update');
+		Route::get('teacher/index', 'School\TeacherController@index')->name('teacher.index');
+		Route::get('teacher/show/{id}', 'School\TeacherController@show')->name('teacher.show');
+		Route::get('teacher/edit/{id}', 'School\TeacherController@edit')->name('teacher.edit');
+		Route::post('teacher/update', 'School\TeacherController@update')->name('teacher.update');
 });
 
 

@@ -1,10 +1,9 @@
 <div class="secondary-sidebar">
                     <div class="secondary-sidebar-bar">
-                        <a href="#" class="logo-box" style="text-transform: uppercase;text-align: center;" >PNEDUCARE
-                            {{--    @php  $a = explode(' ', Auth::user()->name,);
+                        <a href="#" class="logo-box" style="text-transform: uppercase;text-align: center;" > @php  $a = explode(' ', Auth::user()->name);
                                         echo $a[0]; 
                                     @endphp 
-                            --}}
+                            
                         </a>
                     </div>
                     <div class="secondary-sidebar-menu">
@@ -62,8 +61,8 @@
                                         <i class="menu-icon icon-layers"></i><span>Teacher</span><i class="accordion-icon fas fa-angle-left"></i>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><a href="{{ route('school.create') }}">Add Teacher</a></li>
-                                        <li><a href="{{ route('school.index') }}">View Teacher</a></li>
+                                        <li><a href="{{ route('teacher.create') }}">Add Teacher</a></li>
+                                        <li><a href="{{ route('teacher.index') }}">View Teacher</a></li>
                                     </ul>
                                 </li>
                                 <li>

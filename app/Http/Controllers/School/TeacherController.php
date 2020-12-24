@@ -11,7 +11,7 @@ use DB;
 class TeacherController extends Controller
 {
     public function create(){
-    	return view('School.Teachers.add_teacher');
+    	return view('School.Teacher.add_teacher');
     }
 
     public function store(request $request){
@@ -94,7 +94,7 @@ class TeacherController extends Controller
 
             // Update School
             add_teacher::find($id)->update([
-                'image'        =>$filename;
+                'image'        =>$filename,
                 'name'         =>$request['name'],
                 'phone_no'     =>$request->phone_no,
                 'address'      =>$request->address,
