@@ -198,9 +198,13 @@ class SchoolController extends Controller
     {
         $id = $request->get('id');
         $status = $request->get('status');
-        $product = Add_School::find($id)->update([
+        $school = Add_School::find($id)->update([
             'status' => $status,
         ]);
+        $user = User::where('user_type_id',$id)->update([
+            'is_deleted' => $status,
+        ]);
+
         return true;
     }
 }
