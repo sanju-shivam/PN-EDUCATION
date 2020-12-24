@@ -45,7 +45,7 @@ class TeacherController extends Controller
     				'name'         =>$teacher->name,
     				'email'        =>$teacher->email,
     				'password'     =>$teacher->password,
-    			   	'role_id'      =>0,
+    			   	'role_id'      =>Role::select('id')->where('name', 'Teacher')->first()->id,
     			   	'user_type_id' =>$teacher->id,
 
     			]);
@@ -94,7 +94,7 @@ class TeacherController extends Controller
 
             // Update School
             add_teacher::find($id)->update([
-                'image'        =>$filename;
+                'image'        =>$filename,
                 'name'         =>$request['name'],
                 'phone_no'     =>$request->phone_no,
                 'address'      =>$request->address,
@@ -121,6 +121,24 @@ class TeacherController extends Controller
         }
         return redirect('/')->with('success', 'Teacher has been updated');
 
+    }
+
+    public function delete($id){
+        try{
+            DB::transaction(function() use($id){
+               $image = add_teacher::where('id' =>$id)->first()->teacher;
+
+               // TO DELETE AN EXISTING IMAGE
+               if(File::exists(public_path('schools/teachers/'.$image))){
+                 File::delete(public_path('schools/teachers/'.$image));
+                }
+
+                user::where('user_type_id'=>$id)->delete();
+                add_teacher::find($id)->delete();
+            });
+        }catch(\Exception $e){
+            return back()->with('success', 'Teacher deleted sucessfully');
+        }
     }
 }
 
