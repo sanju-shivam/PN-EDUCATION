@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
-use App\SuperAdmin\Add_School;
+use App\CommonModels\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,7 +35,7 @@ Route::middleware('auth')->group(function(){
 });
 
 //ONLY SUPER ADMIN
-Route::middleware('auth')->group(function(){
+Route::middleware(['auth','OnlySuperAdmin'])->group(function(){
 	//  School Routes
 		Route::resource('school','SuperAdmin\SchoolController');
 		Route::get('school/delete/{id}','SuperAdmin\SchoolController@delete');
