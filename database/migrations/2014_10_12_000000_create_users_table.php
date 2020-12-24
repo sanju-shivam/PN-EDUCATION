@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->tinyInteger('status')->default(1)->comment('0-inactive, 1-active');
             $table->integer('role_id')->unsigned();
             $table->integer('user_type_id')->unsigned();
-            $table->boolean('is_deleted')->default(0);
+            $table->boolean('is_deleted')->default(0)->comment('0-active, 1-inactive');
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

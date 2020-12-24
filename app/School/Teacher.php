@@ -7,11 +7,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Teacher extends Model
 {
-<<<<<<< HEAD
-=======
+
     use SoftDeletes;
 
->>>>>>> a950e1a181ffe77825a0409f224b097436cab340
     protected $table = "add_teacher";
 
     protected $fillable =[
