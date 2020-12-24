@@ -19,6 +19,7 @@ class CreateSubjectTable extends Migration
             $table->string('name');
             $table->integer('institute_id');
             $table->boolean('status')->default(0)->comment('0-inactive, 1-active')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

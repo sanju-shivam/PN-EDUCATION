@@ -11,7 +11,7 @@ use DB;
 class TeacherController extends Controller
 {
     public function create(){
-    	return view('School.Teachers.add_teacher');
+    	return view('School.Teacher.add_teacher');
     }
 
     public function store(request $request){

@@ -18,7 +18,7 @@ class CreateClassTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('institute_id')->unsigned();
-            $table->timestamp('deleted_at')->nullable();
+            $table->softDeletes();
             $table->timestamp('updated_by')->nullable();
             $table->timestamps();
         });
