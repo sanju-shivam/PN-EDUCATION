@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
 use App\CommonModels\Role;
 use App\user;
-use DB;
+use Illuminate\Support\Facades\DB;
 use File;
 
 class SchoolController extends Controller
@@ -70,7 +70,7 @@ class SchoolController extends Controller
                     'name'     => $request->name,
                     'email'    => $request->email,
                     'password' => bcrypt($request->password),
-                    'role_id'  => Role::select('id')->where('name', 'School')->first(),
+                    'role_id'  => Role::select('id')->where('name', 'School')->first()->id,
                     'user_type_id' =>$school->id,
                 ]);
 

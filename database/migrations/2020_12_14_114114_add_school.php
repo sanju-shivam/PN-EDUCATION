@@ -15,6 +15,7 @@ class AddSchool extends Migration
     {
         Schema::dropIfExists('add_school');
         Schema::create('add_school', function(Blueprint $table){
+            $table->engine = 'InnoDB';
             $table->bigincrements('id');
             $table->string('name');
             $table->string('logo')->nullable()->comment('image');

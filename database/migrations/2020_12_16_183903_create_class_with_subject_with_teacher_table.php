@@ -14,6 +14,7 @@ class CreateClassWithSubjectWithTeacherTable extends Migration
     public function up()
     {
         Schema::create('class_with_subject_with_teacher', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->integer('class_id')->unsigned();
             $table->integer('subject_id')->unsigned();

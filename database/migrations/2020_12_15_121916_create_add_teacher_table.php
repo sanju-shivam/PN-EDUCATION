@@ -14,6 +14,7 @@ class CreateAddTeacherTable extends Migration
     public function up()
     {
         Schema::create('add_teacher', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->string('name');
             $table->integer('phone_no');
