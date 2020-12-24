@@ -41,8 +41,8 @@ Route::middleware(['auth','OnlySuperAdmin'])->group(function(){
 		Route::get('school/delete/{id}','SuperAdmin\SchoolController@delete');
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 });
-//ONLY SUPER ADMIN
-Route::middleware('auth')->group(function(){
+//ONLY SCHOOL ADMIN
+Route::middleware('auth', 'OnlySchool')->group(function(){
 	// Teacher Routes
 		Route::get('teacher/create','School\TeacherController@create')->name('teacher.create');
 		Route::post('teacher/store','School\TeacherController@store')->name('teacher.store');

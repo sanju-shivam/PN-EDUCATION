@@ -33,7 +33,7 @@ class TeacherController extends Controller
     	          'city'         =>$request->city,
     	          'state'        =>$request->state,
     	          'pincode'      =>$request->pincode,
-    	          'institute_id' =>$request->institute_id,
+    	          'institute_id' =>auth::user()->id,
     	          'email'        =>$request->email,
     	          'image'        =>$filename,
     	          'id_proof'     =>$request->id_proof,
@@ -126,14 +126,14 @@ class TeacherController extends Controller
     public function delete($id){
         try{
             DB::transaction(function() use($id){
-               $image = add_teacher::where('id' =>$id)->first()->teacher;
+               $image = add_teacher::where('id',$id)->first()->teacher;
 
                // TO DELETE AN EXISTING IMAGE
                if(File::exists(public_path('schools/teachers/'.$image))){
                  File::delete(public_path('schools/teachers/'.$image));
                 }
 
-                user::where('user_type_id'=>$id)->delete();
+                user::where('user_type_id',$id)->delete();
                 add_teacher::find($id)->delete();
             });
         }catch(\Exception $e){
