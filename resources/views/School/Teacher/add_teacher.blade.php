@@ -2,7 +2,7 @@
 @section('title2','Teacher')
 @section('title3','Add Teacher')
 @section('content')
-	<div class="row">
+    <div class="row">
         <div class="col-xl">
             <div class="card">
                 <div class="card-body">
@@ -15,9 +15,9 @@
                             <input type="text" name="name" class="form-control" placeholder="Enter Name">
                         </div>
                         <div class="form-group">
-                        	<label >Profile Picture</label>
-                        	<div class="custom-file">
-                                <input type="file" name="logo" class="custom-file-input form-control" id="customFile">
+                            <label >Profile Picture</label>
+                            <div class="custom-file">
+                                <input type="file" name="image" class="custom-file-input form-control" id="customFile">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                         </div>
                         <div class="form-group">
                             <label >PIN-CODE</label>
-                            <input type="number" name="pin_code" class="form-control" placeholder="Enter PIN-CODE" >
+                            <input type="number" name="pincode" class="form-control" placeholder="Enter PIN-CODE" >
                         </div>
                         <div class="form-group">
                             <label >Phone Number</label>

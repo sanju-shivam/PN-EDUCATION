@@ -202,7 +202,7 @@ class SchoolController extends Controller
             'status' => $status,
         ]);
         $user = User::where('user_type_id',$id)->update([
-            'is_deleted' => $status,
+            'status' => $status,
         ]);
 
         return true;

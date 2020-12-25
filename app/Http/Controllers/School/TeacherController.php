@@ -16,7 +16,7 @@ class TeacherController extends Controller
     	return view('School.Teacher.add_teacher');
     }
 
-    public function store(request $request){
+    public function store(Request $request){
     	try{
     		DB::transaction(function() use($request){
     			// Insert Image
@@ -26,58 +26,52 @@ class TeacherController extends Controller
     				$filename = time().'.'.$request->image->extension().'.'.'teacher';
     				$file->move('schools/teachers/',$filename);
     			}
-
+                
     			// Store data
-    			$teacher = Teacher::create([
-    			  'name'         =>$request->name,
+    			$teacher = DB::table('add_teacher')->insertGetId([
+                  'name'         =>$request->name,
                   'phone_no'     =>$request->phone_no,
-    	          'address'      =>$request->address,
-    	          'city'         =>$request->city,
-    	          'state'        =>$request->state,
-    	          'pincode'      =>$request->pincode,
-    	          'institute_id' =>auth::user()->id,
-    	          'email'        =>$request->email,
-    	          'image'        =>$filename,
-    	          'id_proof'     =>$request->id_proof,
-    	          'password'     =>bcrypt($request->password),
+                  'address'      =>$request->address,
+                  'city'         =>$request->city,
+                  'state'        =>$request->state,
+                  'pincode'      =>$request->pincode,
+                  'institute_id' =>auth::user()->id,
+                  'email'        =>$request->email,
+                  'image'        =>$filename,
+                  'id_proof'     =>$request->id_proof,
+                  'password'     =>bcrypt($request->password),
                 ]);
 
     			// Insert data in user table
-<<<<<<< HEAD
-    			$teacher = User::insert([
-    				'name'         =>$teacher->name,
-    				'email'        =>$teacher->email,
-    				'password'     =>$teacher->password,
-    			   	'role_id'      =>Role::select('id')->where('name', 'Teacher')->first()->id,
-=======
-    			$user = User::insert([
-    				'name'         =>$request->name,
-    				'email'        =>$request->email,
-    				'password'     =>bcrypt($request->password),
-    			   	'role_id'      =>Role::where('name','Teacher')->first()->id,
->>>>>>> a950e1a181ffe77825a0409f224b097436cab340
-    			   	'user_type_id' =>$teacher->id,
-    			]);
+    			$user = DB::table('users')->insert([
+                    'name'         =>$request->name,
+                    'email'        =>$request->email,
+                    'password'     =>bcrypt($request->password),
+                    'role_id'      =>Role::where('name','Teacher')->first()->id,
+                    'user_type_id' =>$teacher,
+                ]);
     		});
     	}
     	catch(\Exception $e){
+            // dd(($e->errorInfo[2]));
+            // exit;
     		return back()->with('warning', $e->errorInfo[2]);
     	}
-    	return redirect('/')->with('success', 'Teacher has been added sucessfully..!!');
+    	return back()->with('success', 'Teacher has been added sucessfully..!!');
     }
 
     public function index(){
-        $teacher = add_teacher::all();
+        $teacher = Teacher::all();
         return view('/', compact('teacher'));
     }
 
     public function show($id){
-        $teacher = add_teacher::find($id);
+        $teacher = Teacher::find($id);
         return view('/' , compact('teacher'));
     }
 
     public function edit($id){
-        $teacher = add_teacher::find($id);
+        $teacher = Teacher::find($id);
         return view('/', compact('teacher'));
     }
 
@@ -101,7 +95,7 @@ class TeacherController extends Controller
             }
 
             // Update School
-            add_teacher::find($id)->update([
+            Teacher::find($id)->update([
                 'image'        =>$filename,
                 'name'         =>$request['name'],
                 'phone_no'     =>$request->phone_no,
@@ -133,7 +127,7 @@ class TeacherController extends Controller
     public function delete($id){
         try{
             DB::transaction(function() use($id){
-               $image = add_teacher::where('id',$id)->first()->teacher;
+               $image = Teacher::where('id',$id)->first()->teacher;
 
                // TO DELETE AN EXISTING IMAGE
                if(File::exists(public_path('schools/teachers/'.$image))){
