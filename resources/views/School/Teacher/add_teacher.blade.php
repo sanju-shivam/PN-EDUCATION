@@ -51,7 +51,7 @@
                         </div>
                         <div class="form-group">
                             <label >Aadhar Number</label>
-                            <input type="alpha_num" name="affilation_no" class="form-control" placeholder="Enter Affilation Number">
+                            <input type="alpha_num" name="id_proof" class="form-control" placeholder="Enter Affilation Number">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

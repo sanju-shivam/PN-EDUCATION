@@ -3,20 +3,24 @@
 namespace App\Http\Controllers\School;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\request;
+use Illuminate\Http\Request;
 use App\School\Teacher;
 use App\user;
 use DB;
 use App\CommonModels\Role;
+use App\SuperAdmin\Add_School;
 use Auth;
+use File;
+use Session;
 
 class TeacherController extends Controller
 {
     public function create(){
+        Session::put('institute_id',Add_School::find(auth::user()->user_type_id)->first()->id);
     	return view('School.Teacher.add_teacher');
     }
 
-    public function store(request $request){
+    public function store(Request $request){
     	try{
     		DB::transaction(function() use($request){
     			// Insert Image
@@ -35,7 +39,7 @@ class TeacherController extends Controller
     	          'city'         =>$request->city,
     	          'state'        =>$request->state,
     	          'pincode'      =>$request->pincode,
-    	          'institute_id' =>auth::user()->id,
+    	          'institute_id' =>Session::get('institute_id'),
     	          'email'        =>$request->email,
     	          'image'        =>$filename,
     	          'id_proof'     =>$request->id_proof,
@@ -53,7 +57,9 @@ class TeacherController extends Controller
     		});
     	}
     	catch(\Exception $e){
-    		return back()->with('warning', $e->errorInfo[2]);
+    		$a = explode('for', $e->errorInfo[2]);
+             //TO CHECK WHAT ERROR MESSAGE WAS THERE
+            return back()->with('warning',$a[0]);
     	}
     	return back()->with('success', 'Teacher has been added sucessfully..!!');
     }
@@ -70,7 +76,7 @@ class TeacherController extends Controller
 
     public function edit($id){
         $teacher = Teacher::find($id);
-        return view('/', compact('teacher'));
+        return view('School.Teacher.edit_teacher', compact('teacher'));
     }
 
     public function update(Request $request, $id){
@@ -101,7 +107,8 @@ class TeacherController extends Controller
                     'city'         =>$request->city,
                     'state'        =>$request->state,
                     'pincode'      =>$request->pincode,
-                    'password'     =>bcrypt($request->password)
+                    'password'     =>bcrypt($request->password),
+                    'id_proof'     =>$request->id_proof,
                 ]);
 
 
@@ -115,9 +122,11 @@ class TeacherController extends Controller
        }
        catch(\Exception $e){
             // dd($e);
-            return back()->with('warning', $e->errorInfo[2]);
+            $a = explode('for', $e->errorInfo[2]);
+             //TO CHECK WHAT ERROR MESSAGE WAS THERE
+            return back()->with('warning',$a[0]);
         }
-        return redirect('/')->with('success', 'Teacher has been updated');
+        return redirect('teacher/index')->with('success', 'Teacher has been updated');
     }
 
     public function delete($id){
@@ -126,11 +135,11 @@ class TeacherController extends Controller
                $image = Teacher::where('id',$id)->first()->teacher;
 
                // TO DELETE AN EXISTING IMAGE
-               if(File::exists(public_path('schools/teachers/'.$image))){
+                if(File::exists(public_path('schools/teachers/'.$image))){
                  File::delete(public_path('schools/teachers/'.$image));
                 }
-
-                user::where('user_type_id',$id)->delete();
+                
+                User::where('user_type_id',$id)->delete();
                 Teacher::find($id)->delete();
             });
         }catch(\Exception $e){

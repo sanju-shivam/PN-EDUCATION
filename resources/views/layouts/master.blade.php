@@ -73,7 +73,6 @@
                         <div class="row">
                             <div class="col-12">
                                 @extends('layouts.toast')
-                                @require('layouts.counters')
                                 @yield('content')
                             </div>
                         </div>

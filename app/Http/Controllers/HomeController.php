@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Session;
+use App\SuperAdmin\Add_School;
+use App\School\Teacher;
 
 class HomeController extends Controller
 {
@@ -24,7 +26,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('layouts.master');
+        $schools = Add_School::count();
+        $teacher = Teacher::count();
+        return view('home',compact('schools','teacher'));
     }
 
     public function logout()

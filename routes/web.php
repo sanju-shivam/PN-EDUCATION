@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
-use App\CommonModels\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,7 +48,8 @@ Route::middleware('auth', 'OnlySchool')->group(function(){
 		Route::get('teacher/index', 'School\TeacherController@index')->name('teacher.index');
 		Route::get('teacher/show/{id}', 'School\TeacherController@show')->name('teacher.show');
 		Route::get('teacher/edit/{id}', 'School\TeacherController@edit')->name('teacher.edit');
-		Route::post('teacher/update', 'School\TeacherController@update')->name('teacher.update');
+		Route::post('teacher/update/{id}', 'School\TeacherController@update')->name('teacher.update');
+		Route::get('teacher/delete/{id}', 'School\TeacherController@edit')->name('teacher.delete');
 });
 
 

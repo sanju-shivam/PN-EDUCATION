@@ -162,7 +162,8 @@ class SchoolController extends Controller
         }
         catch(\Exception $e){
             // dd($e);
-            return back()->with('warning', $e->errorInfo[2]);
+             $a = explode('for', $e->errorInfo[2]);
+            return back()->with('warning', $a);
         }
         return redirect('school')->with('success', 'School has been updated');
     }

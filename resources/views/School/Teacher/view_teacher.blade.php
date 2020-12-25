@@ -49,11 +49,11 @@
                                     
                                     <!-- <br> -->
                                 	
-                                    <a class="btn btn-warning" href="{{ url('teacher/'.$teacher->id.'/edit') }}" >Edit</a>
+                                    <a class="btn btn-warning" href="{{ url('teacher/edit/'.$teacher->id) }}" >Edit</a>
                                     
                                    <!--  <br> -->
                                         
-                                    <a class="btn btn-danger" href="{{ url('teacher/delete/'.$teacher->id) }}">DELETE</a>                                  
+                                    <a class="btn btn-danger" href="{{ url('teacher/deleted/'.$teacher->id) }}">DELETE</a>                                  
                                 </td>
                             </tr>
                             @endforeach
