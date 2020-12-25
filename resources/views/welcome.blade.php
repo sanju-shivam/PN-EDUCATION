@@ -63,6 +63,7 @@
                                         <div class="custom-control custom-checkbox form-group">
                                             <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} >
                                             <label class="custom-control-label" for="remember">Remember password</label>
+
                                         </div>
 
                                         <button type="submit" class="btn btn-primary">Login</button>

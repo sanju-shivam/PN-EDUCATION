@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
 use App\CommonModels\Role;
 use App\user;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use File;
 
@@ -41,6 +42,21 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = Validator::make($request->all(),[
+           'name'       =>'required|max:255',
+           'email'      =>'required|email|unique:users',
+           'phone_no'   =>'required',
+           'password'   =>'required|max:8',
+           'board_name' =>'required'
+        
+        ]);
+        
+        // dd($validated->messages()->get('*'));
+        // exit;
+        if($validated->fails()){
+            return redirect('/school/create')->with('errors', $validated->messages()->get('*'));
+        }
+        else{
         try{
             DB::transaction(function() use($request){
                 // Insert Image
@@ -82,6 +98,7 @@ class SchoolController extends Controller
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);
         }
+    }
         return redirect('school/create')->with('success', 'School has been Created');
     }
 
@@ -204,7 +221,7 @@ class SchoolController extends Controller
             'status' => $status,
         ]);
         $user = User::where('user_type_id',$id)->update([
-            'is_deleted' => $status,
+            'status' => $status,
         ]);
 
         return true;

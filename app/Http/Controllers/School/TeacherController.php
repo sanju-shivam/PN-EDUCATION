@@ -21,6 +21,8 @@ class TeacherController extends Controller
     }
 
     public function store(Request $request){
+
+        // dd($request->all());
     	try{
     		DB::transaction(function() use($request){
     			// Insert Image
@@ -30,9 +32,11 @@ class TeacherController extends Controller
     				$filename = time().'.'.$request->image->extension().'.'.'teacher';
     				$file->move('schools/teachers/',$filename);
     			}
-
+                
     			// Store data
     			$teacher = DB::table('add_teacher')->insertGetId([
+
+
     			  'name'         =>$request->name,
                   'phone_no'     =>$request->phone_no,
     	          'address'      =>$request->address,
@@ -48,30 +52,37 @@ class TeacherController extends Controller
 
     			// Insert data in user table
     			$user = DB::table('users')->insert([
-    				'name'         =>$request->name,
-    				'email'        =>$request->email,
-    				'password'     =>bcrypt($request->password),
-    			   	'role_id'      =>Role::where('name','Teacher')->first()->id,
-    			   	'user_type_id' =>$teacher,
-    			]);
+
+                    'name'         =>$request->name,
+                    'email'        =>$request->email,
+                    'password'     =>bcrypt($request->password),
+                    'role_id'      =>Role::where('name','Teacher')->first()->id,
+                    'user_type_id' =>$teacher,
+                ]);
     		});
     	}
     	catch(\Exception $e){
     		$a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);
+            // dd(($e->errorInfo[2]));
+            // exit;
+    		return back()->with('warning', $e->errorInfo[2]);
     	}
     	return back()->with('success', 'Teacher has been added sucessfully..!!');
     }
 
     public function index(){
+       
         $teachers = Teacher::all();
         return view('School.Teacher.view_teacher', compact('teachers'));
+
     }
 
     public function show($id){
         $teacher = Teacher::find($id);
         return view('School.Teacher.view_single_teacher' , compact('teacher'));
+
     }
 
     public function edit($id){
@@ -109,15 +120,15 @@ class TeacherController extends Controller
                     'pincode'      =>$request->pincode,
                     'password'     =>bcrypt($request->password),
                     'id_proof'     =>$request->id_proof,
+            ]);
+
+
+            // Update into user
+            if($request->has('password')){
+                User::where('user_type_id',$id)->update([
+                    'password'  =>  $request['password']
                 ]);
-
-
-                // Update into user
-                if($request->has('password')){
-                    User::where('user_type_id',$id)->update([
-                        'password'  =>  $request['password']
-                    ]);
-                }
+            }
             });
        }
        catch(\Exception $e){

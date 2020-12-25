@@ -5,4 +5,11 @@
         @if(session()->has('warning'))
             toastr.error("{{ Session::get('warning') }}");   
         @endif
+        @if(session()->has('errors'))
+        alert(Session::get('errors'));
+            // @foreach(Session::get('errors') as $error)
+
+            //    toastr.error($error);   
+            // @endforeach
+        @endif
 </script>
