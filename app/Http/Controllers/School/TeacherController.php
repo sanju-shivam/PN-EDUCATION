@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\School;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\request;
+use Illuminate\Http\Request;
 use App\School\Teacher;
 use App\user;
 use DB;
@@ -17,6 +17,7 @@ class TeacherController extends Controller
     }
 
     public function store(Request $request){
+        // dd($request->all());
     	try{
     		DB::transaction(function() use($request){
     			// Insert Image
@@ -29,7 +30,9 @@ class TeacherController extends Controller
                 
     			// Store data
     			$teacher = DB::table('add_teacher')->insertGetId([
-                  'name'         =>$request->name,
+
+
+    			  'name'         =>$request->name,
                   'phone_no'     =>$request->phone_no,
                   'address'      =>$request->address,
                   'city'         =>$request->city,
@@ -44,6 +47,7 @@ class TeacherController extends Controller
 
     			// Insert data in user table
     			$user = DB::table('users')->insert([
+
                     'name'         =>$request->name,
                     'email'        =>$request->email,
                     'password'     =>bcrypt($request->password),
@@ -61,13 +65,16 @@ class TeacherController extends Controller
     }
 
     public function index(){
-        $teacher = Teacher::all();
-        return view('/', compact('teacher'));
+       
+        $teachers = Teacher::all();
+        return view('School.Teacher.view_teacher', compact('teachers'));
+
     }
 
     public function show($id){
         $teacher = Teacher::find($id);
-        return view('/' , compact('teacher'));
+        return view('School.Teacher.view_single_teacher' , compact('teacher'));
+
     }
 
     public function edit($id){
@@ -75,24 +82,24 @@ class TeacherController extends Controller
         return view('/', compact('teacher'));
     }
 
-    public function update(request $request, $id){
+    public function update(Request $request, $id){
        try{
-        DB::transaction(function() use($request, $id){
-            global $filename;
-            // Image Update
-            if($request->hasfile('image')){
-                // TO DELETE EXISTING IMAGE IN STORAGE
-                if(File::exists(public_path('schools/teachers/'.$request->current_image))){
-                    File::delete(public_path('schools/teachers/'.$request->current_image));
+            DB::transaction(function() use($request, $id){
+                global $filename;
+                // Image Update
+                if($request->hasfile('image')){
+                    // TO DELETE EXISTING IMAGE IN STORAGE
+                    if(File::exists(public_path('schools/teachers/'.$request->current_image))){
+                        File::delete(public_path('schools/teachers/'.$request->current_image));
+                    }
+                    // CREATING IMAGE FILE
+                    $file = $request->file('image');
+                    $filename = time().'.'.$request->image->extension().'.'.'teacher';
+                    $file->move('schools/teachers/', $filename);
                 }
-                // CREATING IMAGE FILE
-                $file = $request->file('image');
-                $filename = time().'.'.$request->image->extension().'.'.'teacher';
-                $file->move('schools/teachers/', $filename);
-            }
-            else{
-                $filename = $request['current_image'];
-            }
+                else{
+                    $filename = $request['current_image'];
+                }
 
             // Update School
             Teacher::find($id)->update([
@@ -113,15 +120,13 @@ class TeacherController extends Controller
                     'password'  =>  $request['password']
                 ]);
             }
-        });
-
+            });
        }
        catch(\Exception $e){
             // dd($e);
             return back()->with('warning', $e->errorInfo[2]);
         }
         return redirect('/')->with('success', 'Teacher has been updated');
-
     }
 
     public function delete($id){
@@ -135,7 +140,7 @@ class TeacherController extends Controller
                 }
 
                 user::where('user_type_id',$id)->delete();
-                add_teacher::find($id)->delete();
+                Teacher::find($id)->delete();
             });
         }catch(\Exception $e){
             return back()->with('success', 'Teacher deleted sucessfully');

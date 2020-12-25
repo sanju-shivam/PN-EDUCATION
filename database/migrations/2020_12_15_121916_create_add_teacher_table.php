@@ -27,7 +27,7 @@ class CreateAddTeacherTable extends Migration
             $table->string('image')->nullable();
             $table->integer('id_proof')->nullable();
             $table->string('password');
-            $table->boolean('status')->default(0)->comment('0-inactive, 1-active');
+            $table->boolean('status')->default(1)->comment('0-inactive, 1-active');
             $table->softDeletes();
             $table->timestamps();
         });
