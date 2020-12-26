@@ -42,7 +42,7 @@ class TeacherController extends Controller
     	          'address'      =>$request->address,
     	          'city'         =>$request->city,
     	          'state'        =>$request->state,
-    	          'pincode'      =>$request->pincode,
+    	          'pincode'      =>$request->pin_code,
     	          'institute_id' =>Session::get('institute_id'),
     	          'email'        =>$request->email,
     	          'image'        =>$filename,
@@ -111,27 +111,28 @@ class TeacherController extends Controller
 
                 // Update School
                 Teacher::find($id)->update([
-                    'image'        =>$filename,
-                    'name'         =>$request['name'],
-                    'phone_no'     =>$request->phone_no,
-                    'address'      =>$request->address,
-                    'city'         =>$request->city,
-                    'state'        =>$request->state,
-                    'pincode'      =>$request->pincode,
-                    'password'     =>bcrypt($request->password),
-                    'id_proof'     =>$request->id_proof,
-            ]);
-
-
-            // Update into user
-            if($request->has('password')){
-                User::where('user_type_id',$id)->update([
-                    'password'  =>  $request['password']
+                    'image'        =>   $filename,
+                    'name'         =>   $request['name'],
+                    'phone_no'     =>   $request->phone_no,
+                    'address'      =>   $request->address,
+                    'city'         =>   $request->city,
+                    'state'        =>   $request->state,
+                    'pincode'      =>   $request->pin_code,
+                    'password'     =>   bcrypt($request->password),
+                    'id_proof'     =>   $request->id_proof,
+                    'email'        =>   $request->email,
                 ]);
-            }
+
+
+                // Update into user
+                if($request->has('password')){
+                    User::where('user_type_id',$id)->update([
+                        'password'  =>  $request['password']
+                    ]);
+                }
             });
-       }
-       catch(\Exception $e){
+        }
+        catch(\Exception $e){
             // dd($e);
             $a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE

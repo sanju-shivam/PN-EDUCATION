@@ -37,7 +37,7 @@
 
                          <div class="form-group">
                             <label >PIN-CODE</label>
-                            <input type="number" name="pincode" class="form-control" placeholder="Enter PIN-CODE" >
+                            <input type="number" name="pin_code" class="form-control" placeholder="Enter PIN-CODE" >
                         </div>
 
                         <div class="form-group">
