@@ -43,8 +43,8 @@
                                         <i class="menu-icon icon-apps"></i><span>Class</span><i class="accordion-icon fas fa-angle-left"></i>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><a href="">Add Class</a></li>
-                                        <li><a href="">View Class</a></li>
+                                        <li><a href="{{ route('class.create') }}">Add Class</a></li>
+                                        <li><a href="{{ route('class.index') }}">View Class</a></li>
                                     </ul>
                                 </li>
                                 <li>

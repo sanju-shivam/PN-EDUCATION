@@ -56,6 +56,10 @@ Route::middleware('auth', 'OnlySchool')->group(function(){
 	// Class Routes
 		Route::get('class/create','School\ClassController@create')->name('class.create');
 		Route::post('class/store','School\ClassController@store')->name('class.store');
+		Route::get('class/index', 'School\ClassController@index')->name('class.index');
+		Route::get('class/edit/{id}', 'School\ClassController@edit')->name('class.edit');
+		Route::post('class/update/{id}', 'School\ClassController@update')->name('class.update');
+		Route::get('class/delete/{id}', 'School\ClassController@delete')->name('class.delete');
 });
 
 

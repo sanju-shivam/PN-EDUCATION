@@ -5,18 +5,15 @@ namespace App\Http\Controllers\School;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\School\Teacher;
-use App\user;
 use DB;
 use App\CommonModels\Role;
-use App\SuperAdmin\Add_School;
-use Auth;
 use File;
 use Session;
 
 class TeacherController extends Controller
 {
     public function create(){
-        Session::put('institute_id',Add_School::find(auth::user()->user_type_id)->first()->id);
+        
     	return view('School.Teacher.add_teacher');
     }
 
@@ -65,9 +62,6 @@ class TeacherController extends Controller
     		$a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);
-            // dd(($e->errorInfo[2]));
-            // exit;
-    		return back()->with('warning', $e->errorInfo[2]);
     	}
     	return back()->with('success', 'Teacher has been added sucessfully..!!');
     }
