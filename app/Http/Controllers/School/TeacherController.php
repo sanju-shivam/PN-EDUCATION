@@ -38,7 +38,7 @@ class TeacherController extends Controller
                   'city'         =>$request->city,
                   'state'        =>$request->state,
                   'pincode'      =>$request->pincode,
-                  'institute_id' =>auth::user()->id,
+                  'institute_id' =>auth::Add_School()->id,
                   'email'        =>$request->email,
                   'image'        =>$filename,
                   'id_proof'     =>$request->id_proof,

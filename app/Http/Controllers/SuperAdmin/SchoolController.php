@@ -54,7 +54,7 @@ class SchoolController extends Controller
         // dd($validated->messages()->get('*'));
         // exit;
         if($validated->fails()){
-            return redirect('/school/create')->with('errors', $validated->messages()->get('*'));
+            return redirect('/school/create')->with("errors", $validated->messages()->get('*'));
         }
         else{
         try{
