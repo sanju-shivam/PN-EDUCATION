@@ -54,7 +54,8 @@ class SchoolController extends Controller
         // dd($validated->messages()->get('*'));
         // exit;
         if($validated->fails()){
-            return redirect('/school/create')->with("errors", $validated->messages()->get('*'));
+            // dd($validated->messages()->get('*'));
+            return back()->with('errors', $validated->messages()->get('*'));
         }
         else{
         try{
@@ -179,7 +180,8 @@ class SchoolController extends Controller
         }
         catch(\Exception $e){
             // dd($e);
-            return back()->with('warning', $e->errorInfo[2]);
+             $a = explode('for', $e->errorInfo[2]);
+            return back()->with('warning', $a);
         }
         return redirect('school')->with('success', 'School has been updated');
     }

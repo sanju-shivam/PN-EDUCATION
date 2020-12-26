@@ -8,10 +8,10 @@
        
 
 
-        @if(count($errors) >0)
-            @foreach($errors as $error)
-                toastr.error("{{ ('error') }}");
+        // @if(count($errors) >0)
+        //     @foreach($errors as $error)
+        //         toastr.error("{{ ('error') }}");
 
-            @endforeach
-        @endif
+        //     @endforeach
+        // @endif
 </script>

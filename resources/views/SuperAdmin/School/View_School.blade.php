@@ -88,7 +88,7 @@
       onstyle : 'success'
     });
 
-    // TO UPDATE STATUS OF PRODUCT
+    // TO UPDATE STATUS OF SCHOOL
     $(".status").change(function(){
             var id= $(this).attr('rel');
             var _token = $('input[name="_token"]').val();
