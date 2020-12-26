@@ -8,7 +8,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Edit Class</h5>
                     <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                    <form method="POST" action="{{ url('class/update/'.$class->id) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ url('class/update/'.$class->id) }}">
                         @csrf
                         <div class="form-group">
                             <label >Name</label>

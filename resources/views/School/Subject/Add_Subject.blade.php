@@ -1,14 +1,14 @@
 @extends('layouts.master')
-@section('title2','Class')
-@section('title3','Add Class')
+@section('title2','Subject')
+@section('title3','Add Subject')
 @section('content')
     <div class="row">
         <div class="col-xl">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Add Class</h5>
+                    <h5 class="card-title">Add Subject</h5>
                     <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                    <form method="POST" action="{{ url('class/store') }}">
+                    <form method="POST" action="{{ url('subject/store') }}" >
                         @csrf
                         <div class="form-group">
                             <label >Name</label>

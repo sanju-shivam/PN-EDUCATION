@@ -26,7 +26,7 @@
                             <tr>
                                 <th scope="row">{{ $id++ }}</th>
                                 <td>{{ $class->name }}</td>
-                                <td>
+                                <td class="text-center">
                                     <!-- <br> -->
                                     
                                     <a class="btn btn-warning" href="{{ url('class/edit/'.$class->id) }}" >Edit</a>
