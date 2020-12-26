@@ -40,7 +40,8 @@ Route::middleware(['auth','OnlySuperAdmin'])->group(function(){
 		Route::get('school/delete/{id}','SuperAdmin\SchoolController@delete');
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 });
-//ONLY SCHOOL ADMIN
+
+//ONLY SCHOOL
 Route::middleware('auth', 'OnlySchool')->group(function(){
 	// Teacher Routes
 		Route::get('teacher/create','School\TeacherController@create')->name('teacher.create');
@@ -53,11 +54,17 @@ Route::middleware('auth', 'OnlySchool')->group(function(){
 		Route::post('/UpdateTeacherStatus', 'School\TeacherController@TeacherStatus')->name('teacher.status');
 
 
-
-
 	// Class Routes
 		Route::get('class/create','School\ClassController@create')->name('class.create');
 		Route::post('class/store','School\ClassController@store')->name('class.store');
+		Route::get('class/index', 'School\ClassController@index')->name('class.index');
+		Route::get('class/edit/{id}', 'School\ClassController@edit')->name('class.edit');
+		Route::post('class/update/{id}', 'School\ClassController@update')->name('class.update');
+		Route::get('class/delete/{id}', 'School\ClassController@delete')->name('class.delete');
+
+	//Subject Routes
+		Route::get('subject/create','School\SubjectController@create')->name('subject.create');
+		Route::get('subject/store','School\SubjectController@store')->name('subject.store');
 });
 
 
