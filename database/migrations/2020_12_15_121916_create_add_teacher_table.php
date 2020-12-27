@@ -25,7 +25,7 @@ class CreateAddTeacherTable extends Migration
             $table->integer('institute_id');
             $table->string('email')->unique();
             $table->string('image')->nullable();
-            $table->integer('id_proof')->nullable();
+            $table->biginteger('id_proof')->nullable();
             $table->string('password');
             $table->boolean('status')->default(1)->comment('0-inactive, 1-active');
             $table->softDeletes();

@@ -82,7 +82,7 @@
       onstyle : 'success'
     });
 
-    // TO UPDATE STATUS OF PRODUCT
+    // TO UPDATE STATUS OF TEACHER
     $(".status").change(function(){
             var id= $(this).attr('rel');
             var _token = $('input[name="_token"]').val();
@@ -90,7 +90,7 @@
               $.ajax({
               
                 type: 'post',
-                url:  '/SuperAdmin/UpdateSchoolStatus',
+                url:  '/UpdateTeacherStatus',
                 data:{status:'1',id:id, _token:_token},
                 success:function(data){
                     console.log(data);
@@ -108,7 +108,7 @@
             else{
                 $.ajax({
                     type: 'post',
-                    url:'/SuperAdmin/UpdateSchoolStatus',
+                    url:'/UpdateTeacherStatus',
                     data:{status:'0',id:id, _token:_token},
                     success:function(resp){
                         console.log(resp);
@@ -119,6 +119,7 @@
                     },
                     error:function(){
                         alert("Error");
+
                     }
                 });
             }

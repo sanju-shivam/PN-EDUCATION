@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
 use App\CommonModels\Role;
 use App\user;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Validate;
 use Illuminate\Support\Facades\DB;
 use File;
 
@@ -42,22 +42,18 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = Validator::make($request->all(),[
+        $validated = $request->validate([
            'name'       =>'required|max:255',
            'email'      =>'required|email|unique:users',
-           'phone_no'   =>'required',
-           'password'   =>'required|max:8',
+           'phone_no'   =>'required|min:10|max:10',
+           'password'   =>'required|max:8|min:8',
            'board_name' =>'required'
         
         ]);
-        
-        // dd($validated->messages()->get('*'));
-        // exit;
-        if($validated->fails()){
-            return redirect('/school/create')->with('errors', $validated->messages()->get('*'));
-        }
-        else{
-        try{
+          
+        if($validated){
+
+           try{
             DB::transaction(function() use($request){
                 // Insert Image
                 global $filename;
@@ -97,7 +93,12 @@ class SchoolController extends Controller
             $a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);
+        }   
         }
+        else{
+       
+        // dd($validated->messages()->get('*'));
+         return back()->with('errors',$validated->messages()->get('*'));
     }
         return redirect('school/create')->with('success', 'School has been Created');
     }
@@ -135,10 +136,18 @@ class SchoolController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request->logo);
-        // $school = $request->all();
-        try{
-         DB::transaction(function() use($request,$id){
+        $validated =$request->validate([
+           'name'       =>'required|max:255',
+           'phone_no'   =>'required|min:10|max:10',
+           'password'   =>'required|max:8|min:8',
+           'board_name' =>'required'
+        
+        ]);
+        
+        if($validated){
+
+         try{
+             DB::transaction(function() use($request,$id){
             // Image update
             global $filename;
             if($request->hasfile('logo')){
@@ -182,6 +191,12 @@ class SchoolController extends Controller
              $a = explode('for', $e->errorInfo[2]);
             return back()->with('warning', $a);
         }
+            
+        }else{
+          return back()->with('errors',$validated->messages()->get('*'));
+
+        }
+      
         return redirect('school')->with('success', 'School has been updated');
     }
 

@@ -65,8 +65,6 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit');
 		Route::post('teacher/update/{id}', 'TeacherController@update')->name('teacher.update');
 		Route::get('teacher/delete/{id}', 'TeacherController@edit')->name('teacher.delete');
-
-	
 });
 
 
