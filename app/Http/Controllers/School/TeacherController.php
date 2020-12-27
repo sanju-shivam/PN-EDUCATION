@@ -4,6 +4,7 @@ namespace App\Http\Controllers\School;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\validate;
 use App\School\Teacher;
 use DB;
 use App\CommonModels\Role;
@@ -18,10 +19,24 @@ class TeacherController extends Controller
     }
 
     public function store(Request $request){
-
-        // dd($request->all());
-    	try{
+        $request->validate([
+           'name'       =>'required|max:255',
+           'phone_no'   =>'required|min:10|max:10',
+           'password'   =>'required|min:6|max:8',
+           'email'      =>'required|email|unique:add_teacher',
+           'id_proof'   =>'required|min:12|max:12|unique:add_teacher',
+        
+        ]);
+        return $request->input();
+        
+        if($request->fails()){
+        //     // dd($validated->messages()->get('*'));
+            return back()->with($request->input());
+        }else{
+    	      try{
     		DB::transaction(function() use($request){
+
+        
     			// Insert Image
     			global $filename;
     			if($request->has('image')){
@@ -58,12 +73,13 @@ class TeacherController extends Controller
                     'user_type_id' =>$teacher,
                 ]);
     		});
-    	}
-    	catch(\Exception $e){
+    	    }
+    	    catch(\Exception $e){
     		$a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);
-    	}
+    	    }
+        }
     	return back()->with('success', 'Teacher has been added sucessfully..!!');
     }
 
@@ -86,7 +102,21 @@ class TeacherController extends Controller
     }
 
     public function update(Request $request, $id){
-       try{
+         $request->validate([
+           'name'       =>'required|max:255',
+           'phone_no'   =>'required|min:10|max:10',
+           'password'   =>'required|max:8',
+           'board_name' =>'required',
+           'email'      =>'required|email|unique',
+           'id_proof'   =>'required|min:12|max:12|unique',
+        
+        ]);
+        
+        if($validated->fails()){
+            // dd($validated->messages()->get('*'));
+            return back()->with($request->input());
+        }else{
+              try{
             DB::transaction(function() use($request, $id){
                 global $filename;
                 // Image Update
@@ -126,12 +156,13 @@ class TeacherController extends Controller
                     ]);
                 }
             });
-        }
-        catch(\Exception $e){
+            }
+               catch(\Exception $e){
             // dd($e);
             $a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);
+            }
         }
         return redirect('teacher/index')->with('success', 'Teacher has been updated');
     }

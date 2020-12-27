@@ -9,7 +9,7 @@ class SubjectController extends Controller
 {
     public function create()
     {
-    	return view('School.Subject.Add_Subject')
+    	return view('School.Subject.Add_Subject');
     }
 
     public function store(Request $request)

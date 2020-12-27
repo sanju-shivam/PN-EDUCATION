@@ -4,6 +4,20 @@
 @section('content')
     <div class="row">
         <div class="col-xl">
+             @if($errors->any())
+        <div>
+            <ul>
+            @foreach($errors->all() as $error)
+            <li class="alert alert-danger alert-dismissable list-unstyled">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+             {{$error}}
+            </li>
+            @endforeach
+            </ul>
+        </div>    
+        @endif
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Add Teacher</h5>
@@ -12,12 +26,22 @@
                         @csrf
                         <div class="form-group">
                             <label >Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter Name">
+                            <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" required autocomplete="name" autofocus placeholder="Enter Name" >
+                            @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                            @enderror
                         </div>
 
                         <div class="form-group">
                             <label >Phone Number</label>
-                            <input type="number"  name="phone_no" class="form-control" placeholder="Enter Phone Number" >
+                            <input type="alpha_num"  name="phone_no" class="form-control @error('phone_no') is-invalid @enderror" required autocomplete="phone_no" autofocus placeholder="Enter Phone Number" >
+                              @error('phone_no')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                              @enderror
                         </div>
 
                         <div class="form-group">
@@ -42,7 +66,12 @@
 
                         <div class="form-group">
                             <label >Email</label>
-                            <input type="email" name="email" class="form-control" placeholder="Enter Email">
+                            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" required autocomplete="email" autofocus placeholder="Enter Email">
+                             @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                             @enderror
                         </div>
 
                         <div class="form-group">
@@ -55,11 +84,22 @@
 
                         <div class="form-group">
                             <label >Password</label>
-                            <input type="password" name="password" required class="form-control" placeholder="Enter Password">
+                            <input type="password" name="password"  required autocomplete="password" autofocus class="form-control
+                             @error('password') is-invalid @enderror" placeholder="Enter Password">
+                              @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                     </span>
+                              @enderror
                         </div>
                         <div class="form-group">
                             <label >Aadhar Number</label>
-                            <input type="alpha_num" name="id_proof" required class="form-control" placeholder="Enter Aadhar Number">
+                            <input type="alpha_num" name="id_proof"  required autocomplete="id_proof" autofocus class="form-control @error('id_proof') is-invalid @enderror" placeholder="Enter Aadhar Number">
+                              @error('id_proof')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                              @enderror
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
