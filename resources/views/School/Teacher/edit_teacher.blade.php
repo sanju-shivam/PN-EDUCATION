@@ -70,7 +70,7 @@
                             <label >Phone Number
                                 <sub style="color: red;font-size: 20px;">*</sub>
                             </label>
-                            <input type="number" required  name="phone_no" autofocus="phone_no" autocomplete value="{{ $teacher->phone_no }}" class="form-control @error('phone_no') is-invalid @enderror" placeholder="Enter Phone Number" >
+                            <input type="alpha_num" required  name="phone_no" autofocus="phone_no" autocomplete value="{{ $teacher->phone_no }}" class="form-control @error('phone_no') is-invalid @enderror" placeholder="Enter Phone Number" >
                              @error('phone_no')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -96,12 +96,8 @@
                         </div>
                         <div class="form-group">
                             <label >Aadhar Number</label>
-                            <input type="alpha_num" name="id_proof" required autocomplete="id_proof" autofocus value="{{ $teacher->id_proof }}" class="form-control @error('id_proof') is-invalid @enderror" placeholder="Enter Affilation Number">
-                             @error('id_proof')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                            @enderror
+                            <input readonly type="alpha_num" name="id_proof" required  value="{{ $teacher->id_proof }}" class="form-control" placeholder="Enter Aadhar Number">
+                             
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

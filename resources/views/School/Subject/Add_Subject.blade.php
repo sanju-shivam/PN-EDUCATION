@@ -12,7 +12,7 @@
                         @csrf
                         <div class="form-group">
                             <label >Name</label>
-                            <input type="text" name="name" class="form-control" placeholder="Enter Name">
+                            <input type="text" name="name" required class="form-control" placeholder="Enter Name">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
