@@ -4380,7 +4380,7 @@ _::-webkit-full-page-media, _:future, :root .page-inner {
     top: 0;
     bottom: 0;
     content: '';
-    opacity: 0.1;
+    opacity: 0;
 }
 
 .login-content {

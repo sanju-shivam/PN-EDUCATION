@@ -17,7 +17,6 @@ class CreateClassTable extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->string('name');
-            $table->integer('institute_id')->unsigned();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -34,7 +34,7 @@
     <body>        
         <div class="page-container">
                     <div class="login">
-                        <div class="login-bg"></div>
+                        <div class="login-bg" style=""></div>
                         <div class="login-content">
                             <div class="login-box">
                                 <div class="login-header">
@@ -69,10 +69,11 @@
                                         <button type="submit" class="btn btn-primary">Login</button>
                                     </form>
 
-                                    <p class="m-t-sm"><a href="#">Forgot password?</a><br><a href="{{ route('register') }}">Create an account</a></p>
+                                    <p class="m-t-sm"><a href="#">Forgot password?</a><br><!-- <a href="{{ route('register') }}">Create an account</a> -->
+                                    </p>
                                 </div>
                                 <div class="login-footer">
-                                    <p>Copyright @PN-INFOSYS</p>
+                                    <p>Copyright &copy; PN-INFOSYS</p>
                                 </div>
                             </div>
                         </div>

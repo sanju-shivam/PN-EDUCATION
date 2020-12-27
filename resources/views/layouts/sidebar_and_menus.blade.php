@@ -14,7 +14,7 @@
                                 </a>
                             </li>
                             @if(auth::user()->role_id ==1)
-                                <li>
+                                <!-- <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-apps"></i><span>Admins</span><i class="accordion-icon fas fa-angle-left"></i>
                                     </a>
@@ -22,7 +22,7 @@
                                         <li><a href="">Add Admin</a></li>
                                         <li><a href="">View Admin</a></li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>School</span><i class="accordion-icon fas fa-angle-left"></i>
@@ -33,14 +33,8 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="">
-                                        <i class="menu-icon icon-code"></i><span>Change Password</span>
-                                    </a>
-                                </li>
-                            @elseif(auth::user()->role_id ==2)
-                                <li>
                                     <a href="javascript:void(0)">
-                                        <i class="menu-icon icon-apps"></i><span>Class</span><i class="accordion-icon fas fa-angle-left"></i>
+                                        <i class="menu-icon icon-layers"></i><span>Class</span><i class="accordion-icon fas fa-angle-left"></i>
                                     </a>
                                     <ul class="sub-menu">
                                         <li><a href="{{ route('class.create') }}">Add Class</a></li>
@@ -48,14 +42,22 @@
                                     </ul>
                                 </li>
                                 <li>
+                                    <a href="">
+                                        <i class="menu-icon icon-code"></i><span>Change Password</span>
+                                    </a>
+                                </li>
+                                 <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>Subject</span><i class="accordion-icon fas fa-angle-left"></i>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li><a href="{{ route('school.create') }}">Add Subject</a></li>
-                                        <li><a href="{{ route('school.index') }}">View Subject</a></li>
+                                        <li><a href="{{ route('subject.create') }}">Add Subject</a></li>
+                                        <li><a href="{{ route('subject.index') }}">View Subject</a></li>
                                     </ul>
                                 </li>
+                            @elseif(auth::user()->role_id ==2)
+                              
+                               
                                 <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>Teacher</span><i class="accordion-icon fas fa-angle-left"></i>

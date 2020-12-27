@@ -28,41 +28,45 @@ Route::get('has',function(){
 Auth::routes();
 
 Route::middleware('auth')->group(function(){
-	//Common Routes To all
+	//Common Routes To all after Login
 	Route::get('/home', 'HomeController@index')->name('home');
 	Route::get('/logout','HomeController@logout')->name('logout');
 });
 
 //ONLY SUPER ADMIN
-Route::middleware(['auth','OnlySuperAdmin'])->group(function(){
+Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(function(){
 	//  School Routes
-		Route::resource('school','SuperAdmin\SchoolController');
-		Route::get('school/delete/{id}','SuperAdmin\SchoolController@delete');
-		Route::post('/SuperAdmin/UpdateSchoolStatus','SuperAdmin\SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
+		Route::resource('school','SchoolController');
+		Route::get('school/delete/{id}','SchoolController@delete');
+		Route::post('/SuperAdmin/UpdateSchoolStatus','SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
+
+	// Class Routes
+		Route::get('class/create','ClassController@create')->name('class.create');
+		Route::post('class/store','ClassController@store')->name('class.store');
+		Route::get('class/index', 'ClassController@index')->name('class.index');
+		Route::get('class/edit/{id}', 'ClassController@edit')->name('class.edit');
+		Route::post('class/update/{id}', 'ClassController@update')->name('class.update');
+		Route::get('class/delete/{id}', 'ClassController@delete')->name('class.delete');
+
+
+		//Subject Routes
+		Route::get('subject/create','SubjectController@create')->name('subject.create');
+		Route::get('subject/store','SubjectController@store')->name('subject.store');
+		Route::get('subject/index', 'SubjectController@index')->name('subject.index');
 });
 
 //ONLY SCHOOL
-Route::middleware('auth', 'OnlySchool')->group(function(){
+Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 	// Teacher Routes
-		Route::get('teacher/create','School\TeacherController@create')->name('teacher.create');
-		Route::post('teacher/store','School\TeacherController@store')->name('teacher.store');
-		Route::get('teacher/index', 'School\TeacherController@index')->name('teacher.index');
-		Route::get('teacher/show/{id}', 'School\TeacherController@show')->name('teacher.show');
-		Route::get('teacher/edit/{id}', 'School\TeacherController@edit')->name('teacher.edit');
-		Route::post('teacher/update/{id}', 'School\TeacherController@update')->name('teacher.update');
-		Route::get('teacher/delete/{id}', 'School\TeacherController@edit')->name('teacher.delete');
+		Route::get('teacher/create','TeacherController@create')->name('teacher.create');
+		Route::post('teacher/store','TeacherController@store')->name('teacher.store');
+		Route::get('teacher/index', 'TeacherController@index')->name('teacher.index');
+		Route::get('teacher/show/{id}', 'TeacherController@show')->name('teacher.show');
+		Route::get('teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit');
+		Route::post('teacher/update/{id}', 'TeacherController@update')->name('teacher.update');
+		Route::get('teacher/delete/{id}', 'TeacherController@edit')->name('teacher.delete');
 
-	// Class Routes
-		Route::get('class/create','School\ClassController@create')->name('class.create');
-		Route::post('class/store','School\ClassController@store')->name('class.store');
-		Route::get('class/index', 'School\ClassController@index')->name('class.index');
-		Route::get('class/edit/{id}', 'School\ClassController@edit')->name('class.edit');
-		Route::post('class/update/{id}', 'School\ClassController@update')->name('class.update');
-		Route::get('class/delete/{id}', 'School\ClassController@delete')->name('class.delete');
-
-	//Subject Routes
-		Route::get('subject/create','School\SubjectController@create')->name('subject.create');
-		Route::get('subject/store','School\SubjectController@store')->name('subject.store');
+	
 });
 
 

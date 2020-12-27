@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\School;
+namespace App\Http\Controllers\SuperAdmin;
+
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\School\ClassModel;
+use App\SuperAdmin\ClassModel;
 use DB;
-
-use Session;
 
 class ClassController extends Controller
 {
     public function create()
     {
-    	return view('School.Class.add_class');
+    	return view('SuperAdmin.Class.add_class');
     }
 
 
@@ -24,7 +23,6 @@ class ClassController extends Controller
     			// INSERT DATA IN  CLASS TABLE
     			DB::table('class')->insert([
     				'name'			=>	$request->name,
-    				'institute_id'	=>	Session::get('institute_id'),
     			]);
     		});
     	}
@@ -37,14 +35,14 @@ class ClassController extends Controller
 
     public function index(ClassModel $class)
     {
-    	$classes = $class->where('institute_id','=',Session::get('institute_id'))->get();
-    	return view('School.Class.view_class',compact('classes'));
+    	$classes = $class->get();
+    	return view('SuperAdmin.Class.view_class',compact('classes'));
     }
 
     public function edit($id)
     {
     	$class = ClassModel::find($id)->first();
-    	return view('School.Class.edit_class',compact('class'));
+    	return view('SuperAdmin.Class.edit_class',compact('class'));
     }
 
     public function update(Request $request,$id)
