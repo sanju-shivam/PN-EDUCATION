@@ -8,6 +8,8 @@ use App\SuperAdmin\Add_School;
 use App\School\Teacher;
 use Auth;
 use App\CommonModels\Role;
+use Cache;
+use Str;
 
 class HomeController extends Controller
 {
@@ -29,7 +31,10 @@ class HomeController extends Controller
     public function index()
     {
         if(Auth::user()->role_id == Role::where('name','SChool')->first()->id ){
-            Session::put('institute_id',Add_School::find(Auth::user()->user_type_id)->first()->id);
+            // Session::put('institute',Add_School::find(Auth::user()->user_type_id)->first());
+            Cache::forever('school', Add_School::find(Auth::user()->user_type_id)->first());
+
+            Cache::add('school_name_slug',Str::slug(Cache::get('school')->name));
         }
         $schools = Add_School::count();
         $teacher = Teacher::count();

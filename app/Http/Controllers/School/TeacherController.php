@@ -10,7 +10,8 @@ use App\User;
 use DB;
 use App\CommonModels\Role;
 use File;
-use Session;
+use Cache;
+use Str;
 
 class TeacherController extends Controller
 {
@@ -22,23 +23,31 @@ class TeacherController extends Controller
     public function store(Request $request){
        $validated = $request->validate([
            'name'       =>'required|max:255',
-           'phone_no'   =>'required|min:10|max:10',
+           'phone_no'   =>'required',
            'password'   =>'required|min:6|max:8',
            'email'      =>'required|email|unique:add_teacher',
-           'id_proof'   =>'required|min:12|max:12',
+           'id_proof'   =>'required',
         ]);
+       // $validated =$request->validate([
+       //     'name'       =>'required|max:255',
+       //     'phone_no'   =>'required|min:10|max:10',
+       //     'password'   =>'required|max:8',
+       //     'id_proof'   =>'required|min:12|max:12',
+        
+       //  ]);
         
         if($validated){
               try{
                 DB::transaction(function() use($request){
+                    $institute = Cache::get('school');
+                    $institute->name = Str::slug($institute->name);
                     // Insert Image
                     global $filename;
                     if($request->has('image')){
                         $file = $request->file('image');
                         $filename = time().'.'.$request->image->extension().'.'.'teacher';
-                        $file->move('schools/teachers/',$filename);
+                        $file->move("schools/{$institute->name}/teachers/",$filename);
                     }
-                    
                     // Store data
                     $teacher = DB::table('add_teacher')->insertGetId([
                       'name'         =>$request->name,
@@ -47,7 +56,7 @@ class TeacherController extends Controller
                       'city'         =>$request->city,
                       'state'        =>$request->state,
                       'pincode'      =>$request->pin_code,
-                      'institute_id' =>Session::get('institute_id'),
+                      'institute_id' =>$institute->id,
                       'email'        =>$request->email,
                       'image'        =>$filename,
                       'id_proof'     =>$request->id_proof,
@@ -65,7 +74,8 @@ class TeacherController extends Controller
                 });
               }
               catch(\Exception $e){
-                $a = explode('for', $e->errorInfo[2]);
+                //dd($e);
+                $a = explode('at', $e->errorInfo[2]);
                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
                 return back()->with('warning',$a[0]);
               }
@@ -94,12 +104,12 @@ class TeacherController extends Controller
     }
 
     public function update(Request $request, $id){
-         $validated =$request->validate([
+         $validated = $request->validate([
            'name'       =>'required|max:255',
-           'phone_no'   =>'required|min:10|max:10',
-           'password'   =>'required|max:8',
-           'id_proof'   =>'required|min:12|max:12',
-        
+           'phone_no'   =>'required',
+           'password'   =>'required|min:6',
+           'email'      =>'required|email',
+           'id_proof'   =>'required',
         ]);
 
         
@@ -114,10 +124,11 @@ class TeacherController extends Controller
                     if(File::exists(public_path('schools/teachers/'.$request->current_image))){
                         File::delete(public_path('schools/teachers/'.$request->current_image));
                     }
+                    $nstitute_name = Str::slug(Cache::get('school')->name);
                     // CREATING IMAGE FILE
                     $file = $request->file('image');
                     $filename = time().'.'.$request->image->extension().'.'.'teacher';
-                    $file->move('schools/teachers/', $filename);
+                    $file->move("schools/{$nstitute_name}/teachers/",$filename);
                 }
                 else{
                     $filename = $request['current_image'];
@@ -141,13 +152,13 @@ class TeacherController extends Controller
                 // Update into user
                 if($request->has('password')){
                     User::where('user_type_id',$id)->update([
-                        'password'  =>  $request['password']
+                        'password'  =>  bcrypt($request['password'])
                     ]);
                 }
             });
             }
-               catch(\Exception $e){
-            // dd($e);
+            catch(\Exception $e){
+            dd($e);
             $a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);

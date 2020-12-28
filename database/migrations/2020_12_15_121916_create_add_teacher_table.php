@@ -17,7 +17,7 @@ class CreateAddTeacherTable extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->string('name');
-            $table->integer('phone_no')->nullable();
+            $table->biginteger('phone_no')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();

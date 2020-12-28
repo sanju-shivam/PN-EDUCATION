@@ -26,4 +26,9 @@ class Add_School extends Model
         'role_id',
         'status'
     ];
+
+    public function teacher()
+    {
+        return $this->hasMany('App\School\Teacher');
+    }
 }

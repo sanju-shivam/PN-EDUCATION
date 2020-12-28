@@ -36,7 +36,7 @@
 
                         <div class="form-group">
                             <label >Phone Number</label>
-                            <input type="alpha_num"  name="phone_no" class="form-control @error('phone_no') is-invalid @enderror" required autocomplete="phone_no" autofocus placeholder="Enter Phone Number" >
+                            <input type="alpha_num" maxlength="10"  name="phone_no" class="form-control @error('phone_no') is-invalid @enderror" required autocomplete="phone_no" autofocus placeholder="Enter Phone Number" >
                               @error('phone_no')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -94,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label >Aadhar Number</label>
-                            <input type="alpha_num" name="id_proof"  required autocomplete="id_proof" autofocus class="form-control @error('id_proof') is-invalid @enderror" placeholder="Enter Aadhar Number">
+                            <input type="alpha_num" name="id_proof" autocomplete="off"  required id="id_proof" maxlength="12"  autofocus class="form-control @error('id_proof') is-invalid @enderror" placeholder="Enter Aadhar Number">
                               @error('id_proof')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>

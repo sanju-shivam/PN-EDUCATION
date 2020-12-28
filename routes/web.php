@@ -53,6 +53,8 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::get('subject/create','SubjectController@create')->name('subject.create');
 		Route::get('subject/store','SubjectController@store')->name('subject.store');
 		Route::get('subject/index', 'SubjectController@index')->name('subject.index');
+		Route::get('subject/edit/{id}', 'SubjectController@edit')->name('subject.edit');
+		Route::post('subject/update', 'SubjectController@update')->name('subject.update');
 });
 
 //ONLY SCHOOL

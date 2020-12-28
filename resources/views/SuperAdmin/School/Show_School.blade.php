@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="profile-cover">
-                <img src="{{ asset('schools/logo/'.$school->logo) }}" height="400">
+                <img src='{{ asset("schools/$school->name/logo/".$school->logo) }}' height="400">
             </div>
             <div class="profile-header">
                 <div class="profile-name">

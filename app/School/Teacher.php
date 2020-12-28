@@ -4,6 +4,7 @@ namespace App\School;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\SuperAdmin\Add_School;
 
 class Teacher extends Model
 {
@@ -25,4 +26,9 @@ class Teacher extends Model
     	'password',
     	'status',
     ];
+
+    public function school()
+    {
+        return $this->belongsTo('App\SuperAdmin\Add_School','institute_id');
+    }
 }

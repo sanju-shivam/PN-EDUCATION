@@ -26,14 +26,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                        	<?php  $id=1; ?>
+                        	@php    $id=1; 
+                                    $school_cache   =   Str::slug(Cache::get('school')->name);
+                            @endphp
                         	@foreach($teachers as $teacher)
                             <tr>
                                 <th scope="row">{{ $id++ }}</th>
                                 <td>{{ $teacher->name }}</td>
                                 <td>
                                     @if(!empty($teacher->image))
-                                    <img height="100" width="100" src="{{ asset('schools/teachers/'.$teacher->image) }}">
+                                    <!-- <img height="100" width="100" src="{{ asset('schools/teachers/'.$teacher->image) }}"> -->
+                                    <img height="100" width="100" src='{{ asset("schools/$school_cache/teachers/".$teacher->image) }}'>
                                     @else
                                     NO IMAGE
                                     @endif
