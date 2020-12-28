@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
 use App\CommonModels\Role;
 use App\user;
+use App\School\Teacher;
+use Auth;
 use Illuminate\Support\Facades\Validate;
 use Illuminate\Support\Facades\DB;
 use File;
@@ -112,7 +114,11 @@ class SchoolController extends Controller
     public function show($id)
     {
         $school = Add_School::find($id);
-        return view('SuperAdmin.School.Show_School', compact('school'));
+
+        // if(Auth::user()->user_type_id ==Teacher::select('institute_id')){
+        //    $schools = DB::table('add_teacher', 'institute_id') ->count();
+        // }
+        return view('SuperAdmin.School.Show_School', compact('school, schools'));
     }
 
     /**
