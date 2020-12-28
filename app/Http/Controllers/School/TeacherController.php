@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\validate;
 use App\School\Teacher;
 use App\User;
+use Auth;
 use DB;
 use App\CommonModels\Role;
 use File;
@@ -77,7 +78,7 @@ class TeacherController extends Controller
 
     public function index(){
        
-        $teachers = Teacher::all();
+        $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id);
         return view('School.Teacher.view_teacher', compact('teachers'));
 
     }
