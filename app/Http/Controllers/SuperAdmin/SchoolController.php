@@ -115,15 +115,15 @@ class SchoolController extends Controller
     {
         $school = Add_School::find($id);
 
-        // if(Auth::user()->user_type_id ==Teacher::select('institute_id')){
-        //    $schools = DB::table('add_teacher', 'institute_id') ->count();
-        // }
-        return view('SuperAdmin.School.Show_School', compact('school, schools'));
+        if(Teacher::where('institute_id', '=', $school->id)){          
+         $teacher = DB::table('add_teacher', 'institute_id')->count();
+        }
+        return view('SuperAdmin.School.Show_School', compact('school','teacher'));
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
+    
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

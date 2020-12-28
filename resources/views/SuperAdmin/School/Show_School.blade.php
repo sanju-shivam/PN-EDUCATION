@@ -72,7 +72,7 @@
                             
                         </div>
                         <div class="post-body">
-                            <p>Proin eu fringilla dui. Pellentesque mattis lobortis mauris eu tincidunt. Maecenas hendrerit faucibus dolor, in commodo lectus mattis ac.</p>
+                            <p class="text-center">{{$teacher}}</p>
                             
                         </div>
                     </div>
