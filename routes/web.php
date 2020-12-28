@@ -51,7 +51,7 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 
 		//Subject Routes
 		Route::get('subject/create','SubjectController@create')->name('subject.create');
-		Route::get('subject/store','SubjectController@store')->name('subject.store');
+		Route::post('subject/store','SubjectController@store')->name('subject.store');
 		Route::get('subject/index', 'SubjectController@index')->name('subject.index');
 });
 
