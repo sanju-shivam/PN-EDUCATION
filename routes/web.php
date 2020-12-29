@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 */
 
 Route::get('deleted',function(){
+	dd(Cache::get('school'));
 	// dd(Add_School::where('id',11)->restore());
 });
 

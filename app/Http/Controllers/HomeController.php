@@ -30,20 +30,20 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role_id == Role::where('name','SChool')->first()->id ){
-            // Session::put('institute',Add_School::find(Auth::user()->user_type_id)->first());
-            Cache::forever('school', Add_School::find(Auth::user()->user_type_id)->first());
-
-            Cache::add('school_name_slug',Str::slug(Cache::get('school')->name));
+        $schools = null;
+        if(Auth::user()->role_id == Role::where('name','SuperAdmin')->first()->id ){
+                $schools = Add_School::count();
         }
-        $schools = Add_School::count();
-        $teacher = Teacher::count();
+
+        if(Auth::user()->role_id == Role::where('name','School')->first()->id  || Auth::user()->role_id == Role::where('name','SuperAdmin')->first()->id){
+            $teacher = Teacher::count();
+        }
         return view('home',compact('schools','teacher'));
     }
 
     public function logout()
     {
-        Session::flush();
+        Cache::forget('school');
         return redirect('login');
     }
 }
