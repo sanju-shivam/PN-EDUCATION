@@ -33,9 +33,9 @@
                                 <td>{{ $school->name }}</td>
                                 <td>
                                     @if(!empty($school->logo))
-                                    <img height="100" width="100" src="{{ asset('schools/logo/'.$school->logo) }}">
+                                        <img height="100" width="100" src='{{ asset("schools/$school->name/logo/".$school->logo) }}'>
                                     @else
-                                    NO IMAGE
+                                        NO IMAGE
                                     @endif
                                 </td>
                                 <td>{{ $school->email }}</td>
