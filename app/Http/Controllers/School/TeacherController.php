@@ -12,11 +12,15 @@ use App\CommonModels\Role;
 use File;
 use Cache;
 use Str;
+use App\Http\Traits\SuperAdminCacheTrait;
+// use Illuminate\Support\Facades\Log;
+// Log::info('Showing the user profile for user: '.$id);
 
 class TeacherController extends Controller
 {
+    use SuperAdminCacheTrait;
+
     public function create(){
-        
     	return view('School.Teacher.add_teacher');
     }
 
@@ -40,7 +44,6 @@ class TeacherController extends Controller
               try{
                 DB::transaction(function() use($request){
                     $institute = Cache::get('school');
-                    $institute->name = Str::slug($institute->name);
                     // Insert Image
                     global $filename;
                     if($request->has('image')){
@@ -74,7 +77,6 @@ class TeacherController extends Controller
                 });
               }
               catch(\Exception $e){
-                //dd($e);
                 $a = explode('at', $e->errorInfo[2]);
                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
                 return back()->with('warning',$a[0]);
@@ -93,8 +95,10 @@ class TeacherController extends Controller
     }
 
     public function show($id){
+
         $teacher = Teacher::find($id);
-        return view('School.Teacher.view_single_teacher' , compact('teacher'));
+        $school_name = Cache::get('school_name_slug');
+        return view('School.Teacher.view_single_teacher' , compact('teacher','school_name'));
 
     }
 
@@ -118,17 +122,18 @@ class TeacherController extends Controller
              try{
                DB::transaction(function() use($request, $id){
                 global $filename;
+                $school_name = Cache::get('school_name_slug');
                 // Image Update
                 if($request->hasfile('image')){
                     // TO DELETE EXISTING IMAGE IN STORAGE
-                    if(File::exists(public_path('schools/teachers/'.$request->current_image))){
-                        File::delete(public_path('schools/teachers/'.$request->current_image));
+                    if(File::exists(public_path('schools/{$school_name}/teachers/'.$request->current_image))){
+                        File::delete(public_path('schools/{$school_name}/teachers/'.$request->current_image));
                     }
-                    $nstitute_name = Str::slug(Cache::get('school')->name);
+                    
                     // CREATING IMAGE FILE
                     $file = $request->file('image');
                     $filename = time().'.'.$request->image->extension().'.'.'teacher';
-                    $file->move("schools/{$nstitute_name}/teachers/",$filename);
+                    $file->move("schools/{$school_name}/teachers/",$filename);
                 }
                 else{
                     $filename = $request['current_image'];
@@ -158,7 +163,6 @@ class TeacherController extends Controller
             });
             }
             catch(\Exception $e){
-            dd($e);
             $a = explode('for', $e->errorInfo[2]);
              //TO CHECK WHAT ERROR MESSAGE WAS THERE
             return back()->with('warning',$a[0]);
@@ -174,11 +178,12 @@ class TeacherController extends Controller
     public function delete($id){
         try{
             DB::transaction(function() use($id){
-               $image = Teacher::where('id',$id)->first()->teacher;
+              $school_name = Cache::get('school_name_slug');
+              $image = Teacher::where('id',$id)->first()->teacher;
 
                // TO DELETE AN EXISTING IMAGE
-                if(File::exists(public_path('schools/teachers/'.$image))){
-                 File::delete(public_path('schools/teachers/'.$image));
+                if(File::exists(public_path('schools/{$school_name}/teachers/'.$image))){
+                 File::delete(public_path('schools/{$school_name}/teachers/'.$image));
                 }
                 
                 User::where('user_type_id',$id)->delete();

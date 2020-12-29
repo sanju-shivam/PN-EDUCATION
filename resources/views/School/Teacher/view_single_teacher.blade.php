@@ -12,7 +12,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="profile-cover">
-                <img src="{{ asset('schools/teachers/'.$teacher->image) }}" height="400">
+                <img height="400" src='{{ asset("schools/$school_name/teachers/".$teacher->image) }}'>
             </div>
             <div class="profile-header">
                 <div class="profile-name">
@@ -92,22 +92,24 @@
                     </ul>
                 </div>
             </div> -->
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Contact Info</h5>
-                    <ul class="list-unstyled profile-about-list">
-                        <li>Email&nbsp; : &nbsp; {{ $teacher->email }}</li>
-                        <li>Phone&nbsp; : &nbsp;{{ $teacher->phone_no }}</li>
-                        <li>Status &nbsp; : &nbsp;
-                             @if($teacher->status == 0) 
-                                <button class=" btn badge badge-success">Active</button>
-                            @else
-                                <button class=" btn  badge badge-danger">In-Active</button>
-                            @endif 
-                        </li>
-                    </ul>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Contact Info</h5>
+                        <ul class="list-unstyled profile-about-list">
+                            <li>Email&nbsp; : &nbsp; {{ $teacher->email }}</li>
+                            <li>Phone&nbsp; : &nbsp;{{ $teacher->phone_no }}</li>
+                            <li>Status &nbsp; : &nbsp;
+                                 @if($teacher->status == 0) 
+                                    <button class=" btn badge badge-success">Active</button>
+                                @else
+                                    <button class=" btn  badge badge-danger">In-Active</button>
+                                @endif 
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>     
+            </div>    
         </div>
     </div>
 </div><!-- Main Wrapper -->

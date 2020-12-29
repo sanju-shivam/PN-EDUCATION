@@ -6,15 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
 use App\CommonModels\Role;
-use App\School\Teacher;
-use Auth;
 use App\user;
 use Illuminate\Support\Facades\Validate;
 use Illuminate\Support\Facades\DB;
 use File;
+use Str;
+use Cache;
 
 class SchoolController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +55,7 @@ class SchoolController extends Controller
         ]);
           
         if($validated){
-               try{
+            try{
                 DB::transaction(function() use($request){
                     // Insert Image
                     global $filename;
@@ -92,8 +93,8 @@ class SchoolController extends Controller
                 $a = explode('for', $e->errorInfo[2]);
                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
                 return back()->with('warning',$a[0]);
-            }   
             }
+        }
         else{
        
         // dd($validated->messages()->get('*'));

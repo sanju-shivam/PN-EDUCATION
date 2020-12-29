@@ -35,10 +35,9 @@
                                 <td>{{ $teacher->name }}</td>
                                 <td>
                                     @if(!empty($teacher->image))
-                                    <!-- <img height="100" width="100" src="{{ asset('schools/teachers/'.$teacher->image) }}"> -->
-                                    <img height="100" width="100" src='{{ asset("schools/$school_cache/teachers/".$teacher->image) }}'>
+                                        <img height="100" width="100" src='{{ asset("schools/$school_cache/teachers/".$teacher->image) }}'>
                                     @else
-                                    NO IMAGE
+                                        NO IMAGE
                                     @endif
                                 </td>
                                 <td>{{ $teacher->email }}</td>
