@@ -115,9 +115,7 @@ class SchoolController extends Controller
     {
         $school = Add_School::find($id);
 
-        if(Teacher::where('institute_id', '=', $school->id)){          
-         $teacher = DB::table('add_teacher', 'institute_id')->count();
-        }
+        $teacher =Teacher::where('institute_id', '=', $school->id)->count();
         return view('SuperAdmin.School.Show_School', compact('school','teacher'));
     }
 

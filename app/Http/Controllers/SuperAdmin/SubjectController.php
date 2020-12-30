@@ -16,7 +16,7 @@ class SubjectController extends Controller
 
     public function store(Request $request)
     {
-<<<<<<< HEAD
+
     	try{
     		DB::transaction(function () use ($request){
     			DB::table('subject')->insert([
@@ -26,25 +26,13 @@ class SubjectController extends Controller
     	}
     	catch(\Exception $e){
     		return back()->with('error','Subject Not Added SuccsFully');
-    	}
-=======
-        try{
-            DB::transaction(function () use ($request){
-                DB::table('subject')->insert([
-                    'name'  =>  $request->name
-                ]);
-            });
         }
-        catch(\Exception $e){
-            return back()->with('error','Subject Not Added SuccsFully');
-        }
->>>>>>> 7d5cf9776c445f63ba04f7dc019bb9a0a57d6f5f
         return view('SuperAdmin.Subject.Add_Subject');
     }
 
     public function index()
     {
-<<<<<<< HEAD
+
     	$Subject =Subject::all();
         return view('SuperAdmin.Subject.View_subject', compact('Subject'));
     }
@@ -82,10 +70,9 @@ class SubjectController extends Controller
           return back()->with('warning', $s[0]);
         }
         return redirect('class/index')->with('success', 'Subject has been Deleted');
-=======
+
         $Subject =Subject::all();
         return view('SuperAdmin.Subject.View_subject', compact('Subject'));
->>>>>>> 7d5cf9776c445f63ba04f7dc019bb9a0a57d6f5f
     }
 
     public function edit($id){
@@ -93,7 +80,7 @@ class SubjectController extends Controller
         return view('SuperAdmin.Subject.Edit_Subject', compact('Subject'));
     }
 
-    public function update(Request $request, $id){
+     public function update(Request $request, $id){
         try{
             DB::transaction(function() use($request, $id){
                 // INSERT DATA IN SUBJECT TABLE

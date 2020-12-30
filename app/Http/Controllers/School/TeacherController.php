@@ -42,9 +42,9 @@ class TeacherController extends Controller
                     $institute = Cache::get('school', function(){
                       return DB::table('add_school')->get();
                     });
-                    dd($institute);
+                    // dd($institute);
                     $institute->name = Str::slug($institute->name);
-                    $institute = Cache::get('school');
+                    
                     // Insert Image
                     global $filename;
                     if($request->has('image')){
@@ -60,7 +60,7 @@ class TeacherController extends Controller
                       'city'         =>$request->city,
                       'state'        =>$request->state,
                       'pincode'      =>$request->pin_code,
-                      'institute_id' =>$institute->id,
+                      'institute_id' =>Auth::user()->user_type_id,
                       'email'        =>$request->email,
                       'image'        =>$filename,
                       'id_proof'     =>$request->id_proof,

@@ -49,7 +49,14 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::post('class/update/{id}', 'ClassController@update')->name('class.update');
 		Route::get('class/delete/{id}', 'ClassController@delete')->name('class.delete');
 
+        // Section Routes
+        Route::get('section/create', 'SectionController@create')->name('section.create');
+        Route::post('section/store', 'SectionController@store')->name('section.store');
+        Route::get('section/index', 'SectionController@index')->name('section.view');
+        Route::get('section/edit/{id}', 'SectionController@edit')->name('section.edit');
+        Route::post('section/update', 'SectionController@update')->name('section.update');
 
+        
 		//Subject Routes
 		Route::get('subject/create','SubjectController@create')->name('subject.create');
 		Route::post('subject/store','SubjectController@store')->name('subject.store');
