@@ -42,6 +42,7 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::get('school/delete/{id}','SchoolController@delete');
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 
+
 	// Class Routes
 		Route::get('class/create','ClassController@create')->name('class.create');
 		Route::post('class/store','ClassController@store')->name('class.store');
@@ -50,8 +51,14 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::post('class/update/{id}', 'ClassController@update')->name('class.update');
 		Route::get('class/delete/{id}', 'ClassController@delete')->name('class.delete');
 
+	// SCHOOL Softdeleted Routes in Class Controller beacuse 
+	// It is no working in resource properly
+		Route::get('deleted/school', 'ClassController@deleted_School')->name('school.deleted.view');
+		Route::get('deleted/permanent/school/{id}', 'ClassController@permanent_delete')->name('school.deleted.permanent');
+		Route::get('deleted/restore/school/{id}', 'ClassController@restore')->name('school.deleted.restore');
 
-		//Subject Routes
+
+	//Subject Routes
 		Route::get('subject/create','SubjectController@create')->name('subject.create');
 		Route::post('subject/store','SubjectController@store')->name('subject.store');
 		Route::get('subject/index', 'SubjectController@index')->name('subject.index');
@@ -59,6 +66,9 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::post('subject/update/{id}', 'SubjectController@update')->name('subject.update');
 		Route::get('subject/delete/{id}', 'SubjectController@delete')->name('subject.delete');
 		Route::get('subject/deleted', 'SubjectController@deleted_Subjects')->name('subject.deleted');
+		Route::get('subject/deleted/permanent/{id}', 'SubjectController@permanent_delete')->name('subject.deleted.permanent');
+		Route::get('subject/deleted/restore/{id}', 'SubjectController@restore')->name('subject.deleted.restore');
+
 });
 
 //ONLY SCHOOL

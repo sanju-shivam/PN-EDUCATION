@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use File;
 use Str;
 use Storage;
+use Carbon\Carbon;
 
 class SchoolController extends Controller
 {
@@ -79,6 +80,8 @@ class SchoolController extends Controller
                         'password'      =>  bcrypt($request->password),
                         'affilation_no' =>  $request->affilation_no,
                         'board_name'    =>  $request->board_name,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now(),
                     ]);
                     // Insert data in user table
                     $school = DB::table('users')->insert([
@@ -87,6 +90,8 @@ class SchoolController extends Controller
                         'password' => bcrypt($request->password),
                         'role_id'  => Role::select('id')->where('name', 'School')->first()->id,
                         'user_type_id' =>$school,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now(),
                     ]);
 
                 });
@@ -186,6 +191,8 @@ class SchoolController extends Controller
                 'phone_no'     =>$request['phone_no'],
                 'affilation_no'=>$request['affilation_no'],
                 'board_name'   =>$request['board_name'],
+                'created_at'    =>  Carbon::now(),
+                'updated_at'    =>  Carbon::now(),
             ]);
 
             if($request->has('password')){
@@ -193,7 +200,9 @@ class SchoolController extends Controller
                     'password'=>bcrypt($request['password']),
                 ]);
                 User::where('user_type_id',$id)->update([
-                    'password'  =>  bcrypt($request['password'])
+                    'password'  =>  bcrypt($request['password']),
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
                 ]);
             }
          });
@@ -223,11 +232,11 @@ class SchoolController extends Controller
         try{
             DB::transaction(function() use ($id){
                 $image = Add_School::select('logo','name')->where('id',$id)->first();
-                $school_name =  Str::slug($request->name);
+                $school_name =  Str::slug($image->name);
 
                     //TO DELETE EXISTING IMAGE IN STORAGE 
-                    if(File::exists(public_path('schools/{$request->name}/logo/'.$image->logo))){
-                        File::delete(public_path('schools/{$request->name}/logo/'.$image->logo));
+                    if(File::exists(public_path('schools/{$school_name}/logo/'.$image->logo))){
+                        File::delete(public_path('schools/{$school_name}/logo/'.$image->logo));
                     }
                 User::where('user_type_id',$id)->delete();
                 Add_School::find($id)->delete();

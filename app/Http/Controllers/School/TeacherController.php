@@ -13,6 +13,7 @@ use File;
 use Cache;
 use Str;
 use Auth;
+use Carbon\Carbon;
 
 // use Illuminate\Support\Facades\Log;
 // Log::info('Showing the user profile for user: '.$id);
@@ -66,6 +67,8 @@ class TeacherController extends Controller
                       'image'        =>$filename,
                       'id_proof'     =>$request->id_proof,
                       'password'     =>bcrypt($request->password),
+                      'created_at'    =>  Carbon::now(),
+                      'updated_at'    =>  Carbon::now(),
                     ]);
 
                     // Insert data in user table
@@ -75,6 +78,8 @@ class TeacherController extends Controller
                         'password'     =>bcrypt($request->password),
                         'role_id'      =>Role::where('name','Teacher')->first()->id,
                         'user_type_id' =>$teacher,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now(),
                     ]);
                 });
               }
@@ -157,13 +162,17 @@ class TeacherController extends Controller
                     'password'     =>   bcrypt($request->password),
                     'id_proof'     =>   $request->id_proof,
                     'email'        =>   $request->email,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
                 ]);
 
 
                 // Update into user
                 if($request->has('password')){
                     User::where('user_type_id',$id)->update([
-                        'password'  =>  bcrypt($request['password'])
+                        'password'  =>  bcrypt($request['password']),
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now(),
                     ]);
                 }
             });

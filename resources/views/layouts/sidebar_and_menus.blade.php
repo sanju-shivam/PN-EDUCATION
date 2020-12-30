@@ -51,6 +51,11 @@
                                     </ul>
                                 </li>
                                 <li>
+                                    <a href="{{ url('deleted/school') }}">
+                                        <i class="menu-icon icon-layers"></i><span>Deleted School</span>
+                                    </a>
+                                </li>
+                                <li>
                                     <a href="{{ url('subject/deleted') }}">
                                         <i class="menu-icon icon-layers"></i><span>Deleted Subjects</span>
                                     </a>

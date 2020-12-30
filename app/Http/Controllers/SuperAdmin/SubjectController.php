@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\SuperAdmin\Subject;
 use Illuminate\Http\Request;
 use DB;
+use Carbon\Carbon;
 
 class SubjectController extends Controller
 {
@@ -19,7 +20,9 @@ class SubjectController extends Controller
         try{
             DB::transaction(function () use ($request){
                 DB::table('subject')->insert([
-                    'name'  =>  $request->name
+                    'name'  =>  $request->name,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
                 ]);
             });
         }
@@ -46,6 +49,8 @@ class SubjectController extends Controller
                 // INSERT DATA IN SUBJECT TABLE
                 Subject::find($id)->update([
                     'name' => $request->name,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
                 ]);
             });
         }
@@ -72,8 +77,21 @@ class SubjectController extends Controller
 
     public function deleted_Subjects()
     {
-        $Subject = Subject::withTrashed()->get();
-        dd($Subject);
+        $Subject = Subject::onlyTrashed()->get();
         return view('SuperAdmin.Subject.deleted_Subjects', compact('Subject'));
+    }
+
+
+    public function permanent_delete($id)
+    {
+        Subject::onlyTrashed()->find($id)->forceDelete();
+        return back()->with('success', 'Subject has been Deleted Permanent');
+    }
+
+
+    public function restore($id)
+    {
+        Subject::onlyTrashed()->find($id)->restore();
+        return back()->with('success', 'Subject has been Restored');
     }
 }
