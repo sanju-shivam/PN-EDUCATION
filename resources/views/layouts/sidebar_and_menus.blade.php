@@ -41,11 +41,6 @@
                                         <li><a href="{{ route('class.index') }}">View Class</a></li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a href="">
-                                        <i class="menu-icon icon-code"></i><span>Change Password</span>
-                                    </a>
-                                </li>
                                  <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>Subject</span><i class="accordion-icon fas fa-angle-left"></i>
@@ -54,6 +49,16 @@
                                         <li><a href="{{ route('subject.create') }}">Add Subject</a></li>
                                         <li><a href="{{ route('subject.index') }}">View Subject</a></li>
                                     </ul>
+                                </li>
+                                <li>
+                                    <a href="{{ url('subject/deleted') }}">
+                                        <i class="menu-icon icon-layers"></i><span>Deleted Subjects</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <i class="menu-icon icon-code"></i><span>Change Password</span>
+                                    </a>
                                 </li>
                             @elseif(auth::user()->role_id ==2)
                               

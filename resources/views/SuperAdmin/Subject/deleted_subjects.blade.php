@@ -28,7 +28,7 @@
                                     
                                    <!--  <br> -->
                                         
-                                    <a class="btn btn-danger" href="{{ route('subject.delete',$subject->id) }}">DELETE</a>
+                                    <a class="btn btn-danger" href="{{ url('subject.delete',$subject->id) }}">DELETE</a>
                                     
                                     
                                 </td>

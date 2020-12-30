@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 */
 
 Route::get('deleted',function(){
+	dd(Cache::get('school'));
 	// dd(Add_School::where('id',11)->restore());
 });
 
@@ -30,7 +32,7 @@ Auth::routes();
 Route::middleware('auth')->group(function(){
 	//Common Routes To all after Login
 	Route::get('/home', 'HomeController@index')->name('home');
-	Route::get('/logout','HomeController@logout')->name('logout');
+	Route::post('/logouts','HomeController@logout')->name('logouts');
 });
 
 //ONLY SUPER ADMIN
@@ -51,10 +53,12 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 
 		//Subject Routes
 		Route::get('subject/create','SubjectController@create')->name('subject.create');
-		Route::get('subject/store','SubjectController@store')->name('subject.store');
+		Route::post('subject/store','SubjectController@store')->name('subject.store');
 		Route::get('subject/index', 'SubjectController@index')->name('subject.index');
 		Route::get('subject/edit/{id}', 'SubjectController@edit')->name('subject.edit');
-		Route::post('subject/update', 'SubjectController@update')->name('subject.update');
+		Route::post('subject/update/{id}', 'SubjectController@update')->name('subject.update');
+		Route::get('subject/delete/{id}', 'SubjectController@delete')->name('subject.delete');
+		Route::get('subject/deleted', 'SubjectController@deleted_Subjects')->name('subject.deleted');
 });
 
 //ONLY SCHOOL

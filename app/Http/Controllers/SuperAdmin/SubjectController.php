@@ -26,7 +26,7 @@ class SubjectController extends Controller
         catch(\Exception $e){
             return back()->with('error','Subject Not Added SuccsFully');
         }
-        return view('SuperAdmin.Subject.Add_Subject');
+        return back()->with('success','Subject Created Successfully');
     }
 
     public function index()
@@ -45,20 +45,20 @@ class SubjectController extends Controller
             DB::transaction(function() use($request, $id){
                 // INSERT DATA IN SUBJECT TABLE
                 Subject::find($id)->update([
-                    'name' =>$request->name,
+                    'name' => $request->name,
                 ]);
             });
         }
-        catch(/Exception $e){
+        catch(\Exception $e){
           $s = explode('for', $e->errorInfo[2]);
           return back()->with('warning', $s[0]);
         }
-        return redirect('class/index')->with('success', 'Subject Updated Successfully..!!');
+        return redirect('subject/index')->with('success', 'Subject Updated Successfully..!!');
     }
 
     public function delete($id){
         try{
-            DB::transaction(function() use($id)){
+            DB::transaction(function() use($id){
                 // DELETE DATA IN  SUBJECT TABLE
                  Subject::find($id)->delete();
             });
@@ -67,6 +67,13 @@ class SubjectController extends Controller
            $s = explode('for', $e->errorInfo[2]);
           return back()->with('warning', $s[0]);
         }
-        return redirect('class/index')->with('success', 'Subject has been Deleted');
+        return redirect('subject/index')->with('success', 'Subject has been Deleted');
+    }
+
+    public function deleted_Subjects()
+    {
+        $Subject = Subject::withTrashed()->get();
+        dd($Subject);
+        return view('SuperAdmin.Subject.deleted_Subjects', compact('Subject'));
     }
 }

@@ -5,13 +5,14 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\SuperAdmin\Add_School;
+use App\School\Teacher;
 use App\CommonModels\Role;
 use App\user;
 use Illuminate\Support\Facades\Validate;
 use Illuminate\Support\Facades\DB;
 use File;
 use Str;
-use Cache;
+use Storage;
 
 class SchoolController extends Controller
 {
@@ -59,10 +60,11 @@ class SchoolController extends Controller
                 DB::transaction(function() use($request){
                     // Insert Image
                     global $filename;
+                    $school_name =  Str::slug($request->name);
                     if($request->has('logo')){
                         $file = $request->file('logo');
                         $filename= time().'.'.$request->logo->extension().'.'.'logo';
-                        $file->move("schools/{$request->name}/logo/",$filename);
+                        $file->move("schools/{$school_name}/logo/",$filename);
                     }
                     // Store data
                     $school =DB::table('add_school')->insertGetId([
@@ -112,7 +114,8 @@ class SchoolController extends Controller
     public function show($id)
     {
         $school = Add_School::find($id);
-        return view('SuperAdmin.School.Show_School', compact('school'));
+        $teacher_count = Teacher::where('institute_id',$id)->count();
+        return view('SuperAdmin.School.Show_School', compact('school','teacher_count'));
     }
 
     /**
@@ -139,7 +142,7 @@ class SchoolController extends Controller
         $validated =$request->validate([
            'name'       =>'required|max:255',
            'phone_no'   =>'required|min:10|max:10',
-           'password'   =>'required|min:8',
+           // 'password'   =>'min:8',
            'board_name' =>'required'
         
         ]);
@@ -150,16 +153,23 @@ class SchoolController extends Controller
              DB::transaction(function() use($request,$id){
             // Image update
             global $filename;
+            $school_name =  Str::slug($request->name);
+            // if(File::isDirectory('schools/')){
+            //     dd(public_path('schools/'.$school_name));
+            // }else{
+            //       dd(public_path('schools/'.$school_name),'sak');
+            // }
+            // die;
             if($request->hasfile('logo')){
                 //TO DELETE EXISTING IMAGE IN STORAGE 
-                if(File::exists(public_path("schools/{$request->name}/logo/".$request->current_logo))){
-                    File::delete(public_path("schools/{$request->name}/logo/".$request->current_logo));
+                if(File::exists(public_path("schools/{$school_name}/logo/".$request->current_logo))){
+                    File::delete(public_path("schools/{$school_name}/logo/".$request->current_logo));
                     // Add_School::where('id',$id)->delete();
                 }
                 // CREATING IMAGE FILE
                     $file = $request->file('logo');
                     $filename= time().'.'.$request->logo->extension().'.'.'logo';
-                    $file->move("schools/{$request->name}/logo/",$filename);
+                    $file->move("schools/{$school_name}/logo/",$filename);
             }
             else{
                 $filename = $request['current_logo'];
@@ -174,12 +184,14 @@ class SchoolController extends Controller
                 'state'        =>$request['state'],
                 'pin_code'     =>$request['pin_code'],
                 'phone_no'     =>$request['phone_no'],
-                'password'     =>bcrypt($request['password']),
                 'affilation_no'=>$request['affilation_no'],
                 'board_name'   =>$request['board_name'],
             ]);
 
             if($request->has('password')){
+                Add_School::find($id)->update([
+                    'password'=>bcrypt($request['password']),
+                ]);
                 User::where('user_type_id',$id)->update([
                     'password'  =>  bcrypt($request['password'])
                 ]);
@@ -210,11 +222,12 @@ class SchoolController extends Controller
     {
         try{
             DB::transaction(function() use ($id){
-                $image = Add_School::where('id',$id)->first()->logo;
+                $image = Add_School::select('logo','name')->where('id',$id)->first();
+                $school_name =  Str::slug($request->name);
 
                     //TO DELETE EXISTING IMAGE IN STORAGE 
-                    if(File::exists(public_path('schools/{$request->name}/logo/'.$image))){
-                        File::delete(public_path('schools/{$request->name}/logo/'.$image));
+                    if(File::exists(public_path('schools/{$request->name}/logo/'.$image->logo))){
+                        File::delete(public_path('schools/{$request->name}/logo/'.$image->logo));
                     }
                 User::where('user_type_id',$id)->delete();
                 Add_School::find($id)->delete();

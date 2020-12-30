@@ -12,7 +12,10 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="profile-cover">
-                <img src='{{ asset("schools/$school->name/logo/".$school->logo) }}' height="400">
+                @php 
+                    $school_name_slug = Str::slug($school->name);
+                @endphp
+                <img src='{{ asset("schools/$school_name_slug/logo/".$school->logo) }}' height="400">
             </div>
             <div class="profile-header">
                 <div class="profile-name">
@@ -71,8 +74,8 @@
                             </div>
                             
                         </div>
-                        <div class="post-body">
-                            <p>Proin eu fringilla dui. Pellentesque mattis lobortis mauris eu tincidunt. Maecenas hendrerit faucibus dolor, in commodo lectus mattis ac.</p>
+                        <div class="post-body text-center">
+                            <h1>{{$teacher_count}}</h1>
                             
                         </div>
                     </div>

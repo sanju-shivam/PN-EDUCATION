@@ -33,9 +33,9 @@ class ClassController extends Controller
     	return back()->with('success','Class Created Successfully !!');
     }
 
-    public function index(ClassModel $class)
+    public function index()
     {
-    	$classes = $class->get();
+    	$classes = ClassModel::all();
     	return view('SuperAdmin.Class.view_class',compact('classes'));
     }
 

@@ -41,14 +41,14 @@
         </div>
     </div>
 @elseif(auth::user()->role_id == 2)
-    <div class="row">
+<div class="row" >
         <div class="col-sm">
             <div class="card">
                 <div class="card-body">
                     <div class="info-card">
-                        <h4 class="info-title">Sales Today<span class="info-stats">45.6k</span></h4>
+                        <h4 class="info-title">Teacher Registered<span class="info-stats">{{ $teacher }}</span></h4>
                         <div class="progress" style="height: 3px;">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $teacher }}%" aria-valuenow="{{ $teacher }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                 </div>
             </div>
         </div>
-    </div>
+</div>
 @else
     <div class="row">
         <div class="col-sm">

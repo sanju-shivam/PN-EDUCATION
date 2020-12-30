@@ -33,7 +33,11 @@
                                 <td>{{ $school->name }}</td>
                                 <td>
                                     @if(!empty($school->logo))
-                                        <img height="100" width="100" src='{{ asset("schools/$school->name/logo/".$school->logo) }}'>
+                                        @php 
+                                        $school_name_slug = Str::slug($school->name);
+                                        @endphp
+                                        <img height="100" width="100" src='{{ asset("schools/$school_name_slug/logo/".$school->logo) }}'>
+
                                     @else
                                         NO IMAGE
                                     @endif
