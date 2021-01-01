@@ -24,11 +24,11 @@
                                 
                                 <td class="text-center">
                                 	
-                                    <a class="btn btn-warning" href="{{ url('subject/edit/'.$subject->id) }}" >Edit</a>
+                                    <a class="btn btn-success" href="{{ route('subject.deleted.restore',$subject->id) }}" >Restore</a>
                                     
                                    <!--  <br> -->
                                         
-                                    <a class="btn btn-danger" href="{{ route('subject.delete',$subject->id) }}">DELETE</a>
+                                    <a class="btn btn-danger" href="{{ route('subject.deleted.permanent',$subject->id) }}">Permanent Delete</a>
                                     
                                     
                                 </td>

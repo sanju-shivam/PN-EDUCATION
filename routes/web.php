@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,7 +32,7 @@ Auth::routes();
 Route::middleware('auth')->group(function(){
 	//Common Routes To all after Login
 	Route::get('/home', 'HomeController@index')->name('home');
-	Route::get('/logout','HomeController@logout')->name('logout');
+	Route::post('/logouts','HomeController@logout')->name('logouts');
 });
 
 //ONLY SUPER ADMIN
@@ -41,7 +42,8 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::get('school/delete/{id}','SchoolController@delete');
 		Route::post('/SuperAdmin/UpdateSchoolStatus','SchoolController@SchoolStatus')->name('SuperAdmin.UpdateSchoolStatus');
 
-	// Class Routes
+
+	// CLASS ROUTES
 		Route::get('class/create','ClassController@create')->name('class.create');
 		Route::post('class/store','ClassController@store')->name('class.store');
 		Route::get('class/index', 'ClassController@index')->name('class.index');
@@ -49,20 +51,44 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::post('class/update/{id}', 'ClassController@update')->name('class.update');
 		Route::get('class/delete/{id}', 'ClassController@delete')->name('class.delete');
 
-        // Section Routes
+
+        // SECTION ROUTES
         Route::get('section/create', 'SectionController@create')->name('section.create');
         Route::post('section/store', 'SectionController@store')->name('section.store');
         Route::get('section/index', 'SectionController@index')->name('section.view');
         Route::get('section/edit/{id}', 'SectionController@edit')->name('section.edit');
-        Route::post('section/update', 'SectionController@update')->name('section.update');
+        Route::post('section/update/{id}', 'SectionController@update')->name('section.update');
+        Route::get('section/delete/{id}', 'SectionController@delete')->name('section.delete');
+       
+       // DAY ROUTES
+        Route::get('day/create', 'DayController@create')->name('day.create');
+        Route::post('day/store', 'DayController@store')->name('day.store');
+        Route::get('day/index', 'DayController@index')->name('day.index');
+        Route::get('day/edit/{id}', 'DayController@edit')->name('day.edit');
+        Route::post('day/update/{id}', 'DayController@update')->name('day.update');
+        Route::get('day/delete/{id}', 'DayController@delete')->name('day.delete');
+	
 
-        
-		//Subject Routes
+	// SCHOOL Softdeleted Routes in Class Controller beacuse 
+	// It is no working in resource properly
+		Route::get('deleted/school', 'ClassController@deleted_School')->name('school.deleted.view');
+		Route::get('deleted/permanent/school/{id}', 'ClassController@permanent_delete')->name('school.deleted.permanent');
+		Route::get('deleted/restore/school/{id}', 'ClassController@restore')->name('school.deleted.restore');
+
+
+
+	//Subject Routes
+
 		Route::get('subject/create','SubjectController@create')->name('subject.create');
 		Route::post('subject/store','SubjectController@store')->name('subject.store');
 		Route::get('subject/index', 'SubjectController@index')->name('subject.index');
 		Route::get('subject/edit/{id}', 'SubjectController@edit')->name('subject.edit');
-		Route::post('subject/update', 'SubjectController@update')->name('subject.update');
+		Route::post('subject/update/{id}', 'SubjectController@update')->name('subject.update');
+		Route::get('subject/delete/{id}', 'SubjectController@delete')->name('subject.delete');
+		Route::get('subject/deleted', 'SubjectController@deleted_Subjects')->name('subject.deleted');
+		Route::get('subject/deleted/permanent/{id}', 'SubjectController@permanent_delete')->name('subject.deleted.permanent');
+		Route::get('subject/deleted/restore/{id}', 'SubjectController@restore')->name('subject.deleted.restore');
+
 
 });
 

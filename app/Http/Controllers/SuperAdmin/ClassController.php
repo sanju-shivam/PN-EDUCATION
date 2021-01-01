@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\SuperAdmin\ClassModel;
 use DB;
+use Carbon\Carbon;
+use App\SuperAdmin\Add_School;
 
 class ClassController extends Controller
 {
@@ -23,6 +25,8 @@ class ClassController extends Controller
     			// INSERT DATA IN  CLASS TABLE
     			DB::table('class')->insert([
     				'name'			=>	$request->name,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
     			]);
     		});
     	}
@@ -33,9 +37,9 @@ class ClassController extends Controller
     	return back()->with('success','Class Created Successfully !!');
     }
 
-    public function index(ClassModel $class)
+    public function index()
     {
-    	$classes = $class->get();
+    	$classes = ClassModel::all();
     	return view('SuperAdmin.Class.view_class',compact('classes'));
     }
 
@@ -52,6 +56,8 @@ class ClassController extends Controller
     			// INSERT DATA IN  CLASS TABLE
     			ClassModel::find($id)->update([
     				'name'			=>	$request->name,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
     			]);
     		});
     	}
@@ -67,7 +73,7 @@ class ClassController extends Controller
     	try{
     		DB::transaction(function() use($id){
     			// INSERT DATA IN  CLASS TABLE
-    			ClassModel::find($id)->delete();
+    			ClassModel::find($id)->forceDelete();
     		});
     	}
     	catch(\Exception $e){
@@ -75,5 +81,25 @@ class ClassController extends Controller
     		return back()->with('warning',$a[0]);
     	}
     	return back()->with('success','Class deleted Successfully');
+    }
+
+
+    public function deleted_School()
+    {
+        $schools = Add_School::onlyTrashed()->get();
+        return view('SuperAdmin.School.Deleted_School', compact('schools'));
+    }
+
+    public function permanent_delete($id)
+    {
+        Add_School::onlyTrashed()->find($id)->forceDelete();
+        return back()->with('success', 'School has been Deleted Permanent');
+    }
+
+
+    public function restore($id)
+    {
+        Add_School::onlyTrashed()->find($id)->restore();
+        return back()->with('success', 'School has been Restored');
     }
 }

@@ -25,11 +25,11 @@
                                 <td class="text-center">
                                     <!-- <br> -->
                                     
-                                    <a class="btn btn-warning" href="{{ url('class/edit/'.$section->id) }}" >Edit</a>
+                                    <a class="btn btn-warning" href="{{ url('section/edit/'.$section->id) }}" >Edit</a>
                                     
                                    <!--  <br> -->
                                         
-                                    <a class="btn btn-danger" href="{{ url('class/delete/'.$section->id) }}">DELETE</a>                                  
+                                    <a class="btn btn-danger" href="{{ url('section/delete/'.$section->id) }}">DELETE</a>                                  
                                 </td>
                             </tr>
                             @endforeach
@@ -42,67 +42,6 @@
 
 
 
-
-
-
-
-<script>
-  $(document).ready(function() {
-
-    //  STYLE OF STATUS BUTTON OF PRODUCT
-    $('.status').bootstrapToggle({
-      on: 'Visible',
-      off: 'off',
-      width : "80px",
-      offstyle : 'danger',
-      onstyle : 'success'
-    });
-
-    // TO UPDATE STATUS OF PRODUCT
-    $(".status").change(function(){
-            var id= $(this).attr('rel');
-            var _token = $('input[name="_token"]').val();
-            if($(this).prop('checked')==true){
-              $.ajax({
-              
-                type: 'post',
-                url:  '/SuperAdmin/UpdateSchoolStatus',
-                data:{status:'1',id:id, _token:_token},
-                success:function(data){
-                    console.log(data);
-                    $("#message_success").show();
-                    setTimeout(function(){
-                        $("#message_success").fadeOut('slow');
-                    },2000);
-                },
-                error:function(){
-                  alert("Error");
-                }
-
-              });
-            }
-            else{
-                $.ajax({
-                    type: 'post',
-                    url:'/SuperAdmin/UpdateSchoolStatus',
-                    data:{status:'0',id:id, _token:_token},
-                    success:function(resp){
-                        console.log(resp);
-                        $("#message_success").show();
-                        setTimeout(function(){
-                            $("#message_success").fadeOut('slow');
-                        },2000);
-                    },
-                    error:function(){
-                        alert("Error");
-                    }
-                });
-            }
-    });
-
-
-  });
-</script>
 
  <script type="text/javascript" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript">

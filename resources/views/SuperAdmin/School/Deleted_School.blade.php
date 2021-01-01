@@ -1,36 +1,38 @@
 @extends('layouts.master')
-@section('title2','Subject')
-@section('title3','View Subject')
-@section('content')	
+@section('title2','School')
+@section('title3','Deleted School')
+@section('content')
 	<div class="row">
         <div class="col-xl">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">All Subjects</h5>
-                    <table class="table" id="dataTable">
+                    <h5 class="card-title">All Schools</h5>
+                    <table class="table table-responsive" id="dataTable">
                         <thead>
                             <tr>
                                 <th scope="col">S.no</th>
                                 <th id="column3_search" scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Phone No</th>
                                 <th scope="col" style="text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                         	<?php  $id=1; ?>
-                        	@foreach($Subject as $subject)
+                        	@foreach($schools as $school)
                             <tr>
                                 <th scope="row">{{ $id++ }}</th>
-                                <td>{{ $subject->name }}</td>
-                                
-                                <td class="text-center">
-                                	
-                                    <a class="btn btn-warning" href="{{ url('subject/edit/'.$subject->id) }}" >Edit</a>
+                                <td>{{ $school->name }}</td>
+                                <td>{{ $school->email }}</td>
+                                <td>{{ $school->city }}</td>
+                                <td>{{ $school->phone_no }}</td>
+                                <td>
+                                    <a class="btn btn-success" href="{{ url('deleted/restore/school/'.$school->id) }}" >Restore</a>
                                     
                                    <!--  <br> -->
                                         
-                                    <a class="btn btn-danger" href="{{ route('subject.delete',$subject->id) }}">DELETE</a>
-                                    
-                                    
+                                    <a class="btn btn-danger" href="{{ url('deleted/permanent/school/'.$school->id) }}">Permanent Delete</a>      
                                 </td>
                             </tr>
                             @endforeach
@@ -40,6 +42,12 @@
             </div>
         </div>
     </div>
+
+
+
+
+
+
 
 
 

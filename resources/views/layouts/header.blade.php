@@ -41,11 +41,11 @@
                                             <li role="separator" class="divider"></li>
                                             <li><a href="#">Account Settings</a></li>
                                             <li>
-                                                <a href="{{ route('logout') }}"
+                                                <a href="{{ route('logouts') }}"
                                                         onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">Log Out</a>
 
-                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                <form id="logout-form" action="{{ route('logouts') }}" method="POST" class="d-none">
                                                     @csrf
                                                 </form>
                                             </li>

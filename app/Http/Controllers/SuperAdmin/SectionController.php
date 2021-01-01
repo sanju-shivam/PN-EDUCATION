@@ -43,7 +43,7 @@ class SectionController extends Controller
     public function update(Request $request, $id){
     	try{
     		DB::transaction(function() use($request, $id){
-    			//INSERT DATA IN CLASS TABLE
+    			//UPDATE DATA IN SECTION TABLE
     			Section::find($id)->update([
                    'name' => $request->name,
                    'created_at' =>carbon::now(),
@@ -55,5 +55,19 @@ class SectionController extends Controller
     		return back()->with('warning', $a[0]);
     	}
     	return redirect('section/index')->with('success', 'Section Updated Successfully..!!');
+    }
+
+    public function delete($id){
+        try{
+            DB::transaction(function() use($id){
+                // DELETE DATA IN  SECTION TABLE
+                 Section::find($id)->delete();
+            });
+        }
+        catch(\Exception $e){
+           $s = explode('for', $e->errorInfo[2]);
+          return back()->with('warning', $s[0]);
+        }
+        return redirect('section/index')->with('success', 'Section has been Deleted');
     }
 }

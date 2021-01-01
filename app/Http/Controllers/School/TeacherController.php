@@ -5,6 +5,7 @@ namespace App\Http\Controllers\School;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\validate;
+use App\Http\Traits\SuperAdminCacheTrait;
 use App\School\Teacher;
 use App\User;
 use Auth;
@@ -13,16 +14,17 @@ use App\CommonModels\Role;
 use Illuminate\Support\Str;
 use File;
 use Cache;
-use App\Http\Traits\SuperAdminCacheTrait;
+use Str;
+use Carbon\Carbon;
+
 // use Illuminate\Support\Facades\Log;
 // Log::info('Showing the user profile for user: '.$id);
 
 
 class TeacherController extends Controller
 {
-    use SuperAdminCacheTrait;
-
-    public function create(){
+    public function create()
+    { 
     	return view('School.Teacher.add_teacher');
     }
 
@@ -38,6 +40,7 @@ class TeacherController extends Controller
         if($validated){
               try{
                 DB::transaction(function() use($request){
+<<<<<<< HEAD
 
                     $institute = Cache::get('school', function(){
                       return DB::table('add_school')->get();
@@ -45,12 +48,17 @@ class TeacherController extends Controller
                     // dd($institute);
                     $institute->name = Str::slug($institute->name);
                     
+=======
+                    $institute = Cache::get('school');
+
+                    $institute_name = Cache::get('school_name_slug');
+>>>>>>> b0f9f105503bb16f6a54eba1b1bbae8eb5678723
                     // Insert Image
                     global $filename;
                     if($request->has('image')){
                         $file = $request->file('image');
                         $filename = time().'.'.$request->image->extension().'.'.'teacher';
-                        $file->move("schools/{$institute->name}/teachers/",$filename);
+                        $file->move("schools/{$institute_name}/teachers/",$filename);
                     }
                     // Store data
                     $teacher = DB::table('add_teacher')->insertGetId([
@@ -65,6 +73,8 @@ class TeacherController extends Controller
                       'image'        =>$filename,
                       'id_proof'     =>$request->id_proof,
                       'password'     =>bcrypt($request->password),
+                      'created_at'    =>  Carbon::now(),
+                      'updated_at'    =>  Carbon::now(),
                     ]);
 
                     // Insert data in user table
@@ -74,15 +84,29 @@ class TeacherController extends Controller
                         'password'     =>bcrypt($request->password),
                         'role_id'      =>Role::where('name','Teacher')->first()->id,
                         'user_type_id' =>$teacher,
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now(),
                     ]);
                 });
               }
+<<<<<<< HEAD
               catch(\Exception $e){
                 dd($e);
                 $a = explode('at',  $e->errorInfo[2]);
                 $a = explode('at', $e->errorInfo[2]);
                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
                 return back()->with('warning',$a[0]);
+=======
+              catch(\Throwable $e){
+                if(!empty($e->getMessage())){
+                  dd($e);
+                  return back()->with('warning',$e->getMessage());
+                }else{
+                  $a = explode('at',$e->errorInfo[2]);
+                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
+                  return back()->with('warning',$a[0]);
+                }
+>>>>>>> b0f9f105503bb16f6a54eba1b1bbae8eb5678723
               }
         }else{
             return back()->with('errors',$validated->messages()->get('*'));
@@ -91,8 +115,12 @@ class TeacherController extends Controller
     }
 
     public function index(){
+<<<<<<< HEAD
        
         $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id);
+=======
+        $teachers = Teacher::all();
+>>>>>>> b0f9f105503bb16f6a54eba1b1bbae8eb5678723
         return view('School.Teacher.view_teacher', compact('teachers'));
 
     }
@@ -125,18 +153,18 @@ class TeacherController extends Controller
              try{
                DB::transaction(function() use($request, $id){
                 global $filename;
-                $school_name = Cache::get('school_name_slug');
+                $institute_name = Cache::get('school_name_slug');
                 // Image Update
                 if($request->hasfile('image')){
                     // TO DELETE EXISTING IMAGE IN STORAGE
-                    if(File::exists(public_path('schools/{$school_name}/teachers/'.$request->current_image))){
-                        File::delete(public_path('schools/{$school_name}/teachers/'.$request->current_image));
+                    if(File::exists(public_path('schools/{$institute_name}/teachers/'.$request->current_image))){
+                        File::delete(public_path('schools/{$institute_name}/teachers/'.$request->current_image));
                     }
                     
                     // CREATING IMAGE FILE
                     $file = $request->file('image');
                     $filename = time().'.'.$request->image->extension().'.'.'teacher';
-                    $file->move("schools/{$school_name}/teachers/",$filename);
+                    $file->move("schools/{$institute_name}/teachers/",$filename);
                 }
                 else{
                     $filename = $request['current_image'];
@@ -154,13 +182,17 @@ class TeacherController extends Controller
                     'password'     =>   bcrypt($request->password),
                     'id_proof'     =>   $request->id_proof,
                     'email'        =>   $request->email,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
                 ]);
 
 
                 // Update into user
                 if($request->has('password')){
                     User::where('user_type_id',$id)->update([
-                        'password'  =>  bcrypt($request['password'])
+                        'password'  =>  bcrypt($request['password']),
+                        'created_at'    =>  Carbon::now(),
+                        'updated_at'    =>  Carbon::now(),
                     ]);
                 }
             });
@@ -181,12 +213,12 @@ class TeacherController extends Controller
     public function delete($id){
         try{
             DB::transaction(function() use($id){
-              $school_name = Cache::get('school_name_slug');
+              $institute_name = Cache::get('school_name_slug');
               $image = Teacher::where('id',$id)->first()->teacher;
 
                // TO DELETE AN EXISTING IMAGE
-                if(File::exists(public_path('schools/{$school_name}/teachers/'.$image))){
-                 File::delete(public_path('schools/{$school_name}/teachers/'.$image));
+                if(File::exists(public_path('schools/{$institute_name}/teachers/'.$image))){
+                 File::delete(public_path('schools/{$institute_name}/teachers/'.$image));
                 }
                 
                 User::where('user_type_id',$id)->delete();
