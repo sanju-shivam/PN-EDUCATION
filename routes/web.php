@@ -51,23 +51,16 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 		Route::post('class/update/{id}', 'ClassController@update')->name('class.update');
 		Route::get('class/delete/{id}', 'ClassController@delete')->name('class.delete');
 
-
-        // SECTION ROUTES
+	
+	// SECTION ROUTES
         Route::get('section/create', 'SectionController@create')->name('section.create');
         Route::post('section/store', 'SectionController@store')->name('section.store');
         Route::get('section/index', 'SectionController@index')->name('section.view');
         Route::get('section/edit/{id}', 'SectionController@edit')->name('section.edit');
         Route::post('section/update/{id}', 'SectionController@update')->name('section.update');
         Route::get('section/delete/{id}', 'SectionController@delete')->name('section.delete');
-       
-       // DAY ROUTES
-        Route::get('day/create', 'DayController@create')->name('day.create');
-        Route::post('day/store', 'DayController@store')->name('day.store');
-        Route::get('day/index', 'DayController@index')->name('day.index');
-        Route::get('day/edit/{id}', 'DayController@edit')->name('day.edit');
-        Route::post('day/update/{id}', 'DayController@update')->name('day.update');
-        Route::get('day/delete/{id}', 'DayController@delete')->name('day.delete');
 	
+
 
 	// SCHOOL Softdeleted Routes in Class Controller beacuse 
 	// It is no working in resource properly
@@ -78,7 +71,6 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 
 
 	//Subject Routes
-
 		Route::get('subject/create','SubjectController@create')->name('subject.create');
 		Route::post('subject/store','SubjectController@store')->name('subject.store');
 		Route::get('subject/index', 'SubjectController@index')->name('subject.index');

@@ -83,8 +83,7 @@ class ClassController extends Controller
     	return back()->with('success','Class deleted Successfully');
     }
 
-
-    public function deleted_School()
+     public function deleted_School()
     {
         $schools = Add_School::onlyTrashed()->get();
         return view('SuperAdmin.School.Deleted_School', compact('schools'));

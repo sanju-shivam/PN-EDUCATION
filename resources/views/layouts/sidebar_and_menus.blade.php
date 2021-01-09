@@ -41,7 +41,7 @@
                                         <li><a href="{{ route('class.index') }}">View Class</a></li>
                                     </ul>
                                 </li>
-                                 <li>
+                                <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>Subject</span><i class="accordion-icon fas fa-angle-left"></i>
                                     </a>
@@ -65,9 +65,10 @@
                                         <i class="menu-icon icon-code"></i><span>Change Password</span>
                                     </a>
                                 </li>
-                            @elseif(auth::user()->role_id ==2)
-                              
-                               
+
+
+
+                            @elseif(auth::user()->role_id ==2)  
                                 <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>Teacher</span><i class="accordion-icon fas fa-angle-left"></i>
