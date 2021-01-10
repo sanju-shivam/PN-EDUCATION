@@ -67,6 +67,14 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
         Route::get('day/edit/{id}', 'DayController@edit')->name('day.edit');
         Route::post('day/update/{id}', 'DayController@update')->name('day.update');
         Route::get('day/delete/{id}', 'DayController@delete')->name('day.delete');
+
+         // TIME ROUTES
+        Route::get('time/create', 'TimeController@create')->name('time.create');
+        Route::post('time/store', 'TimeController@store')->name('time.store');
+        Route::get('time/index', 'TimeController@index')->name('time.index');
+        Route::get('time/edit/{id}', 'TimeController@edit')->name('time.edit');
+        Route::post('time/update/{id}', 'TimeController@update')->name('time.update');
+        Route::get('time/delete/{id}', 'TimeController@delete')->name('time.delete');
 	
 
 	// SCHOOL Softdeleted Routes in Class Controller beacuse 
@@ -102,6 +110,11 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit');
 		Route::post('teacher/update/{id}', 'TeacherController@update')->name('teacher.update');
 		Route::get('teacher/delete/{id}', 'TeacherController@edit')->name('teacher.delete');
+
+
+		// ************* CLASS SCHEDULE ROUTES ***********
+		Route::match(['get', 'post'],'class_schedule', 'ClassScheduleController@fields')->name('class_schedule'); 
+		
 });
 
 

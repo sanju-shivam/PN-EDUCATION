@@ -3,30 +3,26 @@
 namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validate;
 use Illuminate\Http\Request;
-use App\SuperAdmin\Day;
+use App\SuperAdmin\Time;
 use DB;
 use Carbon\Carbon;
 
-class DayController extends Controller
+
+class TimeController extends Controller
 {
+	
     public function create(){
-    	return view('SuperAdmin.Day.add_day');
-    }
+    	return view('SuperAdmin.Time.add_time');
+    }  
 
     public function store(Request $request){
-    	$validated =$request->validate([
-    	  'name' => 'required|unique:day',
-    	]);
 
-
-    	if($validated){
     	 try{
     		  DB::transaction(function() use($request){
-              // INSERT DATA IN DAY TABLE
-    			   $day = DB::table('day')->insert([
-    			     'name'       =>  $request->name,
+              // INSERT DATA IN TIME TABLE
+    			   $time = DB::table('time')->insert([
+    			     'time'       =>  $request->time,
     			     'created_at' =>  carbon::now(),
     			     'updated_at' =>  carbon::now(),
     			    ]);
@@ -35,32 +31,27 @@ class DayController extends Controller
     	    catch(\Exception $e){
     		     $a = explode('for', $e->errorInfo[2]);
     		     return back()->with('warning',$a[0]);
-    	    }
-    	}
-    	else{  
-    	   return back()->with('errors',$validated->messages()->get('*'));
-    	}
-    	
-    	return back()->with('success','Day Created Successfully !!');
+    	    }   	
+    	return back()->with('success','Time inserted Successfully !!');
     	
     }
 
     public function index(){
-    	$days = Day::all();
-    	return view('SuperAdmin.Day.view_day', compact('days'));
+    	$times = Time::all();
+    	return view('SuperAdmin.Time.view_time', compact('times'));
     }
 
     public function edit($id){
-    	$day =Day::find($id)->first();
-    	return view('SuperAdmin.Day.edit_day', compact('day'));
+    	$time =Time::find($id)->first();
+    	return view('SuperAdmin.Time.edit_time', compact('time'));
     }
 
     public function update(Request $request, $id){
     	try{
     		  DB::transaction(function() use($request, $id){
-              // UPDATE DATA IN DAY TABLE
-    			    Day::find($id)->update([
-    			     'name'       =>  $request->name,
+              // UPDATE DATA IN TIME TABLE
+    			    Time::find($id)->update([
+    			     'time'       =>  $request->time,
     			     'created_at' =>  carbon::now(),
     			     'updated_at' =>  carbon::now(),
     			    ]);
@@ -70,21 +61,20 @@ class DayController extends Controller
     		     $a = explode('for', $e->errorInfo[2]);
     		     return back()->with('warning',$a[0]);
     	    }
-    	return redirect('day/index')->with('success', 'Day Updated Successfully..!!');
+    	return redirect('time/index')->with('success', 'Time Updated Successfully..!!');
     }
 
     public function delete($id){
     	 try{
                DB::transaction(function() use($id){
-                  // DELETE DATA IN  DAY TABLE
-                   Day::find($id)->delete();
+                  // DELETE DATA IN  TIME TABLE
+                   Time::find($id)->delete();
                 });
             }
             catch(\Exception $e){
                   $s = explode('for', $e->errorInfo[2]);
                  return back()->with('warning', $s[0]);
             }
-        return redirect('day/index')->with('success', 'Day has been Deleted');
+        return redirect('time/index')->with('success', 'Time has been Deleted');
     }
-
 }
