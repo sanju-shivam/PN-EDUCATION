@@ -5,7 +5,6 @@ namespace App\Http\Controllers\School;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\validate;
-use App\Http\Traits\SuperAdminCacheTrait;
 use App\School\Teacher;
 use App\User;
 use Auth;
@@ -14,7 +13,6 @@ use App\CommonModels\Role;
 use Illuminate\Support\Str;
 use File;
 use Cache;
-use Str;
 use Carbon\Carbon;
 
 // use Illuminate\Support\Facades\Log;
@@ -40,7 +38,7 @@ class TeacherController extends Controller
         if($validated){
               try{
                 DB::transaction(function() use($request){
-<<<<<<< HEAD
+
 
                     $institute = Cache::get('school', function(){
                       return DB::table('add_school')->get();
@@ -48,11 +46,9 @@ class TeacherController extends Controller
                     // dd($institute);
                     $institute->name = Str::slug($institute->name);
                     
-=======
                     $institute = Cache::get('school');
 
                     $institute_name = Cache::get('school_name_slug');
->>>>>>> b0f9f105503bb16f6a54eba1b1bbae8eb5678723
                     // Insert Image
                     global $filename;
                     if($request->has('image')){
@@ -89,38 +85,24 @@ class TeacherController extends Controller
                     ]);
                 });
               }
-<<<<<<< HEAD
               catch(\Exception $e){
-                dd($e);
+                return back()->with('errors',$validated->messages()->get('*'));
                 $a = explode('at',  $e->errorInfo[2]);
-                $a = explode('at', $e->errorInfo[2]);
                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
                 return back()->with('warning',$a[0]);
-=======
-              catch(\Throwable $e){
-                if(!empty($e->getMessage())){
-                  dd($e);
-                  return back()->with('warning',$e->getMessage());
-                }else{
-                  $a = explode('at',$e->errorInfo[2]);
-                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
-                  return back()->with('warning',$a[0]);
-                }
->>>>>>> b0f9f105503bb16f6a54eba1b1bbae8eb5678723
               }
-        }else{
-            return back()->with('errors',$validated->messages()->get('*'));
-        }
-    	return back()->with('success', 'Teacher has been added sucessfully..!!');
+            }
+          else{
+            
+          }
+    	 return back()->with('success', 'Teacher has been added sucessfully..!!');
     }
 
     public function index(){
-<<<<<<< HEAD
+
        
         $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id);
-=======
         $teachers = Teacher::all();
->>>>>>> b0f9f105503bb16f6a54eba1b1bbae8eb5678723
         return view('School.Teacher.view_teacher', compact('teachers'));
 
     }

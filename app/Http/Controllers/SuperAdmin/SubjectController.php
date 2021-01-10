@@ -75,12 +75,16 @@ class SubjectController extends Controller
            $s = explode('for', $e->errorInfo[2]);
           return back()->with('warning', $s[0]);
         }
-        return redirect('class/index')->with('success', 'Subject has been Deleted');
+        return redirect('subject/index')->with('success', 'Subject has been Deleted');
 
         $Subject =Subject::all();
         return view('SuperAdmin.Subject.View_subject', compact('Subject'));
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 76f9a6ba290c1dcaead4afdfd3eb33a3ccb9fc54
     public function deleted_Subjects()
     {
         $Subject = Subject::onlyTrashed()->get();
