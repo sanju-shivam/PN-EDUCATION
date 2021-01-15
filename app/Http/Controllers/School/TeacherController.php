@@ -98,19 +98,18 @@ class TeacherController extends Controller
     }
 
     public function index(){
-        $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id);
-        $teachers = Teacher::all();
+        $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id)->get();
         return view('School.Teacher.view_teacher', compact('teachers'));
     }
 
     public function show($id){
-        $teacher = Teacher::find($id);
+        $teacher = Teacher::where('institute_id',Auth::user()->user_type_id)->find($id);
         $school_name = Cache::get('school_name_slug');
         return view('School.Teacher.view_single_teacher' , compact('teacher','school_name'));
     }
 
     public function edit($id){
-        $teacher = Teacher::find($id);
+        $teacher = Teacher::where('institute_id',Auth::user()->user_type_id)->find($id);
         return view('School.Teacher.edit_teacher', compact('teacher'));
     }
 
@@ -227,7 +226,7 @@ class TeacherController extends Controller
 
     public function deleted_Teacher()
     {
-        $teachers = Teacher::onlyTrashed()->get();
+        $teachers = Teacher::onlyTrashed()->where('institute_id',Auth::user()->user_type_id)->get();
         return view('School.Teacher.Deleted_Teacher', compact('teachers'));
     }
 

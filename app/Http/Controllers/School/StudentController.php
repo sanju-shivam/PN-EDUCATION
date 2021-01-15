@@ -255,7 +255,7 @@ class StudentController extends Controller
 
     public function deleted_students()
     {
-        $students = Student::onlyTrashed()->get();
+        $students = Student::onlyTrashed()->where('institute_id',Auth::user()->user_type_id)->get();
         return view('School.Student.Deleted_Student',compact('students'));
     }
 

@@ -86,6 +86,7 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 
 //ONLY SCHOOL
 Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
+	
 	// Teacher Routes
 		Route::get('teacher/create','TeacherController@create')->name('teacher.create');
 		Route::post('teacher/store','TeacherController@store')->name('teacher.store');
@@ -113,6 +114,15 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('deleted/student', 'StudentController@deleted_students')->name('student.deleted.view');
 		Route::get('student/deleted/restore/{id}', 'StudentController@restore_student')->name('student.deleted.restore');
 		Route::get('student/deleted/permanent/{id}', 'StudentController@permanent_delete')->name('student.permanent.deleted');
+
+
+
+	// Class Teacher Subject Relation
+		Route::get('relation/class/subject/teacher','Class_Subject_Teacher_Realtion_Controller@create')->name('relation.class.subject.teacher');
+		Route::post('class/teacher/subject/store','Class_Subject_Teacher_Realtion_Controller@store')->name('relation.class.subject.teacher.store');
+		Route::get('relation/class/subject/teacher/edit/{id}','Class_Subject_Teacher_Realtion_Controller@edit')->name('relation.class.subject.teacher.edit');
+		Route::post('class/teacher/subject/update/{id}','Class_Subject_Teacher_Realtion_Controller@update')->name('relation.class.subject.teacher.update');
+		Route::get('relation/class/subject/teacher/delete/{id}','Class_Subject_Teacher_Realtion_Controller@delete')->name('relation.class.subject.teacher.delete');
 });
 
 

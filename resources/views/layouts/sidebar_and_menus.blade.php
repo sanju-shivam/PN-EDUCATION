@@ -84,7 +84,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li>
-                                            <a href="javascript:void(0)">
+                                            <a href="{{ route('relation.class.subject.teacher') }}">
                                                 Class , Teacher & Subject
                                             </a>
                                         </li>

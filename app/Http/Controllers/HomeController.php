@@ -41,6 +41,7 @@ class HomeController extends Controller
         if($user_role_id == Role::where('name','SuperAdmin')->first()->id ){
                 $schools = Add_School::count();
                 $teacher = Teacher::count();
+                $students = Student::count();
         }   
         // IF USER IS SCHOOL USER GET   ===>>>> 1 : TEACHER COUNT
         else if($user_role_id == Role::where('name','School')->first()->id){

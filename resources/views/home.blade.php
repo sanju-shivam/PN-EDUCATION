@@ -31,9 +31,9 @@
             <div class="card">
                 <div class="card-body">
                     <div class="info-card">
-                        <h4 class="info-title">New Members<span class="info-stats">2.4k</span></h4>
+                        <h4 class="info-title">Students<span class="info-stats">{{ $students }}</span></h4>
                         <div class="progress" style="height: 3px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-danger" role="progressbar" style="width: {{ $students }}%" aria-valuenow="{{ $students }}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </div>
                 </div>

@@ -20,8 +20,7 @@ class CreateClassWithSubjectWithTeacherTable extends Migration
             $table->integer('subject_id')->unsigned();
             $table->integer('teacher_id')->unsigned();
             $table->integer('institute_id')->unsigned();
-            $table->boolean('status')->default(0)->comment('0-inactive, 1-active')->nullable();
-            $table->softDeletes();
+            $table->boolean('status')->default(0)->comment('0-inactive, 1-active')->nullable(); 
             $table->timestamps();
         });
     }

@@ -31,4 +31,9 @@ class Teacher extends Model
     {
         return $this->belongsTo('App\SuperAdmin\Add_School','institute_id');
     }
+
+    public function Class_Subject_Teacher()
+    {
+        return $this->belongsTo('App\School\Class_Subject_Teacher');
+    }
 }
