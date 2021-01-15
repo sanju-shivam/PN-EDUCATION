@@ -110,6 +110,9 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::post('student/update/{id}','StudentController@update')->name('student.update');
 		Route::get('student/delete/{id}', 'StudentController@delete')->name('student.delete');
 		Route::post('/UpdateStudentStatus','StudentController@StudentStatus');
+		Route::get('deleted/student', 'StudentController@deleted_students')->name('student.deleted.view');
+		Route::get('student/deleted/restore/{id}', 'StudentController@restore_student')->name('student.deleted.restore');
+		Route::get('student/deleted/permanent/{id}', 'StudentController@permanent_delete')->name('student.permanent.deleted');
 });
 
 

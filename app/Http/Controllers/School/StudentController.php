@@ -133,18 +133,40 @@ class StudentController extends Controller
 
     public function delete($id)
     {
-    	 $student = Student::find($id)->delete();
-       $ClassStudent = Class_Student::where('institute_id',Auth::user()->user_type_id)->where('student_id',$id)->delete();
-       if($student and $ClassStudent){
-          return back()->with('success','Studeent deleted SuccessFully');
-       }
-          return back()->with('warning','Error in deleting Studeent');
+        $institute_name = Cache::get('school_name_slug');
+        $image = Student::where('id',$id)->first()->image;
+
+        // TO DELETE AN EXISTING IMAGE
+        if(File::exists(public_path('schools/'.$institute_name.'/students/'.$image))){
+         File::delete(public_path('schools/'.$institute_name.'/students/'.$image));
+            Student::where('id',$id)->update([
+              'image' => null
+         ]  );
+        }
+                
+        $user = User::where('user_type_id',$id)->where('role_id','=',Role::where('name','Student')->first()->id)->delete();
+      	
+        $student = Student::find($id)->delete();
+        $ClassStudent = Class_Student::where('institute_id',Auth::user()->user_type_id)->where('student_id',$id)->delete();
+        if($student and $ClassStudent and $user){
+            return back()->with('success','Studeent deleted SuccessFully');
+        }
+        
+        return back()->with('warning','Error in deleting Studeent');
 
     }
 
     public function StudentStatus(Request $request)
     {
-    	# code...
+      	$id = $request->get('id');
+        $status = $request->get('status');
+        $Teacher = Student::find($id)->update([
+            'status' => $status,
+        ]);
+        $user = User::where('user_type_id', $id)->update([
+            'status' => $status,
+        ]);
+        return true;
     }
 
 
@@ -228,5 +250,46 @@ class StudentController extends Controller
         else{
           return back()->with('errors',$validated->messages()->get('*'));
         }
+    }
+
+
+    public function deleted_students()
+    {
+        $students = Student::onlyTrashed()->get();
+        return view('School.Student.Deleted_Student',compact('students'));
+    }
+
+    public function restore_student($id)
+    {
+        $user = User::onlyTrashed()->where('user_type_id',$id)->where('role_id','=',Role::where('name','Student')->first()->id)->restore();
+        $student = Student::onlyTrashed()->find($id)->restore();
+
+        DB::transaction(function() use($id){
+            DB::table('class__students')->insert([
+                    'institute_id'  =>  Auth::user()->user_type_id,
+                    'class_id'      =>  0,
+                    'student_id'    =>  $id,
+                    'created_at'    =>  Carbon::now(),
+                    'updated_at'    =>  Carbon::now(),
+            ]);
+        });
+
+        if($student and $user){
+            return back()->with('success','Studeent Restored SuccessFully');
+        }
+        
+        return back()->with('warning','Error in Restoring Studeent');
+    }
+
+    public function permanent_delete($id)
+    {
+        $user = User::onlyTrashed()->where('user_type_id',$id)->where('role_id','=',Role::where('name','Student')->first()->id)->forceDelete();
+        $student = Student::onlyTrashed()->find($id)->forceDelete();
+
+        if($student and $user){
+            return back()->with('success','Studeent Permanently Deleted');
+        }
+        
+        return back()->with('warning','Error in Permanent Deleting Studeent');
     }
 }

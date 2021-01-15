@@ -88,7 +88,6 @@
                                                 Class , Teacher & Subject
                                             </a>
                                         </li>
-                                        <li><a href="">View Student</a></li>
                                     </ul>
                                 </li>
 
@@ -98,6 +97,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li><a href="{{ route('teacher.deleted.view') }}">Teacher</a></li>
+                                        <li><a href="{{ route('student.deleted.view') }}">Student</a></li>
                                         <!-- <li><a href="{{ route('teacher.index') }}">View Teacher</a></li> -->
                                     </ul>
                                 </li>
