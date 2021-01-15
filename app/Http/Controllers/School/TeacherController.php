@@ -27,7 +27,7 @@ class TeacherController extends Controller
     }
 
     public function store(Request $request){
-       $validated = $request->validate([
+        $validated = $request->validate([
            'name'       =>'required|max:255',
            'phone_no'   =>'required',
            'password'   =>'required|min:8',
@@ -39,16 +39,9 @@ class TeacherController extends Controller
               try{
                 DB::transaction(function() use($request){
 
-
-                    $institute = Cache::get('school', function(){
-                      return DB::table('add_school')->get();
-                    });
-                    // dd($institute);
-                    $institute->name = Str::slug($institute->name);
-                    
                     $institute = Cache::get('school');
-
                     $institute_name = Cache::get('school_name_slug');
+
                     // Insert Image
                     global $filename;
                     if($request->has('image')){
@@ -56,6 +49,7 @@ class TeacherController extends Controller
                         $filename = time().'.'.$request->image->extension().'.'.'teacher';
                         $file->move("schools/{$institute_name}/teachers/",$filename);
                     }
+
                     // Store data
                     $teacher = DB::table('add_teacher')->insertGetId([
                       'name'         =>$request->name,
@@ -84,35 +78,35 @@ class TeacherController extends Controller
                         'updated_at'    =>  Carbon::now(),
                     ]);
                 });
+                return back()->with('success', 'Teacher has been added sucessfully..!!');
               }
               catch(\Exception $e){
-                return back()->with('errors',$validated->messages()->get('*'));
-                $a = explode('at',  $e->errorInfo[2]);
-                 //TO CHECK WHAT ERROR MESSAGE WAS THERE
-                return back()->with('warning',$a[0]);
+                  //TO CHECK WHAT ERROR MESSAGE WAS THERE
+                  if(!empty($e->errorInfo[2])){
+                    $a = explode('at',  $e->errorInfo[2]);
+                    return back()->with('warning',$a[0]);
+                  }
+                  else if(!empty($e->getMessage())){
+                    return back()->with('warning',$e->getMessage().'   at   '.$e->getline());  
+                  }
+                  return back()->with('warning','Error Occour Please try Again After Reloading Page');
               }
-            }
-          else{
-            
-          }
-    	 return back()->with('success', 'Teacher has been added sucessfully..!!');
+        }
+        else{
+          return back()->with('errors',$validated->messages()->get('*'));
+        }
     }
 
     public function index(){
-
-       
         $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id);
         $teachers = Teacher::all();
         return view('School.Teacher.view_teacher', compact('teachers'));
-
     }
 
     public function show($id){
-
         $teacher = Teacher::find($id);
         $school_name = Cache::get('school_name_slug');
         return view('School.Teacher.view_single_teacher' , compact('teacher','school_name'));
-
     }
 
     public function edit($id){
@@ -121,7 +115,7 @@ class TeacherController extends Controller
     }
 
     public function update(Request $request, $id){
-         $validated = $request->validate([
+        $validated = $request->validate([
            'name'       =>'required|max:255',
            'phone_no'   =>'required',
            'password'   =>'required|min:6',
@@ -131,9 +125,9 @@ class TeacherController extends Controller
 
         
         if($validated){
+            try{
+              DB::transaction(function() use($request, $id){
 
-             try{
-               DB::transaction(function() use($request, $id){
                 global $filename;
                 $institute_name = Cache::get('school_name_slug');
                 // Image Update
@@ -163,8 +157,6 @@ class TeacherController extends Controller
                     'pincode'      =>   $request->pin_code,
                     'password'     =>   bcrypt($request->password),
                     'id_proof'     =>   $request->id_proof,
-                    'email'        =>   $request->email,
-                    'created_at'    =>  Carbon::now(),
                     'updated_at'    =>  Carbon::now(),
                 ]);
 
@@ -173,41 +165,51 @@ class TeacherController extends Controller
                 if($request->has('password')){
                     User::where('user_type_id',$id)->update([
                         'password'  =>  bcrypt($request['password']),
-                        'created_at'    =>  Carbon::now(),
                         'updated_at'    =>  Carbon::now(),
                     ]);
                 }
-            });
+              });
+              return redirect('teacher/index')->with('success', 'Teacher has been updated');
             }
             catch(\Exception $e){
-            $a = explode('for', $e->errorInfo[2]);
-             //TO CHECK WHAT ERROR MESSAGE WAS THERE
-            return back()->with('warning',$a[0]);
+                if(!empty($e->errorInfo[2])){
+                  return back()->with('warning',$e->errorInfo[2]);
+                }
+                else if(!empty($e->getMessage())){
+                  return back()->with('warning',$e->getMessage().'   at   '.$e->getline());  
+                }else{
+                  return back()->with('warning','Error Occour Please try Again After Reloading Page');
+                }
             }
-           
-        }else{
-              
-              return back()->with('errors',$validated->messages()->get('*'));
+        }
+        else{
+            return back()->with('errors',$validated->messages()->get('*'));
          }
-        return redirect('teacher/index')->with('success', 'Teacher has been updated');
     }
 
     public function delete($id){
         try{
             DB::transaction(function() use($id){
               $institute_name = Cache::get('school_name_slug');
-              $image = Teacher::where('id',$id)->first()->teacher;
-
+              $image = Teacher::where('id',$id)->first()->image;
                // TO DELETE AN EXISTING IMAGE
-                if(File::exists(public_path('schools/{$institute_name}/teachers/'.$image))){
-                 File::delete(public_path('schools/{$institute_name}/teachers/'.$image));
+                if(File::exists(public_path('schools/'.$institute_name.'/teachers/'.$image))){
+                 File::delete(public_path('schools/'.$institute_name.'/teachers/'.$image));
                 }
                 
-                User::where('user_type_id',$id)->delete();
+                User::where('user_type_id',$id)->where('role_id','=',Role::where('name','Teacher')->first()->id)->delete();
                 Teacher::find($id)->delete();
             });
+            return back()->with('success', 'Teacher has been deleted sucessfully..!!');
         }catch(\Exception $e){
-            return back()->with('success', 'Teacher deleted sucessfully');
+              if(!empty($e->errorInfo[2])){
+                return back()->with('warning',$e->errorInfo[2]);
+              }
+              else if(!empty($e->getMessage())){
+                return back()->with('warning',$e->getMessage().'   at   '.$e->getline());  
+              }else{
+                return back()->with('warning','Error Occour Please try Again After Reloading Page');
+              }
         }
     }
 
@@ -221,6 +223,27 @@ class TeacherController extends Controller
             'status' => $status,
         ]);
         return true;
+    }
+
+    public function deleted_Teacher()
+    {
+        $teachers = Teacher::onlyTrashed()->get();
+        return view('School.Teacher.Deleted_Teacher', compact('teachers'));
+    }
+
+    public function permanent_delete($id)
+    {
+        Teacher::onlyTrashed()->find($id)->forceDelete();
+        User::where('user_type_id',$id)->where('role_id','=',Role::where('name','Teacher')->first()->id)->forceDelete();
+        return back()->with('success', 'Teacher has been Deleted Permanent');
+    }
+
+
+    public function restore($id)
+    {
+        Teacher::onlyTrashed()->find($id)->restore();
+        User::where('user_type_id',$id)->where('role_id','=',Role::where('name','Teacher')->first()->id)->restore();
+        return back()->with('success', 'Teacher has been Restored');
     }
 }
 

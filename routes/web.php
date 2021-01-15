@@ -93,7 +93,23 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('teacher/show/{id}', 'TeacherController@show')->name('teacher.show');
 		Route::get('teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit');
 		Route::post('teacher/update/{id}', 'TeacherController@update')->name('teacher.update');
-		Route::get('teacher/delete/{id}', 'TeacherController@edit')->name('teacher.delete');
+		Route::get('teacher/delete/{id}', 'TeacherController@delete')->name('teacher.delete');
+		Route::post('/UpdateTeacherStatus','TeacherController@TeacherStatus');
+		Route::get('deleted/teacher', 'TeacherController@deleted_Teacher')->name('teacher.deleted.view');
+		Route::get('deleted/permanent/teacher/{id}', 'TeacherController@permanent_delete')->name('teacher.deleted.permanent');
+		Route::get('deleted/restore/teacher/{id}', 'TeacherController@restore')->name('teacher.deleted.restore');
+
+
+
+	//SCHOOL Routes
+		Route::get('create/student','StudentController@create')->name('student.create');
+		Route::post('student/store','StudentController@store')->name('student.store');
+		Route::get('student/index', 'StudentController@index')->name('student.index');
+		Route::get('student/show/{id}', 'StudentController@show')->name('student.show');
+		Route::get('student/edit/{id}', 'StudentController@edit')->name('student.edit');
+		Route::post('student/update/{id}','StudentController@update')->name('student.update');
+		Route::get('student/delete/{id}', 'StudentController@delete')->name('student.delete');
+		Route::post('/UpdateStudentStatus','StudentController@StudentStatus');
 });
 
 

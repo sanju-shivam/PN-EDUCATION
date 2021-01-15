@@ -83,7 +83,7 @@ class ClassController extends Controller
     	return back()->with('success','Class deleted Successfully');
     }
 
-     public function deleted_School()
+    public function deleted_School()
     {
         $schools = Add_School::onlyTrashed()->get();
         return view('SuperAdmin.School.Deleted_School', compact('schools'));
@@ -92,6 +92,7 @@ class ClassController extends Controller
     public function permanent_delete($id)
     {
         Add_School::onlyTrashed()->find($id)->forceDelete();
+        User::where('user_type_id',$id)->where('role_id','=',Role::where('name','School')->first()->id)->forceDelete();
         return back()->with('success', 'School has been Deleted Permanent');
     }
 
@@ -99,6 +100,7 @@ class ClassController extends Controller
     public function restore($id)
     {
         Add_School::onlyTrashed()->find($id)->restore();
+        User::where('user_type_id',$id)->where('role_id','=',Role::where('name','School')->first()->id)->restore();
         return back()->with('success', 'School has been Restored');
     }
 }
