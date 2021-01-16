@@ -123,6 +123,15 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('relation/class/subject/teacher/edit/{id}','Class_Subject_Teacher_Realtion_Controller@edit')->name('relation.class.subject.teacher.edit');
 		Route::post('class/teacher/subject/update/{id}','Class_Subject_Teacher_Realtion_Controller@update')->name('relation.class.subject.teacher.update');
 		Route::get('relation/class/subject/teacher/delete/{id}','Class_Subject_Teacher_Realtion_Controller@delete')->name('relation.class.subject.teacher.delete');
+
+
+
+	// IS Class Teacher Relation
+		Route::get('relation/class/teacher','IS_Class_Teacher_Controller@create_and_index')->name('relation.class.teacher');
+		Route::post('class/teacher/store','IS_Class_Teacher_Controller@store')->name('relation.class.teacher.store');
+		Route::get('relation/class/teacher/edit/{id}','IS_Class_Teacher_Controller@edit')->name('relation.class.teacher.edit');
+		Route::post('class/teacher/update/{id}','IS_Class_Teacher_Controller@update')->name('relation.class.teacher.update');
+		Route::get('relation/class/teacher/delete/{id}','IS_Class_Teacher_Controller@delete')->name('relation.class.teacher.delete');
 });
 
 

@@ -20,8 +20,6 @@ class Class_Subject_Teacher_Realtion_Controller extends Controller
    		$classes 	= 	ClassModel::all();
    		$subjects 	= 	Subject::all();
    		$teachers	=	Teacher::where('institute_id', '=', Auth::user()							->user_type_id)->get();
-
-
    		$relations = Class_Subject_teacher::where('institute_id',Auth::user()->user_type_id)->get();
 
    		return view('School.Relation.Class_Subject_teacher.Create',compact('classes','subjects','teachers','relations'));
@@ -29,10 +27,11 @@ class Class_Subject_Teacher_Realtion_Controller extends Controller
 
    	public function store(Request $request)
    	{
-    	$relationAlreadyPresent = Class_Subject_Teacher::where('class_id',$request->class_id)->where('subject_id',$request->subject_id)->where('teacher_id',$request->teacher_id)->where('institute_id',Auth::user()->user_type_id)->count();
-    	if($relationAlreadyPresent){
-    		return back()->with('warning','Relation Is Already Present Pleaase Check Again');
-    	}
+         $relationAlreadyPresent = Class_Subject_Teacher::where('class_id',$request->class_id)->where('subject_id',$request->subject_id)->where('teacher_id',$request->teacher_id)->where('institute_id',Auth::user()->user_type_id)->count();
+
+         if($relationAlreadyPresent != 0){
+            return back()->with('warning','Relation Is Already Present Pleaase Check Again');
+         }
 
    		try{
    			DB::transaction(function() use ($request){
