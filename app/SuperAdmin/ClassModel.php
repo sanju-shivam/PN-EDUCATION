@@ -24,5 +24,9 @@ class ClassModel extends Model
     }
 
    
- 
+    public function Is_Class_teacher()
+    {
+    	return $this->belongsTo('App\School\Is_Class_teacher');
+    }
+
 }

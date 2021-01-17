@@ -40,4 +40,9 @@ class Teacher extends Model
     {
         return $this->belongsTo('App\School\Class_Subject_Teacher');
     }
+
+    public function Is_Class_teacher()
+    {
+        return $this->belongsTo(Is_Class_teacher::class);
+    }
 }

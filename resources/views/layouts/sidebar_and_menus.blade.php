@@ -88,6 +88,11 @@
                                                 Class , Teacher & Subject
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="{{ route('relation.class.teacher') }}">
+                                                IS Class Teacher
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
 
