@@ -59,7 +59,7 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
         Route::get('section/edit/{id}', 'SectionController@edit')->name('section.edit');
         Route::post('section/update/{id}', 'SectionController@update')->name('section.update');
         Route::get('section/delete/{id}', 'SectionController@delete')->name('section.delete');
-<<<<<<< HEAD
+
        
        // DAY ROUTES
         Route::get('day/create', 'DayController@create')->name('day.create');
@@ -76,8 +76,7 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
         Route::get('time/edit/{id}', 'TimeController@edit')->name('time.edit');
         Route::post('time/update/{id}', 'TimeController@update')->name('time.update');
         Route::get('time/delete/{id}', 'TimeController@delete')->name('time.delete');
-=======
->>>>>>> 76f9a6ba290c1dcaead4afdfd3eb33a3ccb9fc54
+
 	
 
 
@@ -105,6 +104,7 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
 
 //ONLY SCHOOL
 Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
+	
 	// Teacher Routes
 		Route::get('teacher/create','TeacherController@create')->name('teacher.create');
 		Route::post('teacher/store','TeacherController@store')->name('teacher.store');
@@ -112,12 +112,45 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('teacher/show/{id}', 'TeacherController@show')->name('teacher.show');
 		Route::get('teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit');
 		Route::post('teacher/update/{id}', 'TeacherController@update')->name('teacher.update');
+
 		Route::get('teacher/delete/{id}', 'TeacherController@edit')->name('teacher.delete');
 
 
-		// ************* CLASS SCHEDULE ROUTES ***********
-		Route::match(['get', 'post'],'class_schedule', 'ClassScheduleController@fields')->name('class_schedule'); 
+		// ************* CLASS SCHEDULE ROUTES ***********//
+		Route::get('class_schedule', 'ClassScheduleController@fields')->name('class_schedule'); 
+		Route::post('class_schedule/store', 'ClassScheduleController@store')->name('class_schedule.store');
+		Route::get('class_schedule/view', 'ClassScheduleController@index')->name('class_schedule.view');
 		
+
+		Route::get('teacher/delete/{id}', 'TeacherController@delete')->name('teacher.delete');
+		Route::post('/UpdateTeacherStatus','TeacherController@TeacherStatus');
+		Route::get('deleted/teacher', 'TeacherController@deleted_Teacher')->name('teacher.deleted.view');
+		Route::get('deleted/permanent/teacher/{id}', 'TeacherController@permanent_delete')->name('teacher.deleted.permanent');
+		Route::get('deleted/restore/teacher/{id}', 'TeacherController@restore')->name('teacher.deleted.restore');
+
+
+
+	//SCHOOL Routes
+		Route::get('create/student','StudentController@create')->name('student.create');
+		Route::post('student/store','StudentController@store')->name('student.store');
+		Route::get('student/index', 'StudentController@index')->name('student.index');
+		Route::get('student/show/{id}', 'StudentController@show')->name('student.show');
+		Route::get('student/edit/{id}', 'StudentController@edit')->name('student.edit');
+		Route::post('student/update/{id}','StudentController@update')->name('student.update');
+		Route::get('student/delete/{id}', 'StudentController@delete')->name('student.delete');
+		Route::post('/UpdateStudentStatus','StudentController@StudentStatus');
+		Route::get('deleted/student', 'StudentController@deleted_students')->name('student.deleted.view');
+		Route::get('student/deleted/restore/{id}', 'StudentController@restore_student')->name('student.deleted.restore');
+		Route::get('student/deleted/permanent/{id}', 'StudentController@permanent_delete')->name('student.permanent.deleted');
+
+
+
+	// Class Teacher Subject Relation
+		Route::get('relation/class/subject/teacher','Class_Subject_Teacher_Realtion_Controller@create')->name('relation.class.subject.teacher');
+		Route::post('class/teacher/subject/store','Class_Subject_Teacher_Realtion_Controller@store')->name('relation.class.subject.teacher.store');
+		Route::get('relation/class/subject/teacher/edit/{id}','Class_Subject_Teacher_Realtion_Controller@edit')->name('relation.class.subject.teacher.edit');
+		Route::post('class/teacher/subject/update/{id}','Class_Subject_Teacher_Realtion_Controller@update')->name('relation.class.subject.teacher.update');
+		Route::get('relation/class/subject/teacher/delete/{id}','Class_Subject_Teacher_Realtion_Controller@delete')->name('relation.class.subject.teacher.delete');
 });
 
 

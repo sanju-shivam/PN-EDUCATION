@@ -9,13 +9,13 @@
                 <div class="card-body">
                     <h1 class="pull-right">
                     
-                      <a class="btn btn-success pull-right float-right" data-target=".bd-example-modal-lg" data-toggle="modal" >ADD NEW SCHEDULE</a>
+                      <a class="btn btn-success pull-right float-right" data-target=".bd-example-modal-lg" data-toggle="modal" href="{{route('class_schedule')}}">ADD NEW SCHEDULE</a>
                     </h1>
                     <h5 class="card-title">All Class</h5>
 
                     <table class="table " id="dataTable">
                         <thead>
-                            <tr>
+                            <tr> 
                                 <th scope="col">S.no</th>
                                 <th id="column3_search" scope="col">Subject</th>
                                 <th id="column3_search" scope="col">Class Name</th>
@@ -29,18 +29,20 @@
                         </thead>
                         <tbody>
                             <?php  $id=1; ?>
-                            @foreach($schedules as $day)
-                            <tr>
+                            @foreach($class_schedules as $class_schedule)
+                            <tr class="text-center">
                                 <th scope="row">{{ $id++ }}</th>
-                                <td>{{ $day->name }}</td>
+                                <td>{{ $class_schedule->subject[0]->name}}</td>
+                                <td>{{$class_schedule->class[0]->name}}</td>
+                                <td>{{$class_schedule->section[0]->name}}</td>
+                                <td>{{$class_schedule->teacher[0]->name}}</td>
+                                <td>{{$class_schedule->day[0]->name}}</td>
+                                <td>{{$class_schedule->time[0]->time}}</td>
+
                                 <td class="text-center">
-                                    <!-- <br>
-                                    
-                                    <a class="btn btn-warning" href="{{ url('day/edit/'.$day->id) }}" >Edit</a>
-                                    
-                                   <!--  <br> -->
+                                    <a class="btn btn-warning" href="{{ url('day/edit/'.$class_schedule->id) }}" >Edit</a>
                                         
-                                    <a class="btn btn-danger" href="{{ url('day/delete/'.$day->id) }}">DELETE</a>                                  
+                                    <a class="btn btn-danger" href="{{ url('day/delete/'.$class_schedule->id) }}">DELETE</a>                                  
                                 </td>
                             </tr>
                             @endforeach

@@ -14,15 +14,6 @@
                                 </a>
                             </li>
                             @if(auth::user()->role_id ==1)
-                                <!-- <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="menu-icon icon-apps"></i><span>Admins</span><i class="accordion-icon fas fa-angle-left"></i>
-                                    </a>
-                                    <ul class="sub-menu">
-                                        <li><a href="">Add Admin</a></li>
-                                        <li><a href="">View Admin</a></li>
-                                    </ul>
-                                </li> -->
                                 <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>School</span><i class="accordion-icon fas fa-angle-left"></i>
@@ -76,6 +67,38 @@
                                     <ul class="sub-menu">
                                         <li><a href="{{ route('teacher.create') }}">Add Teacher</a></li>
                                         <li><a href="{{ route('teacher.index') }}">View Teacher</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Student</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ route('student.create') }}">Add Student</a></li>
+                                        <li><a href="{{ route('student.index') }}">View Student</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Relation</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="{{ route('relation.class.subject.teacher') }}">
+                                                Class , Teacher & Subject
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Deleted</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li><a href="{{ route('teacher.deleted.view') }}">Teacher</a></li>
+                                        <li><a href="{{ route('student.deleted.view') }}">Student</a></li>
+                                        <!-- <li><a href="{{ route('teacher.index') }}">View Teacher</a></li> -->
                                     </ul>
                                 </li>
                                 <li>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Session;
 use App\SuperAdmin\Add_School;
 use App\School\Teacher;
+use App\School\Student;
 use Auth;
 use App\CommonModels\Role;
 use Cache;
@@ -33,21 +34,25 @@ class HomeController extends Controller
         
         $schools = null;
         $teacher = null;
-        $user_id = Auth::user()->role_id;
+        $students = null;
+        $user_role_id = Auth::user()->role_id;
         // IF USER IS SuperAdmin USER GET 
                 //  1 : TEACHER COUNT AND SCHOOL COUNT
-        if($user_id == Role::where('name','SuperAdmin')->first()->id ){
+        if($user_role_id == Role::where('name','SuperAdmin')->first()->id ){
                 $schools = Add_School::count();
                 $teacher = Teacher::count();
-        }// IF USER IS SCHOOL USER GET   ===>>>> 1 : TEACHER COUNT
-        else if($user_id == Role::where('name','School')->first()->id){
+                $students = Student::count();
+        }   
+        // IF USER IS SCHOOL USER GET   ===>>>> 1 : TEACHER COUNT
+        else if($user_role_id == Role::where('name','School')->first()->id){
             Cache::forever('school',Add_School::select('id','name')->where('id',Auth::user()->user_type_id)->first());
 
             Cache::forever('school_name_slug',Str::slug(Cache::get('school')->name));
-            $teacher = Teacher::where('institute_id',Cache::get('school')->id)->count();
+            $teacher = Teacher::where('institute_id',Cache::get('school')->id)->where('deleted_at','=',null)->count();
+            $students = Student::where('institute_id',Cache::get('school')->id)->where('deleted_at','=',null)->count();
         }
         else if(
-            $user_id == Role::where('name','Teacher')->first()->id
+            $user_role_id == Role::where('name','Teacher')->first()->id
         ){
             Cache::forever('school',function(){
                 return Add_School::select('id','name')->where('id',Auth::user()->user_type_id)->first();
@@ -56,11 +61,11 @@ class HomeController extends Controller
                 return Str::slug(Cache::get('school')->name);
             });
         }
-        else if($user_id == Role::where('name','Student')->first()->id){
+        else if($user_role_id == Role::where('name','Student')->first()->id){
 
         }
         
-        return view('home',compact('schools','teacher'));
+        return view('home',compact('schools','teacher','students'));
     }
 
     public function logout()

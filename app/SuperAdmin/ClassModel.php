@@ -12,4 +12,17 @@ class ClassModel extends Model
     protected $table = "class";
 
     protected $fillable = ['name'];
+
+
+    public function Class_Subject_Teacher()
+    {
+    	return $this->belongsTo('App\School\Class_Subject_Teacher');
+    }
+
+    public function ClassSchedule(){
+    	return $this->belongsTo('App\School\ClassSchedule');
+    }
+
+   
+ 
 }

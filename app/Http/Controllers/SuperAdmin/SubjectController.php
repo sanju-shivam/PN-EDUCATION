@@ -81,10 +81,7 @@ class SubjectController extends Controller
         return view('SuperAdmin.Subject.View_subject', compact('Subject'));
     }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 76f9a6ba290c1dcaead4afdfd3eb33a3ccb9fc54
     public function deleted_Subjects()
     {
         $Subject = Subject::onlyTrashed()->get();

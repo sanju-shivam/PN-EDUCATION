@@ -31,4 +31,13 @@ class Teacher extends Model
     {
         return $this->belongsTo('App\SuperAdmin\Add_School','institute_id');
     }
+    
+    public function class_schedule(){
+        return $this->belongsTo('App\School\ClassSchedule');
+    }
+
+    public function Class_Subject_Teacher()
+    {
+        return $this->belongsTo('App\School\Class_Subject_Teacher');
+    }
 }

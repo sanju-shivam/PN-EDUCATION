@@ -8,7 +8,6 @@ use App\SuperAdmin\Add_School;
 use App\School\Teacher;
 use App\CommonModels\Role;
 use App\user;
-use App\School\Teacher;
 use Auth;
 use Illuminate\Support\Facades\Validate;
 use Illuminate\Support\Facades\DB;
@@ -99,16 +98,19 @@ class SchoolController extends Controller
                 });
             }
             catch(\Exception $e){
-                $a = explode('for', $e->errorInfo[2]);
-                 //TO CHECK WHAT ERROR MESSAGE WAS THERE
-                return back()->with('warning',$a[0]);
+                if(!empty($e->errorInfo[2])){
+                    return back()->with('warning',$e->errorInfo[2]);
+                }
+                else if(!empty($e->getMessage())){
+                    return back()->with('warning',$e->getMessage().'   at   '.$e->getline());  
+                }else{
+                    return back()->with('warning','Error Occour Please try Again After Reloading Page');
+                }
             }
         }
         else{
-       
-        // dd($validated->messages()->get('*'));
          return back()->with('errors',$validated->messages()->get('*'));
-    }
+        }
         return redirect('school/create')->with('success', 'School has been Created');
     }
 
@@ -205,9 +207,14 @@ class SchoolController extends Controller
          });
         }
         catch(\Exception $e){
-            dd($e);
-             $a = explode('for', $e->errorInfo[2]);
-            return back()->with('warning', $a);
+            if(!empty($e->errorInfo[2])){
+                return back()->with('warning',$e->errorInfo[2]);
+            }
+            else if(!empty($e->getMessage())){
+                return back()->with('warning',$e->getMessage().'   at   '.$e->getline());  
+            }else{
+                return back()->with('warning','Error Occour Please try Again After Reloading Page');
+            }
         }
             
         }else{
@@ -230,12 +237,11 @@ class SchoolController extends Controller
             DB::transaction(function() use ($id){
                 $image = Add_School::select('logo','name')->where('id',$id)->first();
                 $school_name =  Str::slug($image->name);
-
                     //TO DELETE EXISTING IMAGE IN STORAGE 
-                    if(File::exists(public_path('schools/{$school_name}/logo/'.$image->logo))){
-                        File::delete(public_path('schools/{$school_name}/logo/'.$image->logo));
+                    if(File::exists(public_path('schools/'.$school_name.'/logo/'.$image->logo))){
+                        File::delete(public_path('schools/'.$school_name.'/logo/'.$image->logo));
                     }
-                User::where('user_type_id',$id)->delete();
+                User::where('user_type_id',$id)->where('role_id','=',Role::where('name','School')->first()->id)->delete();
                 Add_School::find($id)->delete();
             });
         }
