@@ -12,7 +12,8 @@
                         <thead>
                             <tr>
                                 <th scope="col">S.no</th>
-                                <th id="column3_search" scope="col">Time</th>
+                                <th id="column3_search" scope="col">Start Time</th>
+                                <th id="column3_search" scope="col">End Time</th>
                                 <th scope="col" style="text-align: center;">Action</th>
                             </tr>
                         </thead>
@@ -21,7 +22,8 @@
                             @foreach($times as $time)
                             <tr>
                                 <th scope="row">{{ $id++ }}</th>
-                                <td>{{ $time->time }}</td>
+                                <td>{{ $time->start_time }}</td>
+                                <td>{{ $time->end_time }}</td>
                                 <td class="text-center">
                                     <!-- <br> -->
                                     

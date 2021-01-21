@@ -10,14 +10,28 @@
                     <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
                     <form method="POST" action="{{ route('time.store') }}">
                         @csrf
-                        <div class="form-group">
-                            <label >Time</label>
-                            <input type="text" name="time" required class="form-control @error('time') is-invalid @enderror" placeholder="Enter time">
-                           
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label >Start Time</label>
+                                    <input type="time" required name="start_time" class="form-control" name="">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label >End Time</label>
+                                    <input type="time" required name="end_time" class="form-control" name="">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label >&nbsp;</label>
+                                    <input type="submit" class="form-control btn btn-primary" style="color: white;" value="Submit">
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
-                </div>
+                </div>    
             </div>
         </div>
     </div>

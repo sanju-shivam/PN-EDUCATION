@@ -11,6 +11,9 @@ use Auth;
 use App\CommonModels\Role;
 use Cache;
 use Str;
+use Artisan;
+
+
 
 class HomeController extends Controller
 {

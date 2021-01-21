@@ -1,0 +1,50 @@
+function SearchingChallenge(strArr) { 
+
+  var b=[];
+  var cx; var cy;
+  var fx=[]; var fy=[];
+  var hx,hy;
+  var count=0;
+  var dis = [];
+  var result;
+  // code goes here 
+  for(var a =0; a < strArr.length; a++ ){
+    b[a] = strArr[a].split(''); 
+  }
+  for(var i = 0; i< b.length; i++ ){
+    for(var j =0; j< b.length; j++){
+      if(b[i][j] == "C"){
+        cx=i;
+        cy=j;
+      }
+    }
+  }
+  for(var i = 0; i< b.length; i++ ){
+    for(var j =0; j< b.length; j++){
+      if(b[i][j] == "F"){
+        fx[count]=i;
+        fy[count]=j;
+        count++;
+      }
+    }
+  }
+  for(var i = 0; i< fx.length; i++ ){
+    dis[i] = Math.abs(fx[i]-cx) + Math.abs(fy[i]-cy);
+  }
+  var sum = dis.reduce((a,b) => {
+      return a+b;
+  });
+  for(var i = 0; i< b.length; i++ ){
+    for(var j =0; j< b.length; j++){
+      if(b[i][j] == "H"){
+        hx=i;
+        hy=j;
+      }
+    }
+  }
+  result = Math.abs(hx-cx) + Math.abs(hy-cy);
+  return result+sum; 
+}
+   
+// keep this function call here 
+console.log(SearchingChallenge(readline()));

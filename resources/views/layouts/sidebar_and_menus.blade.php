@@ -66,6 +66,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li><a href="{{ route('teacher.create') }}">Add Teacher</a></li>
+                                        <li><a href="{{ route('teacher.bulkupload.create') }}">Bulk Upload Teacher</a></li>
                                         <li><a href="{{ route('teacher.index') }}">View Teacher</a></li>
                                     </ul>
                                 </li>
@@ -95,7 +96,19 @@
                                         </li>
                                     </ul>
                                 </li>
-
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Time Slot</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="{{ url('time/create') }}">
+                                                Time Slot
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('time/index') }}">View Time Slot</a></li>
+                                    </ul>
+                                </li>
                                 <li>
                                     <a href="javascript:void(0)">
                                         <i class="menu-icon icon-layers"></i><span>Deleted</span><i class="accordion-icon fas fa-angle-left"></i>

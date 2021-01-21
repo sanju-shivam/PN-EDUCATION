@@ -13,10 +13,8 @@ use Illuminate\Support\Facades\Hash;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('deleted',function(){
-	dd(Cache::get('school'));
-	// dd(Add_School::where('id',11)->restore());
+Route::get('ser',function(){
+	dd(Carbon\Carbon::parse('10:00'));
 });
 
 Route::get('/', function () {
@@ -61,22 +59,13 @@ Route::namespace('SuperAdmin')->middleware(['auth','OnlySuperAdmin'])->group(fun
         Route::get('section/delete/{id}', 'SectionController@delete')->name('section.delete');
 
        
-       // DAY ROUTES
+    // DAY ROUTES
         Route::get('day/create', 'DayController@create')->name('day.create');
         Route::post('day/store', 'DayController@store')->name('day.store');
         Route::get('day/index', 'DayController@index')->name('day.index');
         Route::get('day/edit/{id}', 'DayController@edit')->name('day.edit');
         Route::post('day/update/{id}', 'DayController@update')->name('day.update');
         Route::get('day/delete/{id}', 'DayController@delete')->name('day.delete');
-
-         // TIME ROUTES
-        Route::get('time/create', 'TimeController@create')->name('time.create');
-        Route::post('time/store', 'TimeController@store')->name('time.store');
-        Route::get('time/index', 'TimeController@index')->name('time.index');
-        Route::get('time/edit/{id}', 'TimeController@edit')->name('time.edit');
-        Route::post('time/update/{id}', 'TimeController@update')->name('time.update');
-        Route::get('time/delete/{id}', 'TimeController@delete')->name('time.delete');
-
 	
 
 
@@ -112,11 +101,12 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('teacher/show/{id}', 'TeacherController@show')->name('teacher.show');
 		Route::get('teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit');
 		Route::post('teacher/update/{id}', 'TeacherController@update')->name('teacher.update');
+		Route::get('teacher/buld/upload','TeacherController@create')->name('teacher.bulkupload.create');
 
 		Route::get('teacher/delete/{id}', 'TeacherController@edit')->name('teacher.delete');
 
 
-		// ************* CLASS SCHEDULE ROUTES ***********//
+	// CLASS SCHEDULE ROUTES
 		Route::get('class_schedule', 'ClassScheduleController@fields')->name('class_schedule'); 
 		Route::post('class_schedule/store', 'ClassScheduleController@store')->name('class_schedule.store');
 		Route::get('class_schedule/view', 'ClassScheduleController@index')->name('class_schedule.view');
@@ -160,6 +150,16 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('relation/class/teacher/edit/{id}','IS_Class_Teacher_Controller@edit')->name('relation.class.teacher.edit');
 		Route::post('class/teacher/update/{id}','IS_Class_Teacher_Controller@update')->name('relation.class.teacher.update');
 		Route::get('relation/class/teacher/delete/{id}','IS_Class_Teacher_Controller@delete')->name('relation.class.teacher.delete');
+
+
+	// TIME ROUTES
+        Route::get('time/create', 'TimeController@create')->name('time.create');
+        Route::post('time/store', 'TimeController@store')->name('time.store');
+        Route::get('time/index', 'TimeController@index')->name('time.index');
+        Route::get('time/edit/{id}', 'TimeController@edit')->name('time.edit');
+        Route::post('time/update/{id}', 'TimeController@update')->name('time.update');
+        Route::get('time/delete/{id}', 'TimeController@delete')->name('time.delete');
+
 });
 
 
