@@ -18,9 +18,11 @@ class CreateTimeTableSchoolTable extends Migration
             $table->bigInteger('class_id');
             $table->integer('day_id');
             $table->bigInteger('teacher_id');
-            $table->bigInteger(' subject_id');
+            $table->bigInteger('subject_id');
             $table->integer('section_id')->nullable();
             $table->bigInteger('institute_id');
+            $table->integer('time_slot_id');
+            $table->integer('row_id');
             $table->timestamps();
         });
     }

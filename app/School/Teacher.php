@@ -45,4 +45,9 @@ class Teacher extends Model
     {
         return $this->belongsTo(Is_Class_teacher::class);
     }
+
+    public function Timetable()
+    {
+        return $this->belongsTo(TimeTable::class);
+    }
 }

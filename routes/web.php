@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Hash;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('ser',function(){
-	dd(Carbon\Carbon::parse('10:00'));
-});
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -101,7 +100,10 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
 		Route::get('teacher/show/{id}', 'TeacherController@show')->name('teacher.show');
 		Route::get('teacher/edit/{id}', 'TeacherController@edit')->name('teacher.edit');
 		Route::post('teacher/update/{id}', 'TeacherController@update')->name('teacher.update');
-		Route::get('teacher/buld/upload','TeacherController@create')->name('teacher.bulkupload.create');
+		Route::get('teacher/bulk/upload','TeacherController@import_view')->name('teacher.bulkupload.create');
+		Route::post('teacher/bulk/store','TeacherController@teacher_bulk_upload')->name('teacher.bulkupload.store');
+		Route::get('teacher/bulk/export', 'TeacherController@Export')->name('teacher.bulkupload.export');
+		Route::get('teacher/bulk/export/sample', 'TeacherController@ExportSample')->name('teacher.bulkupload.export.sample');
 
 		Route::get('teacher/delete/{id}', 'TeacherController@edit')->name('teacher.delete');
 
@@ -159,6 +161,12 @@ Route::namespace('School')->middleware(['auth','OnlySchool'])->group(function(){
         Route::get('time/edit/{id}', 'TimeController@edit')->name('time.edit');
         Route::post('time/update/{id}', 'TimeController@update')->name('time.update');
         Route::get('time/delete/{id}', 'TimeController@delete')->name('time.delete');
+
+
+    // TimeTable Routes
+        Route::get('create/timetable','TimeTableSchool@create');
+        Route::post('store/timetable','TimeTableSchool@store');
+        Route::get('view/timetable','TimeTableSchool@view');
 
 });
 

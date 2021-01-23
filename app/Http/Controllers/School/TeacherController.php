@@ -14,6 +14,10 @@ use Illuminate\Support\Str;
 use File;
 use Cache;
 use Carbon\Carbon;
+use App\Exports\TeacherExport;
+use App\Imports\TeacherImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TeacherExportSample;
 
 // use Illuminate\Support\Facades\Log;
 // Log::info('Showing the user profile for user: '.$id);
@@ -243,6 +247,42 @@ class TeacherController extends Controller
         Teacher::onlyTrashed()->find($id)->restore();
         User::where('user_type_id',$id)->where('role_id','=',Role::where('name','Teacher')->first()->id)->restore();
         return back()->with('success', 'Teacher has been Restored');
+    }
+
+
+    public function import_view()
+    {
+      return view('School.Teacher.teacher_bulk_upload');
+    }
+
+    public function teacher_bulk_upload(Request $request)
+    {
+      try{
+        DB::transaction( function() use ($request){
+          Excel::import(new TeacherImport,$request->file('file')); 
+        });
+        return back()->with('success');
+      }
+      catch(\Exception $e){
+         if(!empty($e->errorInfo[2])){
+            $a = explode(' at ',  $e->errorInfo[2]);
+            return back()->with('warning',$a[0]);
+          }
+          else if(!empty($e->getMessage())){
+            return back()->with('warning',$e->getMessage().'   at   '.$e->getline());  
+          }
+          return back()->with('warning','Error Occour Please try Again After Reloading Page');
+      }
+    }
+
+    public function Export($value='')
+    {
+      return Excel::download(new TeacherExport, 'teacher.xlsx');
+    }
+
+    public function ExportSample($value='')
+    {
+      return Excel::download(new TeacherExportSample, 'Sample_teacher.xlsx');
     }
 }
 

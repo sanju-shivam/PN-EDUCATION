@@ -64,6 +64,7 @@ class TimeController extends Controller
                     'updated_at' =>  carbon::now(),
 			    ]);
 		    });
+          return redirect('time/index')->with('success', 'Time has been Updated');
 	    }
 	    catch(\Exception $e){
     		  if(!empty($e->errorInfo[2])){
