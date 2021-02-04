@@ -76,25 +76,19 @@ class TimeTableSchool extends Controller
         $days       =   Day::all();
         $classes    =   ClassModel::all();
         $times      =   Time::where('institute_id',Auth::user()->user_type_id)
-                        ->get();
+                        ->get()->sortBy('start_time');
         $Teachers = null; $subjects = null; $time_tables = null; $class_id = null;
-
         if($request->has('class_id')){
 
             $Teachers   =   Teacher::where('institute_id',Auth::user()->user_type_id)
                             ->get();
+
             $subjects   =   Subject::all();
-            $time_tables =   TimeTable::select(
-                                                'class_id',
-                                                'day_id',
-                                                'teacher_id',
-                                                'subject_id',
-                                                'time_slot_id',
-                                                'row_id'
-                                            )
-                            ->where('class_id',$request->class_id)
+
+            $time_tables =  TimeTable::where('class_id',$request->class_id)
                             ->where('institute_id', Auth::user()->user_type_id)
                             ->get();
+                            
             $class_id = $request->class_id;
         }
 

@@ -21,4 +21,8 @@ class Subject extends Model
     public function class_schedule(){
     	return $this->belongsTo('App\School\ClassSchedule');
     }
+
+    public function Time_Table(){
+        return $this->belongsTo('App\School\TimeTable');
+    }
 }

@@ -35,9 +35,9 @@
   <link rel="stylesheet" type="text/css" href="{{asset('assets/css/cs.scss')}}">
 </head>
 
-<div class="card">
+<div class="card  col-md-8">
   <div class="card-body">        
-    <table class="table table-responsive">
+    <table class="table table-bordered table-responsive">
       <thead>
         <tr>
           <!-- First column header is not rotated -->
@@ -56,202 +56,304 @@
           <tr >
             <th class="row-header">{{ $time->start_time.' - '.$time->end_time }}</th>
 
-              <td>
-                <form method="post" action="{{ url('store/timetable') }}">
-                  @csrf
-                  <div class="row">
-                      <div class="col-md-10" style="width: 80%;">
-                        <input type="hidden" name="row_id" value="{{ $row_id }}">
-                        <input type="hidden" name="class_id" value="{{ $class_id }}">
-                        <input type="hidden" name="day_id" value="1">
-                        <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
+              <td class="mx-auto">
+                  <button type="button" class="mt-5 mx-auto btn btn-primary" data-bs-toggle="modal" data-bs-target="#MondayModal{{$row_id}}1">
+                    <i class="fa fa-pen"></i>
+                  </button>
 
-                        <select name="teacher" required class="form-control custom-select" >
-                            <option value="">Teacher</option>
-                            @foreach($Teachers as $teacher)
-                              <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                     <!--  </div>
-                      <div class="col-md-6"> -->
-                        <select name="subject" required class="form-control custom-select mt-2 mb-2">
-                            <option value="">Subject</option>
-                            @foreach($subjects as $subject)
-                              <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                            @endforeach
-                        </select>
+                  
+                  <div class="modal fade" id="MondayModal{{$row_id}}1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Monday Class</h5>
+                          <button style="background-color: transparent;border: 0px;" data-bs-dismiss="modal" aria-label="Close">
+                            <i style="font-size: 20px;" class="fa fa-times-circle"></i>
+                          </button>
+                        </div>
+                        <form method="post" action="{{ url('store/timetable') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-10" style="width: 80%;">
+                                      <input type="hidden" name="row_id" value="{{ $row_id }}">
+                                      <input type="hidden" name="class_id" value="{{ $class_id }}">
+                                      <input type="hidden" name="day_id" value="1">
+                                      <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
 
-                      <input type="submit" class="btn btn-success" value="Update">
-                      </div>  
+                                      <select name="teacher" required class="form-control custom-select" >
+                                          <option value="">Teacher</option>
+                                          @foreach($Teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                          @endforeach
+                                      </select>
+                                      <br>
+                                      <select name="subject" required class="form-control custom-select mt-2 mb-2">
+                                          <option value="">Subject</option>
+                                          @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                          @endforeach
+                                      </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-success" value="Update">
+                                    </div> 
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </form>
               </td>
 
-              <td>
-                <form method="post" action="{{ url('store/timetable') }}">
-                  @csrf
-                  <div class="row">
-                      <div class="col-md-10" style="width: 80%;">
-                        <input type="hidden" name="row_id" value="{{ $row_id }}">
-                        <input type="hidden" name="class_id" value="{{ $class_id }}">
-                        <input type="hidden" name="day_id" value="2">
-                        <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
+              <td class="mx-auto">
+                  <button type="button" class="mt-5 mx-auto btn btn-primary" data-bs-toggle="modal" data-bs-target="#TuesdayModal{{$row_id}}2">
+                    <i class="fa fa-pen"></i>
+                  </button>
 
+                  <!-- Modal -->
+                  <div class="modal fade" id="TuesdayModal{{$row_id}}2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Tuesday Class</h5>
+                          <button style="background-color: transparent;border: 0px;" data-bs-dismiss="modal" aria-label="Close">
+                            <i style="font-size: 20px;" class="fa fa-times-circle"></i>
+                          </button>
+                        </div>
+                        <form method="post" action="{{ url('store/timetable') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-10" style="width: 80%;">
+                                      <input type="hidden" name="row_id" value="{{ $row_id }}">
+                                      <input type="hidden" name="class_id" value="{{ $class_id }}">
+                                      <input type="hidden" name="day_id" value="2">
+                                      <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
 
-                        <select name="teacher" required class="form-control custom-select" >
-                            <option value="">Teacher</option>
-                            @foreach($Teachers as $teacher)
-                              <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                     <!--  </div>
-                      <div class="col-md-6"> -->
-                        <select name="subject" required class="form-control custom-select mt-2 mb-2">
-                            <option value="">Subject</option>
-                            @foreach($subjects as $subject)
-                              <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                            @endforeach
-                        </select>
-
-                      <input type="submit" class="btn btn-success" value="Update">
-                      </div>  
+                                      <select name="teacher" required class="form-control custom-select" >
+                                          <option value="">Teacher</option>
+                                          @foreach($Teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                          @endforeach
+                                      </select>
+                                      <br>
+                                      <select name="subject" required class="form-control custom-select mt-2 mb-2">
+                                          <option value="">Subject</option>
+                                          @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                          @endforeach
+                                      </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-success" value="Update">
+                                    </div> 
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </form>
               </td>
 
-              <td>
-                <form method="post" action="{{ url('store/timetable') }}">
-                  @csrf
-                  <div class="row">
-                      <div class="col-md-10" style="width: 80%;">
-                        <input type="hidden" name="row_id" value="{{ $row_id }}">
-                        <input type="hidden" name="class_id" value="{{ $class_id }}">
-                        <input type="hidden" name="day_id" value="3">
-                        <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
+              <td class="mx-auto">
+                  <button type="button" class="mt-5 mx-auto btn btn-primary" data-bs-toggle="modal" data-bs-target="#WednesdayModal{{$row_id}}2">
+                    <i class="fa fa-pen"></i>
+                  </button>
 
+                  <!-- Modal -->
+                  <div class="modal fade" id="WednesdayModal{{$row_id}}2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Wednesday Class</h5>
+                          <button style="background-color: transparent;border: 0px;" data-bs-dismiss="modal" aria-label="Close">
+                            <i style="font-size: 20px;" class="fa fa-times-circle"></i>
+                          </button>
+                        </div>
+                        <form method="post" action="{{ url('store/timetable') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-10" style="width: 80%;">
+                                      <input type="hidden" name="row_id" value="{{ $row_id }}">
+                                      <input type="hidden" name="class_id" value="{{ $class_id }}">
+                                      <input type="hidden" name="day_id" value="3">
+                                      <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
 
-                        <select name="teacher" required class="form-control custom-select" >
-                            <option value="">Teacher</option>
-                            @foreach($Teachers as $teacher)
-                              <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                     <!--  </div>
-                      <div class="col-md-6"> -->
-                        <select name="subject" required class="form-control custom-select mt-2 mb-2">
-                            <option value="">Subject</option>
-                            @foreach($subjects as $subject)
-                              <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                            @endforeach
-                        </select>
-
-                      <input type="submit" class="btn btn-success" value="Update">
-                      </div>  
+                                      <select name="teacher" required class="form-control custom-select" >
+                                          <option value="">Teacher</option>
+                                          @foreach($Teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                          @endforeach
+                                      </select>
+                                      <br>
+                                      <select name="subject" required class="form-control custom-select mt-2 mb-2">
+                                          <option value="">Subject</option>
+                                          @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                          @endforeach
+                                      </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-success" value="Update">
+                                    </div> 
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </form>
               </td>
 
-              <td>
-                <form method="post" action="{{ url('store/timetable') }}">
-                  @csrf
-                  <div class="row">
-                      <div class="col-md-10" style="width: 80%;">
-                        <input type="hidden" name="row_id" value="{{ $row_id }}">
-                        <input type="hidden" name="class_id" value="{{ $class_id }}">
-                        <input type="hidden" name="day_id" value="4">
-                        <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
+              <td class="mx-auto">
+                  <button type="button" class="mt-5 mx-auto btn btn-primary" data-bs-toggle="modal" data-bs-target="#ThrushdayModal{{$row_id}}4">
+                    <i class="fa fa-pen"></i>
+                  </button>
 
+                  <!-- Modal -->
+                  <div class="modal fade" id="ThrushdayModal{{$row_id}}4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Thrushday Class</h5>
+                          <button style="background-color: transparent;border: 0px;" data-bs-dismiss="modal" aria-label="Close">
+                            <i style="font-size: 20px;" class="fa fa-times-circle"></i>
+                          </button>
+                        </div>
+                        <form method="post" action="{{ url('store/timetable') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-10" style="width: 80%;">
+                                      <input type="hidden" name="row_id" value="{{ $row_id }}">
+                                      <input type="hidden" name="class_id" value="{{ $class_id }}">
+                                      <input type="hidden" name="day_id" value="3">
+                                      <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
 
-                        <select name="teacher" required class="form-control custom-select" >
-                            <option value="">Teacher</option>
-                            @foreach($Teachers as $teacher)
-                              <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                     <!--  </div>
-                      <div class="col-md-6"> -->
-                        <select name="subject" required class="form-control custom-select mt-2 mb-2">
-                            <option value="">Subject</option>
-                            @foreach($subjects as $subject)
-                              <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                            @endforeach
-                        </select>
-
-                      <input type="submit" class="btn btn-success" value="Update">
-                      </div>  
+                                      <select name="teacher" required class="form-control custom-select" >
+                                          <option value="">Teacher</option>
+                                          @foreach($Teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                          @endforeach
+                                      </select>
+                                      <br>
+                                      <select name="subject" required class="form-control custom-select mt-2 mb-2">
+                                          <option value="">Subject</option>
+                                          @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                          @endforeach
+                                      </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-success" value="Update">
+                                    </div> 
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </form>
               </td>
 
-              <td>
-                <form method="post" action="{{ url('store/timetable') }}">
-                  @csrf
-                  <div class="row">
-                      <div class="col-md-10" style="width: 80%;">
-                        <input type="hidden" name="row_id" value="{{ $row_id }}">
-                        <input type="hidden" name="class_id" value="{{ $class_id }}">
-                        <input type="hidden" name="day_id" value="5">
-                        <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
+              <td class="mx-auto">
+                  <button type="button" class="mt-5 mx-auto btn btn-primary" data-bs-toggle="modal" data-bs-target="#FridayModal{{$row_id}}5">
+                    <i class="fa fa-pen"></i>
+                  </button>
 
+                  <!-- Modal -->
+                  <div class="modal fade" id="FridayModal{{$row_id}}5" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Friday Class</h5>
+                          <button style="background-color: transparent;border: 0px;" data-bs-dismiss="modal" aria-label="Close">
+                            <i style="font-size: 20px;" class="fa fa-times-circle"></i>
+                          </button>
+                        </div>
+                        <form method="post" action="{{ url('store/timetable') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-10" style="width: 80%;">
+                                      <input type="hidden" name="row_id" value="{{ $row_id }}">
+                                      <input type="hidden" name="class_id" value="{{ $class_id }}">
+                                      <input type="hidden" name="day_id" value="3">
+                                      <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
 
-                        <select name="teacher" required class="form-control custom-select" >
-                            <option value="">Teacher</option>
-                            @foreach($Teachers as $teacher)
-                              <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                     <!--  </div>
-                      <div class="col-md-6"> -->
-                        <select name="subject" required class="form-control custom-select mt-2 mb-2">
-                            <option value="">Subject</option>
-                            @foreach($subjects as $subject)
-                              <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                            @endforeach
-                        </select>
-
-                      <input type="submit" class="btn btn-success" value="Update">
-                      </div>  
+                                      <select name="teacher" required class="form-control custom-select" >
+                                          <option value="">Teacher</option>
+                                          @foreach($Teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                          @endforeach
+                                      </select>
+                                      <br>
+                                      <select name="subject" required class="form-control custom-select mt-2 mb-2">
+                                          <option value="">Subject</option>
+                                          @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                          @endforeach
+                                      </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-success" value="Update">
+                                    </div> 
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </form>
               </td>
 
+              <td class="mx-auto">
+                  <button type="button" class="mt-5 mx-auto btn btn-primary" data-bs-toggle="modal" data-bs-target="#SaturdayModal{{$row_id}}6">
+                    <i class="fa fa-pen"></i>
+                  </button>
 
-              <td>
-                <form method="post" action="{{ url('store/timetable') }}">
-                  @csrf
-                  <div class="row">
-                      <div class="col-md-10" style="width: 80%;">
-                         <input type="hidden" name="row_id" value="{{ $row_id }}">
-                        <input type="hidden" name="class_id" value="{{ $class_id }}">
-                        <input type="hidden" name="day_id" value="6">
-                        <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
+                  <!-- Modal -->
+                  <div class="modal fade" id="SaturdayModal{{$row_id}}6" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Saturday Class</h5>
+                          <button style="background-color: transparent;border: 0px;" data-bs-dismiss="modal" aria-label="Close">
+                            <i style="font-size: 20px;" class="fa fa-times-circle"></i>
+                          </button>
+                        </div>
+                        <form method="post" action="{{ url('store/timetable') }}">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-10" style="width: 80%;">
+                                      <input type="hidden" name="row_id" value="{{ $row_id }}">
+                                      <input type="hidden" name="class_id" value="{{ $class_id }}">
+                                      <input type="hidden" name="day_id" value="3">
+                                      <input type="hidden" name="time_slot_id" value="{{ $time->id }}">
 
-
-                        <select name="teacher" required class="form-control custom-select" >
-                            <option value="">Teacher</option>
-                            @foreach($Teachers as $teacher)
-                              <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
-                            @endforeach
-                        </select>
-                        <br>
-                     <!--  </div>
-                      <div class="col-md-6"> -->
-                        <select name="subject" required class="form-control custom-select mt-2 mb-2">
-                            <option value="">Subject</option>
-                            @foreach($subjects as $subject)
-                              <option value="{{ $subject->id }}">{{ $subject->name }}</option>
-                            @endforeach
-                        </select>
-
-                      <input type="submit" class="btn btn-success" value="Update">
-                      </div>  
+                                      <select name="teacher" required class="form-control custom-select" >
+                                          <option value="">Teacher</option>
+                                          @foreach($Teachers as $teacher)
+                                            <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+                                          @endforeach
+                                      </select>
+                                      <br>
+                                      <select name="subject" required class="form-control custom-select mt-2 mb-2">
+                                          <option value="">Subject</option>
+                                          @foreach($subjects as $subject)
+                                            <option value="{{ $subject->id }}">{{ $subject->name }}</option>
+                                          @endforeach
+                                      </select>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input type="submit" class="btn btn-success" value="Update">
+                                    </div> 
+                                </div>
+                            </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </form>
               </td>
           </tr>
           <?php $row_id++;  ?>

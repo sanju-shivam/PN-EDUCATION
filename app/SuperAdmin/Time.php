@@ -3,6 +3,8 @@
 namespace App\SuperAdmin;
 
 use Illuminate\Database\Eloquent\Model;
+use App\School\TimeTable;
+use Auth;
 
 class Time extends Model
 {

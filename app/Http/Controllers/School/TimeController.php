@@ -45,7 +45,7 @@ class TimeController extends Controller
     }
 
     public function index(){
-    	$times = Time::all();
+    	$times = Time::all()->sortBy('start_time');;
     	return view('SuperAdmin.Time.view_time', compact('times'));
     }
 

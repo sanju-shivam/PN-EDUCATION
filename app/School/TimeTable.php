@@ -22,4 +22,14 @@ class TimeTable extends Model
       {
          return $this->hasMany(Teacher::class,'id','teacher_id');
       }
+
+      public function Subject()
+      {
+         return $this->hasMany('App\SuperAdmin\Subject','id','subject_id');
+      }
+
+      public function Time_Slot()
+      {
+         return $this->belongsTo('App\SuperAdmin\Time');
+      }
 }
