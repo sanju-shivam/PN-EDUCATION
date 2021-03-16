@@ -127,7 +127,7 @@ class SchoolController extends Controller
     {
         $school = Add_School::find($id);
         
-        $teacher_count = Cache::remember('teacher_count-'.$id,60*60,function(){
+        $teacher_count = Cache::remember('teacher_count-'.$id,60*60,function() use ($id){
             return Teacher::where('institute_id',$id)->count();
         });
 
