@@ -73,12 +73,20 @@ class TimeTableSchool extends Controller
 
     public function view(Request $request)
     {
-        $days       =   Day::all();
         $classes    =   ClassModel::all();
-        $times      =   Time::where('institute_id',Auth::user()->user_type_id)
-                        ->get()->sortBy('start_time');
-        $Teachers = null; $subjects = null; $time_tables = null; $class_id = null;
+
+        $Teachers = null; 
+        $subjects = null; 
+        $time_tables = null; 
+        $class_id = null;
+        $days = null; 
+        $times = null;
+
         if($request->has('class_id')){
+            $days       =   Day::all();
+
+            $times      =   Time::where('institute_id',Auth::user()->user_type_id)
+                        ->get()->sortBy('start_time');
 
             $Teachers   =   Teacher::where('institute_id',Auth::user()->user_type_id)
                             ->get();
