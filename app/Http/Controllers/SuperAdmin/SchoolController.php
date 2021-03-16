@@ -15,6 +15,7 @@ use File;
 use Str;
 use Storage;
 use Carbon\Carbon;
+use Cache;
 
 class SchoolController extends Controller
 {
@@ -26,7 +27,9 @@ class SchoolController extends Controller
      */
     public function index()
     {
-       $schools = Add_School::all();
+       $schools = Cache::remember('all-schools',60*60,function(){
+           return Add_School::all();
+       });
        return view('SuperAdmin.School.View_School', compact('schools'));
     }
 
@@ -123,8 +126,11 @@ class SchoolController extends Controller
     public function show($id)
     {
         $school = Add_School::find($id);
+        
+        $teacher_count = Cache::remember('teacher_count-'.$id,60*60,function(){
+            return Teacher::where('institute_id',$id)->count();
+        });
 
-        $teacher_count = Teacher::where('institute_id',$id)->count();
         return view('SuperAdmin.School.Show_School', compact('school','teacher_count'));
     }
 

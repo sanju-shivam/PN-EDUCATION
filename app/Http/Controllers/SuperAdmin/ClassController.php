@@ -9,6 +9,7 @@ use App\SuperAdmin\ClassModel;
 use DB;
 use Carbon\Carbon;
 use App\SuperAdmin\Add_School;
+use Cache;
 
 class ClassController extends Controller
 {
@@ -39,7 +40,9 @@ class ClassController extends Controller
 
     public function index()
     {
-    	$classes = ClassModel::all();
+    	$classes = Cache::remember('classes',60*60,function(){
+			return ClassModel::all();
+		});
     	return view('SuperAdmin.Class.view_class',compact('classes'));
     }
 
@@ -85,7 +88,10 @@ class ClassController extends Controller
 
     public function deleted_School()
     {
-        $schools = Add_School::onlyTrashed()->get();
+		
+        $schools = Cache::remember('deleted-school-superadmin',3000,function(){
+			return Add_School::onlyTrashed()->get();
+		});
         return view('SuperAdmin.School.Deleted_School', compact('schools'));
     }
 

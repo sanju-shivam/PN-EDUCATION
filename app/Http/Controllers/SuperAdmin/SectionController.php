@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\SuperAdmin\Section;
 use DB;
 use Carbon\Carbon;
+use Cache;
 
 class SectionController extends Controller
 {
@@ -31,7 +32,9 @@ class SectionController extends Controller
     }
 
     public function index(){
-      $sections = Section::all();
+      $sections = Cache::remember('sections',60*60,function(){
+          return Section::all();
+      });
       return view('SuperAdmin.Section.View_Section', compact('sections'));
     }
 
