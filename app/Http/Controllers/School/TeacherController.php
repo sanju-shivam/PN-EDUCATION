@@ -102,12 +102,16 @@ class TeacherController extends Controller
     }
 
     public function index(){
-        $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id)->get();
+        $teachers = Cache::remember('teachers-'.Cache::get('school_name_slug'), 60*60, function () {
+           return Teacher::where('institute_id', '=', Auth::user()->user_type_id)->get(); 
+        });
         return view('School.Teacher.view_teacher', compact('teachers'));
     }
 
     public function show($id){
-        $teacher = Teacher::where('institute_id',Auth::user()->user_type_id)->find($id);
+        $teacher = Cache::remember('teachers-'.Cache::get('school_name_slug').'-'.$id, 60*60, function () use($id){
+          return Teacher::where('institute_id',Auth::user()->user_type_id)->find($id);
+        });
         $school_name = Cache::get('school_name_slug');
         return view('School.Teacher.view_single_teacher' , compact('teacher','school_name'));
     }
