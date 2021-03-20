@@ -71,6 +71,7 @@ class HomeController extends Controller
             $user_role_id == Role::where('name','Teacher')->first()->id
         ){
             Cache::forever('school',function(){
+                
                 return Add_School::select('id','name')->where('id',Auth::user()->user_type_id)->first();
             });
             Cache::forever('school_name_slug', function(){
