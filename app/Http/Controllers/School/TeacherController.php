@@ -41,10 +41,11 @@ class TeacherController extends Controller
         
         if($validated){
               try{
-                DB::transaction(function() use($request){
+                $user_id = Auth::user()->id;
+                DB::transaction(function() use($request,$user_id){
 
-                    $institute = Cache::get('school');
-                    $institute_name = Cache::get('school_name_slug');
+                    $institute = Cache::get('school-'.$user_id);
+                    $institute_name = Cache::get('school_name_slug-'.$user_id);
 
                     // Insert Image
                     global $filename;
@@ -102,17 +103,19 @@ class TeacherController extends Controller
     }
 
     public function index(){
-        $teachers = Cache::remember('teachers-'.Cache::get('school_name_slug'), 60*60, function () {
+        $user_id = Auth::user()->id;
+        $teachers = Cache::remember('teachers-'.Cache::get('school_name_slug'.$user_id), 60*60, function () {
            return Teacher::where('institute_id', '=', Auth::user()->user_type_id)->get(); 
         });
         return view('School.Teacher.view_teacher', compact('teachers'));
     }
 
     public function show($id){
-        $teacher = Cache::remember('teachers-'.Cache::get('school_name_slug').'-'.$id, 60*60, function () use($id){
+      $user_id = Auth::user()->id;
+        $teacher = Cache::remember('teachers-'.Cache::get('school_name_slug'.$user_id).'-'.$id, 60*60, function () use($id){
           return Teacher::where('institute_id',Auth::user()->user_type_id)->find($id);
         });
-        $school_name = Cache::get('school_name_slug');
+        $school_name = Cache::get('school_name_slug'.$user_id);
         return view('School.Teacher.view_single_teacher' , compact('teacher','school_name'));
     }
 
@@ -133,10 +136,11 @@ class TeacherController extends Controller
         
         if($validated){
             try{
-              DB::transaction(function() use($request, $id){
+              $user_id = Auth::user()->id;
+              DB::transaction(function() use($request, $id,$user_id){
 
                 global $filename;
-                $institute_name = Cache::get('school_name_slug');
+                $institute_name = Cache::get('school_name_slug-'.$user_id);
                 // Image Update
                 if($request->hasfile('image')){
                     // TO DELETE EXISTING IMAGE IN STORAGE
@@ -196,8 +200,9 @@ class TeacherController extends Controller
 
     public function delete($id){
         try{
-            DB::transaction(function() use($id){
-              $institute_name = Cache::get('school_name_slug');
+          $user_id = Auth::user()->id;
+            DB::transaction(function() use($id,$user_id){
+              $institute_name = Cache::get('school_name_slug'.$user_id);
               $image = Teacher::where('id',$id)->first()->image;
                // TO DELETE AN EXISTING IMAGE
                 if(File::exists(public_path('schools/'.$institute_name.'/teachers/'.$image))){

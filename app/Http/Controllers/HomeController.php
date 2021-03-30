@@ -43,38 +43,43 @@ class HomeController extends Controller
         // IF USER IS SuperAdmin USER GET 
                 //  1 : TEACHER COUNT AND SCHOOL COUNT
         if($user_role_id == Role::where('name','SuperAdmin')->first()->id ){
-                $schools = Cache::remember('school-count-superadmin',60*60,function(){
+                $schools = Cache::remember('school-count-superadmin',60,function(){
                     return Add_School::count();
                 }); 
-                $teacher = Cache::remember('school-count-superadmin',60*60,function(){
+                $teacher = Cache::remember('school-count-superadmin',60,function(){
                     return Teacher::count();
                 });
-                $students =  Cache::remember('school-count-superadmin',60*60,function(){
+                $students =  Cache::remember('school-count-superadmin',60,function(){
                     return Student::count();
                 });
         }   
         // IF USER IS SCHOOL USER GET   ===>>>> 1 : TEACHER COUNT
         else if($user_role_id == Role::where('name','School')->first()->id){
-            Cache::remember('school-'.$user_id, 60*60, function () {
+
+            Cache::remember('school-'.$user_id, 60, function () {
                 return Add_School::select('id','name','email')->where('id',Auth::user()->user_type_id)->first();
             });
 
-            Cache::forever('school_name_slug',Str::slug(Cache::get('school-'.$user_id)->name));
-            $teacher = Cache::remember('teachers-institute-wise-count-'.$user_id, 60*60, function () use($user_id) {
+            Cache::remember('school_name_slug-'.$user_id,60,function() use($user_id){
+                return Str::slug(Cache::get('school-'.$user_id)->name);
+            });
+
+            $teacher = Cache::remember('teachers-institute-wise-count-'.$user_id, 60, function () use($user_id) {
                 return Teacher::where('institute_id',Cache::get('school-'.$user_id)->id)->where('deleted_at','=',null)->count(); 
             });
-            $students = Cache::remember('students-institute-wise-count'.$user_id,60*60,function() use($user_id){
+
+            $students = Cache::remember('students-institute-wise-count'.$user_id,60,function() use($user_id){
                 return Student::where('institute_id',Cache::get('school-'.$user_id)->id)->where('deleted_at','=',null)->count();
             });
+
         }
-        else if(
-            $user_role_id == Role::where('name','Teacher')->first()->id
-        ){
-            Cache::forever('school',function(){
-                
+        // If user is Teacher
+        else if($user_role_id == Role::where('name','Teacher')->first()->id)
+        {
+            Cache::remember('school',60,function(){
                 return Add_School::select('id','name')->where('id',Auth::user()->user_type_id)->first();
             });
-            Cache::forever('school_name_slug', function(){
+            Cache::remember('school_name_slug',60, function(){
                 return Str::slug(Cache::get('school')->name);
             });
         }
@@ -87,7 +92,7 @@ class HomeController extends Controller
 
     public function logout()
     {
-
+        Cache::flush();
         Session::flush();
         return redirect('/');
     }

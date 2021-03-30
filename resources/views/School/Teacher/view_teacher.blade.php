@@ -28,7 +28,8 @@
                         <tbody>
                         	@php    
                                 $id=1; 
-                                $school_cache = Cache::get('school_name_slug');
+                                $user_id = Auth::user()->id;
+                                $school_cache = Cache::get('school_name_slug-'.$user_id);
                             @endphp
                         	@foreach($teachers as $teacher)
                             <tr>
