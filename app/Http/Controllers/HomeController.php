@@ -38,11 +38,12 @@ class HomeController extends Controller
         $schools = null;
         $teacher = null;
         $students = null;
-        $user_role_id = Auth::user()->role_id;
-        $user_id = Auth::user()->id;
+        $user_role_id = Auth::user();
+        $user_id = $user_role_id->id;
+
         // IF USER IS SuperAdmin USER GET 
                 //  1 : TEACHER COUNT AND SCHOOL COUNT
-        if($user_role_id == Role::where('name','SuperAdmin')->first()->id ){
+        if($user_role_id->role_id == 1 ){
                 $schools = Cache::remember('school-count-superadmin',60,function(){
                     return Add_School::count();
                 }); 
@@ -52,14 +53,12 @@ class HomeController extends Controller
                 $students =  Cache::remember('school-count-superadmin',60,function(){
                     return Student::count();
                 });
-        }   
+        }
         // IF USER IS SCHOOL USER GET   ===>>>> 1 : TEACHER COUNT
-        else if($user_role_id == Role::where('name','School')->first()->id){
-
-            Cache::remember('school-'.$user_id, 60, function () {
-                return Add_School::select('id','name','email')->where('id',Auth::user()->user_type_id)->first();
+        else if($user_role_id->role_id == 2){
+            Cache::remember('school-'.$user_id, 60, function () use($user_role_id) {
+                return Add_School::select('id','name','email')->where('id',$user_role_id->user_type_id)->first();
             });
-
             Cache::remember('school_name_slug-'.$user_id,60,function() use($user_id){
                 return Str::slug(Cache::get('school-'.$user_id)->name);
             });
@@ -74,7 +73,7 @@ class HomeController extends Controller
 
         }
         // If user is Teacher
-        else if($user_role_id == Role::where('name','Teacher')->first()->id)
+        else if($user_role_id->role_id == 3)
         {
             Cache::remember('school',60,function(){
                 return Add_School::select('id','name')->where('id',Auth::user()->user_type_id)->first();
@@ -83,10 +82,9 @@ class HomeController extends Controller
                 return Str::slug(Cache::get('school')->name);
             });
         }
-        else if($user_role_id == Role::where('name','Student')->first()->id){
+        else if($user_role_id->role_id == 4){
 
         }
-        
         return view('home',compact('schools','teacher','students'));
     }
 

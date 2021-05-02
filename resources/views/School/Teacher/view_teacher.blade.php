@@ -27,9 +27,7 @@
                         </thead>
                         <tbody>
                         	@php    
-                                $id=1; 
-                                $user_id = Auth::user()->id;
-                                $school_cache = Cache::get('school_name_slug-'.$user_id);
+                                $id=1;
                             @endphp
                         	@foreach($teachers as $teacher)
                             <tr>

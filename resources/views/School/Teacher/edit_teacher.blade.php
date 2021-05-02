@@ -40,9 +40,6 @@
                         	<div class="custom-file">
                                 <input type="file" name="image" class="custom-file-input form-control" id="customFile">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
-                                @php
-                                    $school_cache   =   Str::slug(Cache::get('school')->name);
-                                @endphp
                                 @if(!empty($teacher->image))
                                     <!-- <img height="100" width="100" src="{{ asset('schools/teachers/'.$teacher->image) }}"> -->
                                     <img height="100" width="100" src='{{ asset("schools/$school_cache/teachers/".$teacher->image) }}'>
