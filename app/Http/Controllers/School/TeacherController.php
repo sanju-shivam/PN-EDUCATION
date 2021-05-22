@@ -14,7 +14,11 @@ use Illuminate\Support\Str;
 use File;
 use Cache;
 use Carbon\Carbon;
-
+use App\Exports\TeacherExport;
+use App\Imports\TeacherImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\TeacherExportSample;
+use App\SuperAdmin\Add_School;
 // use Illuminate\Support\Facades\Log;
 // Log::info('Showing the user profile for user: '.$id);
 
@@ -37,10 +41,19 @@ class TeacherController extends Controller
         
         if($validated){
               try{
-                DB::transaction(function() use($request){
+                $user = Auth::user();
+                DB::transaction(function() use($request,$user){
 
-                    $institute = Cache::get('school');
-                    $institute_name = Cache::get('school_name_slug');
+                    $institute = Cache::remember('school-'.$user->id, 60, function () use($user) {
+                        return Add_School::select('id','name','email')->where('id',$user->user_type_id)->first();
+                    });
+
+                    $institute_name = Cache::remember('school_name_slug-'.$user->id,60,function() use($user){
+                      return Str::slug(
+                        Add_School::where('id',$user->user_type_id)
+                        ->first()->name
+                      );
+                    });
 
                     // Insert Image
                     global $filename;
@@ -98,19 +111,62 @@ class TeacherController extends Controller
     }
 
     public function index(){
-        $teachers = Teacher::where('institute_id', '=', Auth::user()->user_type_id)->get();
-        return view('School.Teacher.view_teacher', compact('teachers'));
+        $user_id = Auth::user();
+        
+        $school_cache = Cache::remember('school_name_slug-'.$user_id->id,60,function() use($user_id){
+          return Str::slug(
+            Add_School::where('id',$user_id->user_type_id)
+            ->first()->name
+          );
+        });
+
+        $teachers = Cache::remember('teachers-'.Cache::get('school_name_slug'.$user_id->id), 60*60, function () use($user_id) {
+           return Teacher::where('institute_id', '=', $user_id->user_type_id)->get(); 
+        });
+        
+
+        return view('School.Teacher.view_teacher', compact('teachers','school_cache'));
     }
 
     public function show($id){
-        $teacher = Teacher::where('institute_id',Auth::user()->user_type_id)->find($id);
-        $school_name = Cache::get('school_name_slug');
-        return view('School.Teacher.view_single_teacher' , compact('teacher','school_name'));
+
+        $user_id = Auth::user();
+
+        $school_cache = Cache::remember('school_name_slug-'.$user_id->id,60,function() use($user_id){
+          return Str::slug(
+            Add_School::where('id',$user_id->user_type_id)
+            ->first()->name
+          );
+        });
+
+        $teacher = Cache::remember(
+          'teachers-'.Cache::get('school_name_slug'.$user_id->id).'-'.$id,
+           60*60, function () use($id,$user_id){
+             return Teacher::where('institute_id',$user_id->user_type_id)->find($id);
+        });
+
+        return view('School.Teacher.view_single_teacher' , compact('teacher','school_cache'));
     }
 
     public function edit($id){
-        $teacher = Teacher::where('institute_id',Auth::user()->user_type_id)->find($id);
-        return view('School.Teacher.edit_teacher', compact('teacher'));
+        $user = Auth::user();
+
+        $school_cache = Cache::remember('school_name_slug-'.$user->id,60,function() use($user){
+          return Str::slug(
+            Add_School::where('id',$user->user_type_id)
+            ->first()->name
+          );
+        });
+
+        $teacher = Teacher::where('institute_id',$user->user_type_id)->find($id);
+
+        Cache::remember('school-'.$user->id, 60, function () use($user) {
+          return Add_School::select('id','name','email')
+                  ->where('id',$user->user_type_id)
+                  ->first();
+        });
+
+        return view('School.Teacher.edit_teacher', compact('teacher','school_cache'));
     }
 
     public function update(Request $request, $id){
@@ -125,15 +181,23 @@ class TeacherController extends Controller
         
         if($validated){
             try{
-              DB::transaction(function() use($request, $id){
+              $user = Auth::user();
+              DB::transaction(function() use($request, $id,$user){
 
                 global $filename;
-                $institute_name = Cache::get('school_name_slug');
+
+                $institute_name = Cache::remember('school_name_slug-'.$user->id,60,function() use($user){
+                  return Str::slug(
+                    Add_School::where('id',$user->user_type_id)
+                    ->first()->name
+                  );
+                });
+
                 // Image Update
                 if($request->hasfile('image')){
                     // TO DELETE EXISTING IMAGE IN STORAGE
-                    if(File::exists(public_path('schools/{$institute_name}/teachers/'.$request->current_image))){
-                        File::delete(public_path('schools/{$institute_name}/teachers/'.$request->current_image));
+                    if(File::exists(public_path('schools/'.$institute_name.'/teachers/'.$request->current_image))){
+                        File::delete(public_path('schools/'.$institute_name.'/teachers/'.$request->current_image));
                     }
                     
                     // CREATING IMAGE FILE
@@ -168,6 +232,10 @@ class TeacherController extends Controller
                     ]);
                 }
               });
+
+              cache::pull('teachers-'.Cache::get('school_name_slug'.$user->id));
+              Cache::pull('teachers-'.Cache::get('school_name_slug'.$user->id).'-'.$id);
+
               return redirect('teacher/index')->with('success', 'Teacher has been updated');
             }
             catch(\Exception $e){
@@ -188,8 +256,16 @@ class TeacherController extends Controller
 
     public function delete($id){
         try{
-            DB::transaction(function() use($id){
-              $institute_name = Cache::get('school_name_slug');
+          $user = Auth::user();
+            DB::transaction(function() use($id,$user){
+
+              $institute_name = Cache::remember('school_name_slug-'.$user->id,60,function() use($user){
+                return Str::slug(
+                  Add_School::where('id',$user->user_type_id)
+                  ->first()->name
+                );
+              });
+
               $image = Teacher::where('id',$id)->first()->image;
                // TO DELETE AN EXISTING IMAGE
                 if(File::exists(public_path('schools/'.$institute_name.'/teachers/'.$image))){
@@ -199,6 +275,8 @@ class TeacherController extends Controller
                 User::where('user_type_id',$id)->where('role_id','=',Role::where('name','Teacher')->first()->id)->delete();
                 Teacher::find($id)->delete();
             });
+            
+            cache::pull('teachers-'.Cache::get('school_name_slug'.$user->id));
             return back()->with('success', 'Teacher has been deleted sucessfully..!!');
         }catch(\Exception $e){
               if(!empty($e->errorInfo[2])){
@@ -243,6 +321,42 @@ class TeacherController extends Controller
         Teacher::onlyTrashed()->find($id)->restore();
         User::where('user_type_id',$id)->where('role_id','=',Role::where('name','Teacher')->first()->id)->restore();
         return back()->with('success', 'Teacher has been Restored');
+    }
+
+
+    public function import_view()
+    {
+      return view('School.Teacher.teacher_bulk_upload');
+    }
+
+    public function teacher_bulk_upload(Request $request)
+    {
+      try{
+        DB::transaction( function() use ($request){
+          Excel::import(new TeacherImport,$request->file('file')); 
+        });
+        return back()->with('success');
+      }
+      catch(\Exception $e){
+         if(!empty($e->errorInfo[2])){
+            $a = explode(' at ',  $e->errorInfo[2]);
+            return back()->with('warning',$a[0]);
+          }
+          else if(!empty($e->getMessage())){
+            return back()->with('warning',$e->getMessage().'   at   '.$e->getline());  
+          }
+          return back()->with('warning','Error Occour Please try Again After Reloading Page');
+      }
+    }
+
+    public function Export($value='')
+    {
+      return Excel::download(new TeacherExport, 'teacher.xlsx');
+    }
+
+    public function ExportSample($value='')
+    {
+      return Excel::download(new TeacherExportSample, 'Sample_teacher.xlsx');
     }
 }
 

@@ -7,6 +7,7 @@ use App\SuperAdmin\Subject;
 use Illuminate\Http\Request;
 use DB;
 use Carbon\Carbon;
+use Cache;
 
 class SubjectController extends Controller
 {
@@ -34,7 +35,9 @@ class SubjectController extends Controller
     public function index()
     {
 
-    	$Subject =Subject::all();
+    	$Subject = Cache::remember('subjects',60*60,function(){
+            return Subject::all();
+        });
         return view('SuperAdmin.Subject.View_subject', compact('Subject'));
     }
 
@@ -84,7 +87,9 @@ class SubjectController extends Controller
 
     public function deleted_Subjects()
     {
-        $Subject = Subject::onlyTrashed()->get();
+        $Subject = Cache::remember('deleted-subjects',60*60,function(){
+            return Subject::onlyTrashed()->get();
+        });
         return view('SuperAdmin.Subject.deleted_Subjects', compact('Subject'));
     }
 

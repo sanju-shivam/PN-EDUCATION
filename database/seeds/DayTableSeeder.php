@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\SuperAdmin\Day;
 
+
 class DayTableSeeder extends Seeder
 {
     /**

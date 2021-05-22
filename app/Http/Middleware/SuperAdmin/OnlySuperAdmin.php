@@ -5,6 +5,7 @@ namespace App\Http\Middleware\SuperAdmin;
 use Closure;
 use App\CommonModels\Role;
 use Auth;
+use Cache;
 
 class OnlySuperAdmin
 {

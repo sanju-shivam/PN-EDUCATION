@@ -31,6 +31,10 @@ class Teacher extends Model
     {
         return $this->belongsTo('App\SuperAdmin\Add_School','institute_id');
     }
+    
+    public function class_schedule(){
+        return $this->belongsTo('App\School\ClassSchedule');
+    }
 
     public function Class_Subject_Teacher()
     {
@@ -40,5 +44,10 @@ class Teacher extends Model
     public function Is_Class_teacher()
     {
         return $this->belongsTo(Is_Class_teacher::class);
+    }
+
+    public function Timetable()
+    {
+        return $this->belongsTo(TimeTable::class);
     }
 }

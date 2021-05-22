@@ -66,6 +66,7 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <li><a href="{{ route('teacher.create') }}">Add Teacher</a></li>
+                                        <li><a href="{{ url('teacher/bulk/upload') }}">Bulk Upload Teacher</a></li>
                                         <li><a href="{{ route('teacher.index') }}">View Teacher</a></li>
                                     </ul>
                                 </li>
@@ -93,6 +94,32 @@
                                                 IS Class Teacher
                                             </a>
                                         </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Time Slot</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="{{ url('time/create') }}">
+                                                Add Time Slot
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('time/index') }}">View Time Slot</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="menu-icon icon-layers"></i><span>Time Table</span><i class="accordion-icon fas fa-angle-left"></i>
+                                    </a>
+                                    <ul class="sub-menu">
+                                        <li>
+                                            <a href="{{ url('create/timetable') }}">
+                                                Create Time Table
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('view/timetable') }}">View Time Table</a></li>
                                     </ul>
                                 </li>
 

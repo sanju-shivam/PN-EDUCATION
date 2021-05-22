@@ -1,35 +1,37 @@
 @extends('layouts.master')
-@section('title2','Day')
-@section('title3','View Day')
+@section('title2','Time')
+@section('title3','View Time')
 @section('content')
 
   <div class="row">
         <div class="col-xl">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">All Class</h5>
+                    <h5 class="card-title">Time Chart</h5>
                     <table class="table " id="dataTable">
                         <thead>
                             <tr>
                                 <th scope="col">S.no</th>
-                                <th id="column3_search" scope="col">Name</th>
+                                <th id="column3_search" scope="col">Start Time</th>
+                                <th id="column3_search" scope="col">End Time</th>
                                 <th scope="col" style="text-align: center;">Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php  $id=1; ?>
-                            @foreach($days as $day)
+                            @foreach($times as $time)
                             <tr>
                                 <th scope="row">{{ $id++ }}</th>
-                                <td>{{ $day->name }}</td>
+                                <td>{{ $time->start_time }}</td>
+                                <td>{{ $time->end_time }}</td>
                                 <td class="text-center">
                                     <!-- <br> -->
                                     
-                                    <a class="btn btn-warning" href="{{ url('day/edit/'.$day->id) }}" >Edit</a>
+                                    <a class="btn btn-warning" href="{{ url('time/edit/'.$time->id) }}" >Edit</a>
                                     
                                    <!--  <br> -->
                                         
-                                    <a class="btn btn-danger" href="{{ url('day/delete/'.$day->id) }}">DELETE</a>                                  
+                                    <a class="btn btn-danger" href="{{ url('time/delete/'.$time->id) }}">DELETE</a>                                  
                                 </td>
                             </tr>
                             @endforeach

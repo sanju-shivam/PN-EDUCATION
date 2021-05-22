@@ -19,7 +19,7 @@ class CreateIsClassTeacherTable extends Migration
             $table->integer('class_id')->unsigned();
             $table->integer('teacher_id')->unsigned();
             $table->integer('institute_id')->unsigned();
-            $table->boolean('status')->default(0)->comment('0-inactive, 1-active')->nullable();
+            $table->boolean('status')->default(1)->comment('0-inactive, 1-active')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

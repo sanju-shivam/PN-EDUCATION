@@ -19,8 +19,14 @@ class ClassModel extends Model
     	return $this->belongsTo('App\School\Class_Subject_Teacher');
     }
 
+    public function ClassSchedule(){
+    	return $this->belongsTo('App\School\ClassSchedule');
+    }
+
+   
     public function Is_Class_teacher()
     {
     	return $this->belongsTo('App\School\Is_Class_teacher');
     }
+
 }

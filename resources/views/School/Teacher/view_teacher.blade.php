@@ -27,8 +27,7 @@
                         </thead>
                         <tbody>
                         	@php    
-                                $id=1; 
-                                $school_cache = Cache::get('school_name_slug');
+                                $id=1;
                             @endphp
                         	@foreach($teachers as $teacher)
                             <tr>

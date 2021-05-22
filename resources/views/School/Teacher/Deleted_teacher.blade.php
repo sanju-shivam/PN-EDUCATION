@@ -20,8 +20,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        	@php    $id=1; 
-                                    $school_cache   =   Str::slug(Cache::get('school')->name);
+                        	@php    $id=1;
                             @endphp
                         	@foreach($teachers as $teacher)
                             <tr>

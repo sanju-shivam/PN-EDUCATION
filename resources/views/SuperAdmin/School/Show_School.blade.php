@@ -74,14 +74,8 @@
                             </div>
                             
                         </div>
-<<<<<<< HEAD
-                        <div class="post-body">
-                            <p class="text-center">{{$teacher}}</p>
-=======
                         <div class="post-body text-center">
                             <h1>{{$teacher_count}}</h1>
->>>>>>> b0f9f105503bb16f6a54eba1b1bbae8eb5678723
-                            
                         </div>
                     </div>
                 </div>
